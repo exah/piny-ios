@@ -23,6 +23,6 @@ struct PinRowTags: View {
 
 struct PinRowTags_Previews: PreviewProvider {
   static var previews: some View {
-    PinRowTags(tags: UserData().pins[0].tags)
+    PinRowTags(tags: PREVIEW_PINS[0].tags)
   }
 }

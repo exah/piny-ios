@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
+		09752F6624C0DCBD003E1B24 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6524C0DCBD003E1B24 /* Root.swift */; };
 		099156CF24BB99690041938C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156CE24BB99690041938C /* AppDelegate.swift */; };
 		099156D124BB99690041938C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156D024BB99690041938C /* SceneDelegate.swift */; };
 		099156D424BB99690041938C /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
@@ -24,6 +26,9 @@
 		09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CE24BEB31F0021CC4A /* WebView.swift */; };
 		09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D324C0514A0021CC4A /* WebViewController.swift */; };
 		09EB08D724C059AC0021CC4A /* loadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D624C059AC0021CC4A /* loadJSON.swift */; };
+		09EB08D924C0A2690021CC4A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
+		09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DA24C0CB380021CC4A /* Authorisation.swift */; };
+		09EB08DD24C0CB580021CC4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DC24C0CB580021CC4A /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
+		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		099156CB24BB99690041938C /* piny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = piny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156CE24BB99690041938C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		099156D024BB99690041938C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +74,9 @@
 		09EB08CE24BEB31F0021CC4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		09EB08D324C0514A0021CC4A /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		09EB08D624C059AC0021CC4A /* loadJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadJSON.swift; sourceTree = "<group>"; };
+		09EB08D824C0A2690021CC4A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		09EB08DA24C0CB380021CC4A /* Authorisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorisation.swift; sourceTree = "<group>"; };
+		09EB08DC24C0CB580021CC4A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +177,8 @@
 				09EB08CA24BEAB990021CC4A /* PinRow.swift */,
 				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
 				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
+				09752F6324C0D352003E1B24 /* LogIn.swift */,
+				09752F6524C0DCBD003E1B24 /* Root.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				09EA169324BE9FF70028121D /* Pin.swift */,
+				09EB08DA24C0CB380021CC4A /* Authorisation.swift */,
+				09EB08DC24C0CB580021CC4A /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				09EB08D624C059AC0021CC4A /* loadJSON.swift */,
+				09EB08D824C0A2690021CC4A /* API.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -347,13 +362,18 @@
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D724C059AC0021CC4A /* loadJSON.swift in Sources */,
+				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
 				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
+				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
+				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
+				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,
 				09DEB77024BE45ED001CE612 /* UserData.swift in Sources */,
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
+				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

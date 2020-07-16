@@ -29,6 +29,13 @@ final class WebViewController: UIViewController {
   }
   
   func update(url nextUrl: URL) {
+    if url == nextUrl && controller != nil {
+      controller!.view.frame = view.frame
+      return
+    }
+    
+    destroy()
+
     let nextController = SFSafariViewController(url: nextUrl)
     
     addChild(nextController)

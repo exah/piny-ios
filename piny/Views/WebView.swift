@@ -19,7 +19,6 @@ struct WebView: UIViewControllerRepresentable {
   }
 
   func updateUIViewController(_ safariViewController: WebViewController, context: UIViewControllerRepresentableContext<WebView>) {
-    safariViewController.destroy()
     safariViewController.update(url: url)
   }
 }

@@ -31,7 +31,7 @@ struct PinRow: View {
 
 struct PinRow_Previews: PreviewProvider {
   static var previews: some View {
-    PinRow(pin: UserData().pins[2])
+    PinRow(pin: PREVIEW_PINS[2])
       .previewLayout(.fixed(width: 300, height: 120))
   }
 }
