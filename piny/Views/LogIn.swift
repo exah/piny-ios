@@ -43,6 +43,8 @@ struct LogIn: View {
       } else {
         Button("Login", action: handleLogin)
       }
+      
+      Spacer()
     }
     .padding(16)
   }
