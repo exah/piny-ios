@@ -51,6 +51,7 @@
 /* Begin PBXFileReference section */
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		09752FA624C22A6C003E1B24 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		099156CB24BB99690041938C /* piny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = piny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156CE24BB99690041938C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		099156D024BB99690041938C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +108,7 @@
 		099156C224BB99690041938C = {
 			isa = PBXGroup;
 			children = (
+				09752FA624C22A6C003E1B24 /* README.md */,
 				099156CD24BB99690041938C /* piny */,
 				099156E724BB996B0041938C /* pinyTests */,
 				099156F224BB996B0041938C /* pinyUITests */,
