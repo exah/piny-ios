@@ -27,21 +27,24 @@ final class WebViewController: UIViewController {
     super.viewDidLoad()
     update(url: url!)
   }
-  
+
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    controller?.view.frame = view.frame
+  }
+
   func update(url nextUrl: URL) {
     if url == nextUrl && controller != nil {
-      controller!.view.frame = view.frame
       return
+    } else {
+      destroy()
     }
-    
-    destroy()
 
     let nextController = SFSafariViewController(url: nextUrl)
     
     addChild(nextController)
     view.addSubview(nextController.view)
-    
-    nextController.view.frame = view.frame
     nextController.didMove(toParent: self)
 
     controller = nextController

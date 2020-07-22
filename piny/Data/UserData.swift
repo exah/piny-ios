@@ -19,8 +19,8 @@ final class UserData: ObservableObject {
   @Published var user: User?
   @Published var isLoggedIn: Bool = false
   
-  init(pins: [Pin]? = nil) {
-    self.pins = pins
+  init(initialPins: [Pin]? = nil) {
+    self.pins = initialPins
   }
 
   private var loginTask: URLSessionDataTask?
@@ -30,61 +30,65 @@ final class UserData: ObservableObject {
     onSuccess: @escaping () -> Void
   ) {
     loginTask?.cancel()
-    
-    do {
-      loginTask = try api.post(
-        path: "/login",
-        data: [ "user": user, "pass": pass ]
-      ) { (json: Authorisation) in
-        print("Authorisation: \(user)")
+    loginTask = api.post(
+      path: "/login",
+      data: [ "user": user, "pass": pass ]
+    ) { (result: API.Result<Authorisation>) in
+      switch result {
+        case .success(let json):
+          print("Token: \(json.token)")
+          self.api.token = json.token
 
-        self.api.token = json.token
-        self.fetchUser(user: user) {
-          self.isLoggedIn = true
-    
-          onSuccess()
+          self.fetchUser(user: user) {
+            self.isLoggedIn = true
+
+            onSuccess()
         }
+
+        case .failure(let error):
+          print(error)
       }
-    } catch {
-      print("Can't login: \(error)")
     }
   }
-  
+
   private var userTask: URLSessionDataTask?
   func fetchUser(
     user: String,
     onSuccess: @escaping () -> Void
   ) {
     userTask?.cancel()
-    
-    do {
-      userTask = try api.get(path: "/\(user)") { (json: User) in
-        print("User: \(user)")
-        self.user = json
-        onSuccess()
+    userTask = api.get(path: "/\(user)") { (result: API.Result<User>) in
+      switch result {
+        case .success(let json):
+          print("User: \(user)")
+          self.user = json
+
+          onSuccess()
+        case .failure(let error):
+          print(error)
       }
-    } catch {
-      print("Can't fetch users: \(error)")
     }
   }
-  
+
   private var userPinsTask: URLSessionDataTask?
   func fetchUserPins(onSuccess: @escaping () -> Void) {
     userPinsTask?.cancel()
-    
+
     guard let userName = user?.name else {
       print("Please /login first, then fetch user info")
       return
     }
-    
-    do {
-      userPinsTask = try api.get(path: "/\(userName)/bookmarks") { (json: [Pin]) in
-        print("Pins: \(json)")
-        self.pins = json
-        onSuccess()
+
+    userPinsTask = api.get(path: "/\(userName)/bookmarks") { (result: API.Result<[Pin]>) in
+      switch result {
+        case .success(let json):
+          print("Pins: \(json)")
+          self.pins = json
+
+          onSuccess()
+        case .failure(let error):
+          print(error)
       }
-    } catch {
-      print("Can't fetch user pins: \(error)")
     }
   }
 }

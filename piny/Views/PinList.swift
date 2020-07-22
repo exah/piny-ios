@@ -45,6 +45,6 @@ struct PinList: View {
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
     PinList()
-      .environmentObject(UserData(pins: PREVIEW_PINS))
+      .environmentObject(UserData(initialPins: PREVIEW_PINS))
   }
 }

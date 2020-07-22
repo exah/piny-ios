@@ -130,7 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				0991570924BCAB750041938C /* Resources */,
-				09EB08D524C059890021CC4A /* Functions */,
+				09EB08D524C059890021CC4A /* Helpers */,
 				09EB08D224C051380021CC4A /* Controllers */,
 				0991571024BCAD3B0041938C /* Models */,
 				09DEB76E24BE45D9001CE612 /* Data */,
@@ -219,13 +219,13 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		09EB08D524C059890021CC4A /* Functions */ = {
+		09EB08D524C059890021CC4A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				09EB08D624C059AC0021CC4A /* loadJSON.swift */,
 				09EB08D824C0A2690021CC4A /* API.swift */,
+				09EB08D624C059AC0021CC4A /* loadJSON.swift */,
 			);
-			path = Functions;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
