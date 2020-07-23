@@ -14,13 +14,13 @@ let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
 final class UserData: ObservableObject {
   private var api = API(baseURL: "https://dev.piny.link")
-  
+
   @Published var pins: [Pin]?
   @Published var user: User?
-  @Published var isLoggedIn: Bool = false
   
   init(initialPins: [Pin]? = nil) {
     self.pins = initialPins
+    self.api.token = user?.token
   }
 
   private var loginTask: URLSessionDataTask?
@@ -36,17 +36,17 @@ final class UserData: ObservableObject {
     ) { (result: API.Result<Authorisation>) in
       switch result {
         case .success(let json):
-          print("Token: \(json.token)")
+          log("Token: \(json.token)")
           self.api.token = json.token
 
           self.fetchUser(user: user) {
-            self.isLoggedIn = true
+            self.user?.token = json.token
 
             onSuccess()
-        }
+          }
 
         case .failure(let error):
-          print(error)
+          log(error, level: .error)
       }
     }
   }
@@ -60,12 +60,12 @@ final class UserData: ObservableObject {
     userTask = api.get(path: "/\(user)") { (result: API.Result<User>) in
       switch result {
         case .success(let json):
-          print("User: \(user)")
+          log("User: \(user)")
           self.user = json
 
           onSuccess()
         case .failure(let error):
-          print(error)
+          log(error, level: .error)
       }
     }
   }
@@ -75,19 +75,19 @@ final class UserData: ObservableObject {
     userPinsTask?.cancel()
 
     guard let userName = user?.name else {
-      print("Please /login first, then fetch user info")
+      log("Please /login first, then fetch user info")
       return
     }
 
     userPinsTask = api.get(path: "/\(userName)/bookmarks") { (result: API.Result<[Pin]>) in
       switch result {
         case .success(let json):
-          print("Pins: \(json)")
+          log("Pins: \(json)")
           self.pins = json
 
           onSuccess()
         case .failure(let error):
-          print(error)
+          log(error, level: .error)
       }
     }
   }

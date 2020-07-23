@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct Root: View {
+  static let storage = Storage("piny")
   @EnvironmentObject var userData: UserData
   
   var body: some View {
     NavigationView {
       Group {
-        if userData.isLoggedIn {
+        if userData.user?.token != nil {
           PinList()
         } else {
           LogIn()
