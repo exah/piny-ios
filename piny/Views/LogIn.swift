@@ -54,5 +54,6 @@ struct Login_Previews: PreviewProvider {
   static var previews: some View {
     LogIn()
       .environmentObject(UserData())
+      .environment(\.managedObjectContext, Root.storage.context)
   }
 }

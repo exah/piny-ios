@@ -7,6 +7,11 @@
 //
 
 import Foundation
+import CoreData
+
+enum PrivacyType: String, Codable {
+  case Public = "public"
+}
 
 struct Pin: Hashable, Codable, Identifiable {
   var id: UUID
@@ -17,17 +22,41 @@ struct Pin: Hashable, Codable, Identifiable {
   var tags: [PinTag]
 }
 
-struct PinLink: Hashable, Codable, Identifiable {
-  var id: UUID
-  var url: String
+extension Pin: Persistable {
+  static func fromObject(_ object: DBPin) -> Pin {
+    Pin(
+      id: object.id,
+      title: object.title,
+      description: object.desc,
+      privacy: PrivacyType(rawValue: object.privacy)!,
+      link: PinLink.fromObject(object.link),
+      tags: object.tags.map { tag in
+        PinTag.fromObject(tag)
+      }
+    )
+  }
+
+  func toObject(in context: NSManagedObjectContext) -> DBPin {
+    let entity = DBPin.create(in: context)
+
+    entity.id = id
+    entity.title = title
+    entity.desc = description
+    entity.privacy = privacy.rawValue
+    entity.link = link.toObject(in: context)
+    entity.tags = tags.map { tag in
+      tag.toObject(in: context)
+    }
+
+    return entity
+  }
 }
 
-struct PinTag: Hashable, Codable, Identifiable {
-  var id: UUID
-  var name: String
+class DBPin: NSManagedObject {
+  @NSManaged var id: UUID
+  @NSManaged var title: String?
+  @NSManaged var desc: String?
+  @NSManaged var privacy: String
+  @NSManaged var link: DBPinLink
+  @NSManaged var tags: [DBPinTag]
 }
-
-enum PrivacyType: String, Codable {
-  case Public = "public"
-}
-

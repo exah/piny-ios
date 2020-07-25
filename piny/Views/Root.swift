@@ -30,5 +30,6 @@ struct Root_Previews: PreviewProvider {
   static var previews: some View {
     Root()
       .environmentObject(UserData())
+      .environment(\.managedObjectContext, Root.storage.context)
   }
 }

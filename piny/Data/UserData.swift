@@ -20,7 +20,12 @@ final class UserData: ObservableObject {
   
   init(initialPins: [Pin]? = nil) {
     self.pins = initialPins
-    self.api.token = user?.token
+
+    let users = Root.storage.fetch(User.self, limit: 1)
+    if users.count == 1 {
+      self.user = users[0]
+      self.api.token = users[0].token
+    }
   }
 
   private var loginTask: URLSessionDataTask?
@@ -41,6 +46,10 @@ final class UserData: ObservableObject {
 
           self.fetchUser(user: user) {
             self.user?.token = json.token
+
+            if var user = self.user {
+              Root.storage.save(&user)
+            }
 
             onSuccess()
           }
