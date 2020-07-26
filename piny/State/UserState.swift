@@ -26,33 +26,25 @@ final class UserState: ObservableObject {
   @Published var userTask: URLSessionDataTask?
   @Published var pinsTask: URLSessionDataTask?
   
-  convenience init(initialPins: [Pin]? = nil, initialUser: User? = nil) {
-    self.init(initialPins: initialPins)
-    self.init(initialUser: initialUser)
-  }
-
-  init(initialPins: [Pin]?) {
+  init(initialPins: [Pin]? = nil, initialUser: User? = nil) {
     if let pins = initialPins {
       self.pins = pins
     }
-  }
-
-  init(initialUser: User?) {
-    func insert(_ user: User) {
-      self.user = user
-      Piny.api.token = user.token
-    }
 
     if let user = initialUser {
-      insert(user)
+      self.user = user
+      Piny.api.token = user.token
     } else {
       let users = Piny.storage.fetch(User.self, limit: 1)
+      log("Fetched users(\(users.count)): \(users)")
 
       if users.count == 1 {
-        insert(users[0])
+        self.user = users[0]
+        Piny.api.token = users[0].token
       }
     }
   }
+
 
   func login(
     user: String,
