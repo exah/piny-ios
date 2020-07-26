@@ -15,7 +15,7 @@ struct Root: View {
     NavigationView {
       Group {
         if userState.user?.token != nil {
-          PinList()
+          UserPinList(user: userState.user!)
         } else {
           LogIn()
         }
@@ -27,6 +27,7 @@ struct Root: View {
 
 struct Root_Previews: PreviewProvider {
   static var previews: some View {
-    Root().environmentObject(UserState())
+    Root()
+      .environmentObject(UserState())
   }
 }

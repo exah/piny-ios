@@ -30,7 +30,7 @@ struct LogIn: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .autocapitalization(.none)
   
-      if userData.loginTask?.isLoading == true {
+      if userData.task?.isLoading == true {
         Text("Loading...")
       } else {
         Button("Login", action: handleLogin)

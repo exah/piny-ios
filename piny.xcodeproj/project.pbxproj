@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
 		094F3F4124C8FA00004F0F84 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
 		09752F6624C0DCBD003E1B24 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6524C0DCBD003E1B24 /* Root.swift */; };
@@ -23,6 +24,8 @@
 		099156E924BB996B0041938C /* pinyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156E824BB996B0041938C /* pinyTests.swift */; };
 		099156F424BB996B0041938C /* pinyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156F324BB996B0041938C /* pinyUITests.swift */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
+		09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
+		09AFB4C824CDDC8700E6D9E3 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* user.json */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09EA169224BE9F090028121D /* pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* pins.json */; };
 		09EA169424BE9FF70028121D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
@@ -55,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
 		094F3F4024C8FA00004F0F84 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -78,6 +82,8 @@
 		099156F324BB996B0041938C /* pinyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pinyUITests.swift; sourceTree = "<group>"; };
 		099156F524BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
+		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
+		09AFB4C724CDDC8700E6D9E3 /* user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09EA169124BE9F090028121D /* pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pins.json; sourceTree = "<group>"; };
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
@@ -193,6 +199,7 @@
 				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
 				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
 				09752F6324C0D352003E1B24 /* LogIn.swift */,
+				0944684624CDE16100CB9D9F /* UserPinList.swift */,
 				09752F6524C0DCBD003E1B24 /* Root.swift */,
 			);
 			path = Views;
@@ -202,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				09EA169124BE9F090028121D /* pins.json */,
+				09AFB4C724CDDC8700E6D9E3 /* user.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -222,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				09DEB76F24BE45ED001CE612 /* UserState.swift */,
+				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -354,6 +363,7 @@
 				09EA169224BE9F090028121D /* pins.json in Resources */,
 				099156DB24BB996B0041938C /* Preview Assets.xcassets in Resources */,
 				099156D824BB996B0041938C /* Assets.xcassets in Resources */,
+				09AFB4C824CDDC8700E6D9E3 /* user.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,8 +407,10 @@
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				097A054024C76F84003609F0 /* Persistable.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
+				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
+				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

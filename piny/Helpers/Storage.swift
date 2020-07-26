@@ -9,12 +9,6 @@
 import CoreData
 
 private
-enum Constants {
-  static let saveBatchSize = 100
-  static let removeBatchSize = 100
-}
-
-private
 extension Identifiable {
   var identifier: String {
     if let uuid = id as? UUID {
@@ -46,7 +40,7 @@ extension NSManagedObjectContext {
         do {
           try currentContext.save()
         } catch {
-          print("context saving failure: \(error)")
+          log("context saving failure: \(error)")
         }
       }
 
@@ -97,76 +91,78 @@ struct Storage {
 }
 
 extension Storage {
-
-  func fetch<Model: Identifiable & Persistable>(
-    _ modelType: Model.Type,
+  func fetch<T: Identifiable & Persistable>(
+    _ type: T.Type,
     predicate: NSPredicate? = nil,
     sortDescriptors: [NSSortDescriptor]? = nil,
     limit: Int = 0
-  ) -> [Model] {
-
+  ) -> [T] {
     let context = contextForCurrentThread()
-    let request = NSFetchRequest<Model.ObjectType>(entityName: Model.ObjectType.getName())
+    let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
+    var result: [T] = []
+
     request.predicate = predicate
     request.sortDescriptors = sortDescriptors
     request.fetchLimit = limit
 
-    var result: [Model] = []
     context.performAndWait {
       do {
         let fetched = try context.fetch(request)
-        result = fetched.map(Model.fromObject)
+        result = fetched.map(T.fromObject)
       } catch {
-        let metadata = "entity: \(Model.ObjectType.getName()), "
+        let metadata = "entity: \(T.ObjectType.getName()), "
           + "predicate: \(predicate?.predicateFormat ?? ""), "
           + "sortDescriptorsCount: \(sortDescriptors?.count ?? 0),"
           + "error: \(error)"
 
-        print("Core Data Fetch Failed \(metadata)")
+        log("Core Data Fetch Failed \(metadata)")
       }
     }
+
     return result
   }
 
-  func fetch<Model: Identifiable & Persistable>(_ modelType: Model.Type, identifier: String) -> Model? {
+  func fetch<T: Identifiable & Persistable>(_ type: T.Type, identifier: String) -> T? {
     let context = contextForCurrentThread()
-    let request = NSFetchRequest<Model.ObjectType>(entityName: Model.ObjectType.getName())
+    let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
+    var result: T? = nil
+
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
 
-    var result: Model? = nil
     context.performAndWait {
       do {
         let fetched = try context.fetch(request)
-        result = fetched.map(Model.fromObject).first
+        result = fetched.map(T.fromObject).first
       } catch {
-        print("Core Data Fetch By ID Failed entity: \(Model.ObjectType.getName()), identifier: \(identifier), error: \(error)")
+        log("Core Data Fetch By ID Failed entity: \(T.ObjectType.getName()), identifier: \(identifier), error: \(error)")
       }
     }
+
     return result
   }
 
-  func save<Model: Identifiable & Persistable>(_ objects: inout [Model]) {
+  func save<T: Identifiable & Persistable>(_ objects: inout [T], batchSize: Int = 100) {
     let context = contextForCurrentThread()
-    let batches = batch(objects, size: Constants.saveBatchSize)
+    let batches = batch(objects, size: batchSize)
 
     for var item in batches {
       let objectsIds = item.map({ $0.identifier })
       let predicate = NSPredicate(format: "identifier IN %@", objectsIds)
       let itemCopy = item
 
-      self.remove(Model.self, predicate: predicate, in: context)
+      self.remove(T.self, predicate: predicate, in: context)
       context.applyStackChangesAndWait {
         _ = itemCopy.map({ $0.toObject(in: context) })
       }
 
-      item = self.fetch(Model.self, predicate: predicate)
+      item = self.fetch(T.self, predicate: predicate)
       if itemCopy.count != item.count {
-        print("Core Data Fetch after Save Failed entity: \(Model.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
+        log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
       }
     }
   }
 
-  func save<Model: Identifiable & Persistable>(_ object: inout Model) {
+  func save<T: Identifiable & Persistable>(_ object: inout T) {
     let context = contextForCurrentThread()
 
     log("identifier \(object.identifier)")
@@ -174,53 +170,54 @@ extension Storage {
     let predicate = NSPredicate(format: "identifier == %@", object.identifier)
     let objectCopy = object
 
-    self.remove(Model.self, predicate: predicate, in: context)
+    self.remove(T.self, predicate: predicate, in: context)
     context.applyStackChangesAndWait {
       objectCopy.toObject(in: context)
     }
 
-    if let cachedObject = self.fetch(Model.self, identifier: object.identifier) {
+    if let cachedObject = self.fetch(T.self, identifier: object.identifier) {
       object = cachedObject
     } else {
-      print("Core Data Fetch after Save Failed entity: \(Model.ObjectType.getName()), identifier: \(object.identifier)")
+      log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifier: \(object.identifier)")
     }
   }
 
-  func remove<Model: Identifiable & Persistable>(_ objects: [Model]) {
+  func remove<T: Identifiable & Persistable>(_ objects: [T], batchSize: Int = 100) {
     let context = contextForCurrentThread()
-    let batches = batch(objects, size: Constants.removeBatchSize)
+    let batches = batch(objects, size: batchSize)
 
     for item in batches {
       let identifiers = item.map({ $0.identifier })
       let predicate = NSPredicate(format: "identifier IN %@", identifiers)
-      self.remove(Model.self, predicate: predicate, in: context)
+      self.remove(T.self, predicate: predicate, in: context)
     }
   }
 
-  func remove<Model: Identifiable & Persistable>(_ object: Model) {
-    remove(Model.self, identifier: object.identifier)
+  func remove<T: Identifiable & Persistable>(_ object: T) {
+    remove(T.self, identifier: object.identifier)
   }
 
-  func remove<Model: Identifiable & Persistable>(_ modelType: Model.Type, identifier: String) {
-    self.remove(modelType, predicate: NSPredicate(format: "identifier == %@", identifier))
+  func remove<T: Identifiable & Persistable>(_ type: T.Type, identifier: String) {
+    self.remove(type, predicate: NSPredicate(format: "identifier == %@", identifier))
   }
 
-  func remove<Model: Identifiable & Persistable>(_ modelType: Model.Type, predicate: NSPredicate? = nil, in specificContext: NSManagedObjectContext? = nil) {
+  func remove<T: Identifiable & Persistable>(_ type: T.Type, predicate: NSPredicate? = nil, in specificContext: NSManagedObjectContext? = nil) {
     let context = specificContext ?? contextForCurrentThread()
-    let request = NSFetchRequest<Model.ObjectType>(entityName: Model.ObjectType.getName())
+    let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
+    var fetched: [T.ObjectType] = []
+
     request.predicate = predicate
     request.includesPropertyValues = false
 
-    var fetched: [Model.ObjectType] = []
     context.performAndWait {
       do {
         fetched = try context.fetch(request)
       } catch {
-        let metadata = "entity: \(Model.ObjectType.getName()), "
+        let metadata = "entity: \(T.ObjectType.getName()), "
           + "predicate: \(predicate?.predicateFormat ?? ""), "
           + "error: \(error)"
 
-        print("Core Data Fetch on Remove Failed \(metadata)")
+        log("Core Data Fetch on Remove Failed \(metadata)")
       }
     }
 

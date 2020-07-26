@@ -22,6 +22,12 @@ private extension URLResponse {
   }
 }
 
+extension URLSessionDataTask {
+  var isLoading: Bool {
+    return self.state == .running
+  }
+}
+
 struct API {
   var baseURL: String
   var token: String? = nil
@@ -29,6 +35,7 @@ struct API {
   private let session = URLSession(configuration: .default)
 
   func fetch<T: Decodable>(
+    _ type: T.Type,
     method: String,
     path: String,
     data: Decodable? = nil,
@@ -87,10 +94,12 @@ struct API {
   }
 
   func get<T: Decodable>(
+    _ type: T.Type,
     path: String,
     onCompletion: @escaping API.Completion<T>
   ) -> URLSessionDataTask? {
     return fetch(
+      type,
       method: "GET",
       path: path,
       onCompletion: onCompletion
@@ -98,11 +107,13 @@ struct API {
   }
 
   func post<T: Decodable>(
+    _ type: T.Type,
     path: String,
     data: Decodable,
     onCompletion: @escaping API.Completion<T>
   ) -> URLSessionDataTask? {
     return fetch(
+      type,
       method: "POST",
       path: path,
       data: data,
@@ -110,7 +121,7 @@ struct API {
     )
   }
 
-  typealias Result<T> = Swift.Result<T, Error>
+  typealias Result<T> = Swift.Result<T, API.Error>
   typealias Completion<T> = (_ result: API.Result<T>) -> Void
 
   enum Error: Swift.Error {

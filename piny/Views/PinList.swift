@@ -9,16 +9,18 @@
 import SwiftUI
 
 struct PinList: View {
-  @EnvironmentObject var userState: UserState
   @State var link: PinLink?
+
+  var pins: [Pin] = []
+  var isLoading: Bool = false
 
   var body: some View {
     VStack {
-      if userState.pinsTask?.isLoading == true {
+      if isLoading == true {
         Text("Loading...")
       }
       List {
-        ForEach(userState.pins) { pin in
+        ForEach(pins) { pin in
           Button(action: {
             self.link = pin.link
           }) {
@@ -31,15 +33,11 @@ struct PinList: View {
       WebView(url: link.url)
         .edgesIgnoringSafeArea(.all)
     })
-    .onAppear {
-      self.userState.fetchPins()
-    }
   }
 }
 
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
-    PinList()
-      .environmentObject(UserState(initialPins: PREVIEW_PINS))
+    PinList(pins: PREVIEW_PINS)
   }
 }

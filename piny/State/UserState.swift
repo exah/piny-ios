@@ -10,45 +10,25 @@ import SwiftUI
 import Combine
 import CoreData
 
-let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
-
-extension URLSessionDataTask {
-  var isLoading: Bool {
-    return self.state == .running
-  }
-}
+let PREVIEW_USER: User = loadJSON("user.json")
 
 final class UserState: ObservableObject {
-  @Published var pins: [Pin] = []
   @Published var user: User?
-
-  @Published var loginTask: URLSessionDataTask?
-  @Published var userTask: URLSessionDataTask?
-  @Published var pinsTask: URLSessionDataTask?
+  @Published var task: URLSessionDataTask?
   
-  init(initialPins: [Pin]? = nil, initialUser: User? = nil) {
-    if let pins = initialPins {
-      self.pins = pins
-    } else {
-      let pins = Piny.storage.fetch(Pin.self)
-      log("Fetched pins(\(pins.count)): \(pins)")
-
-      if pins.count > 0 {
-        self.pins = pins
-      }
-    }
-
-    if let user = initialUser {
+  init(_ initial: User? = nil) {
+    if let user = initial {
       self.user = user
       Piny.api.token = user.token
     } else {
       let users = Piny.storage.fetch(User.self, limit: 1)
-      log("Fetched users(\(users.count)): \(users)")
 
       if users.count == 1 {
         self.user = users[0]
         Piny.api.token = users[0].token
       }
+
+      log("Fetched users(\(users.count)): \(users)")
     }
   }
 
@@ -58,20 +38,23 @@ final class UserState: ObservableObject {
     pass: String,
     onCompletion: API.Completion<Void>? = nil
   ) {
-    loginTask?.cancel()
-    loginTask = Piny.api.post(
+    task?.cancel()
+    task = Piny.api.post(
+      Authorisation.self,
       path: "/login",
       data: [ "user": user, "pass": pass ]
-    ) { (result: API.Result<Authorisation>) in
+    ) { result in
       switch result {
-        case .success(let json):
-          log("Token: \(json.token)")
-          Piny.api.token = json.token
+        case .success(let auth):
+          log("Token: \(auth.token)")
 
+          Piny.api.token = auth.token
+
+          self.task = nil
           self.fetchUser(user: user) { result in
             switch result {
               case .success():
-                self.user?.token = json.token
+                self.user?.token = auth.token
 
                 if var user = self.user {
                   Piny.storage.remove(User.self)
@@ -96,38 +79,14 @@ final class UserState: ObservableObject {
     user: String,
     onCompletion: API.Completion<Void>? = nil
   ) {
-    userTask?.cancel()
-    userTask = Piny.api.get(path: "/\(user)") { (result: API.Result<User>) in
+    task?.cancel()
+    task = Piny.api.get(User.self, path: "/\(user)") { result in
       switch result {
         case .success(let json):
           log("User: \(user)")
 
           self.user = json
-          
-          onCompletion?(.success(()))
-        case .failure(let error):
-          log(error, level: .error)
-
-          onCompletion?(.failure(error))
-      }
-    }
-  }
-
-  func fetchPins(onCompletion: API.Completion<Void>? = nil) {
-    guard let userName = user?.name else {
-      log("Please /login first, then fetch user info")
-      return
-    }
-
-    pinsTask?.cancel()
-    pinsTask = Piny.api.get(path: "/\(userName)/bookmarks") { (result: API.Result<[Pin]>) in
-      switch result {
-        case .success(var pins):
-          log("Pins: \(pins)")
-          self.pins = pins
-
-          Piny.storage.remove(Pin.self)
-          Piny.storage.save(&pins)
+          self.task = nil
 
           onCompletion?(.success(()))
         case .failure(let error):
