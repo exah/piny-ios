@@ -19,9 +19,7 @@ extension URLSessionDataTask {
 }
 
 final class UserState: ObservableObject {
-  private var api = API(baseURL: "https://dev.piny.link")
-
-  @Published var pins: [Pin]?
+  @Published var pins: [Pin] = []
   @Published var user: User?
 
   @Published var loginTask: URLSessionDataTask?
@@ -42,13 +40,13 @@ final class UserState: ObservableObject {
   init(initialUser: User?) {
     func insert(_ user: User) {
       self.user = user
-      self.api.token = user.token
+      Piny.api.token = user.token
     }
 
     if let user = initialUser {
       insert(user)
     } else {
-      let users = Root.storage.fetch(User.self, limit: 1)
+      let users = Piny.storage.fetch(User.self, limit: 1)
 
       if users.count == 1 {
         insert(users[0])
@@ -62,14 +60,14 @@ final class UserState: ObservableObject {
     onCompletion: API.Completion<Void>? = nil
   ) {
     loginTask?.cancel()
-    loginTask = api.post(
+    loginTask = Piny.api.post(
       path: "/login",
       data: [ "user": user, "pass": pass ]
     ) { (result: API.Result<Authorisation>) in
       switch result {
         case .success(let json):
           log("Token: \(json.token)")
-          self.api.token = json.token
+          Piny.api.token = json.token
 
           self.fetchUser(user: user) { result in
             switch result {
@@ -77,8 +75,8 @@ final class UserState: ObservableObject {
                 self.user?.token = json.token
 
                 if var user = self.user {
-                  Root.storage.remove(User.self)
-                  Root.storage.save(&user)
+                  Piny.storage.remove(User.self)
+                  Piny.storage.save(&user)
                 }
 
                 onCompletion?(.success(()))
@@ -100,7 +98,7 @@ final class UserState: ObservableObject {
     onCompletion: API.Completion<Void>? = nil
   ) {
     userTask?.cancel()
-    userTask = api.get(path: "/\(user)") { (result: API.Result<User>) in
+    userTask = Piny.api.get(path: "/\(user)") { (result: API.Result<User>) in
       switch result {
         case .success(let json):
           log("User: \(user)")
@@ -123,11 +121,11 @@ final class UserState: ObservableObject {
     }
 
     pinsTask?.cancel()
-    pinsTask = api.get(path: "/\(userName)/bookmarks") { (result: API.Result<[Pin]>) in
+    pinsTask = Piny.api.get(path: "/\(userName)/bookmarks") { (result: API.Result<[Pin]>) in
       switch result {
-        case .success(let json):
-          log("Pins: \(json)")
-          self.pins = json
+        case .success(var pins):
+          log("Pins: \(pins)")
+          self.pins = pins
 
           onCompletion?(.success(()))
         case .failure(let error):

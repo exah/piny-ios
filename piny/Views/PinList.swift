@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct PinList: View {
-  @EnvironmentObject var userData: UserState
+  @EnvironmentObject var userState: UserState
   @State var link: PinLink?
 
   var body: some View {
     VStack {
-      if userData.pinsTask?.isLoading == true {
+      if userState.pinsTask?.isLoading == true {
         Text("Loading...")
       }
       List {
-        ForEach(userData.pins ?? []) { pin in
+        ForEach(userState.pins) { pin in
           Button(action: {
             self.link = pin.link
           }) {
@@ -32,7 +32,7 @@ struct PinList: View {
         .edgesIgnoringSafeArea(.all)
     })
     .onAppear {
-      self.userData.fetchPins()
+      self.userState.fetchPins()
     }
   }
 }

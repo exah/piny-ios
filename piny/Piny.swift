@@ -1,0 +1,14 @@
+//
+//  Piny.swift
+//  piny
+//
+//  Created by John Grishin on 26/07/2020.
+//  Copyright © 2020 John Grishin. All rights reserved.
+//
+
+import Foundation
+
+struct Piny {
+  static var api = API(baseURL: "https://dev.piny.link")
+  static var storage = Storage("piny")
+}

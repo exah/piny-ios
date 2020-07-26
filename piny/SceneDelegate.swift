@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       window.rootViewController = UIHostingController(
         rootView: Root()
           .environmentObject(UserState())
-          .environment(\.managedObjectContext, Root.storage.context)
+          .environment(\.managedObjectContext, Piny.storage.context)
       )
       
       self.window = window

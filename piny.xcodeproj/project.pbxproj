@@ -22,6 +22,7 @@
 		099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099156DC24BB996B0041938C /* LaunchScreen.storyboard */; };
 		099156E924BB996B0041938C /* pinyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156E824BB996B0041938C /* pinyTests.swift */; };
 		099156F424BB996B0041938C /* pinyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156F324BB996B0041938C /* pinyUITests.swift */; };
+		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09EA169224BE9F090028121D /* pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* pins.json */; };
 		09EA169424BE9FF70028121D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
@@ -76,6 +77,7 @@
 		099156EF24BB996B0041938C /* pinyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pinyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156F324BB996B0041938C /* pinyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pinyUITests.swift; sourceTree = "<group>"; };
 		099156F524BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09EA169124BE9F090028121D /* pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pins.json; sourceTree = "<group>"; };
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				0991570724BC60460041938C /* Views */,
 				099156CE24BB99690041938C /* AppDelegate.swift */,
 				099156D024BB99690041938C /* SceneDelegate.swift */,
+				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
 				099156D724BB996B0041938C /* Assets.xcassets */,
 				099156DC24BB996B0041938C /* LaunchScreen.storyboard */,
 				099156DF24BB996B0041938C /* Info.plist */,
@@ -386,6 +389,7 @@
 				094F3F4124C8FA00004F0F84 /* log.swift in Sources */,
 				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
+				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,

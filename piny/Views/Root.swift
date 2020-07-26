@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct Root: View {
-  static let storage = Storage("piny")
   @EnvironmentObject var userState: UserState
   
   var body: some View {

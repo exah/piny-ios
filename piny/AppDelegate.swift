@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func saveContext () {
-    let context = Root.storage.context
+    let context = Piny.storage.context
     if context.hasChanges {
       do {
         try context.save()
