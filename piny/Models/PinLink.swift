@@ -18,19 +18,19 @@ extension PinLink: Persistable {
   static func fromObject(_ object: DBPinLink) -> PinLink {
     PinLink(
       id: object.id,
-      url: URL(string: object.url)!
+      url: object.url
     )
   }
 
   func toObject(in context: NSManagedObjectContext) -> DBPinLink {
     let entity = DBPinLink.create(in: context)
     entity.id = id
-    entity.url = url.absoluteString
+    entity.url = url
     return entity
   }
 }
 
 class DBPinLink: NSManagedObject {
   @NSManaged var id: UUID
-  @NSManaged var url: String
+  @NSManaged var url: URL
 }
