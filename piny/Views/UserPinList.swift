@@ -17,8 +17,14 @@ struct UserPinList: View {
   }
 
   var body: some View {
-    PinList(pins: pinsState.pins)
-      .onAppear(perform: handleAppear)
+    VStack {
+      if pinsState.isLoading {
+        Text("Loading...")
+      }
+
+      PinList(pins: pinsState.pins)
+        .onAppear(perform: handleAppear)
+    }
   }
 }
 

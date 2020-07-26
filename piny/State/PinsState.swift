@@ -14,6 +14,10 @@ final class PinsState: ObservableObject {
   @Published var pins: [Pin] = []
   @Published var task: URLSessionDataTask?
 
+  var isLoading: Bool {
+    return task?.isLoading == true
+  }
+
   init(_ initial: [Pin]? = nil) {
     if let pins = initial {
       self.pins = pins

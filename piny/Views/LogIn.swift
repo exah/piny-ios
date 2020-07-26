@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct LogIn: View {
-  @EnvironmentObject var userData: UserState
-  @State private var user: String = ""
+  @EnvironmentObject var userState: UserState
+  @State private var name: String = ""
   @State private var pass: String = ""
   
   func handleLogin() {
-    self.userData.login(
-      user: user,
+    self.userState.login(
+      name: name,
       pass: pass
     )
   }
@@ -23,14 +23,14 @@ struct LogIn: View {
   var body: some View {
     VStack(spacing: 32) {
       Group {
-        TextField("User", text: $user)
+        TextField("User", text: $name)
         SecureField("Password", text: $pass)
       }
         .font(.system(size: 18))
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .autocapitalization(.none)
   
-      if userData.task?.isLoading == true {
+      if userState.isLoading {
         Text("Loading...")
       } else {
         Button("Login", action: handleLogin)

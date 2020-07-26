@@ -12,20 +12,14 @@ struct PinList: View {
   @State var link: PinLink?
 
   var pins: [Pin] = []
-  var isLoading: Bool = false
 
   var body: some View {
-    VStack {
-      if isLoading == true {
-        Text("Loading...")
-      }
-      List {
-        ForEach(pins) { pin in
-          Button(action: {
-            self.link = pin.link
-          }) {
-            PinRow(pin: pin).padding(.vertical, 8)
-          }
+    List {
+      ForEach(pins) { pin in
+        Button(action: {
+          self.link = pin.link
+        }) {
+          PinRow(pin: pin).padding(.vertical, 8)
         }
       }
     }

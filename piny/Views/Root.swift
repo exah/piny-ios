@@ -14,7 +14,7 @@ struct Root: View {
   var body: some View {
     NavigationView {
       Group {
-        if userState.user?.token != nil {
+        if userState.isLoggedIn {
           UserPinList(user: userState.user!)
         } else {
           LogIn()

@@ -15,7 +15,15 @@ let PREVIEW_USER: User = loadJSON("user.json")
 final class UserState: ObservableObject {
   @Published var user: User?
   @Published var task: URLSessionDataTask?
-  
+
+  var isLoading: Bool {
+    return task?.isLoading == true
+  }
+
+  var isLoggedIn: Bool {
+    return user?.token != nil
+  }
+
   init(_ initial: User? = nil) {
     if let user = initial {
       self.user = user
@@ -34,7 +42,7 @@ final class UserState: ObservableObject {
 
 
   func login(
-    user: String,
+    name: String,
     pass: String,
     onCompletion: API.Completion<Void>? = nil
   ) {
@@ -42,7 +50,7 @@ final class UserState: ObservableObject {
     task = Piny.api.post(
       Authorisation.self,
       path: "/login",
-      data: [ "user": user, "pass": pass ]
+      data: [ "user": name, "pass": pass ]
     ) { result in
       switch result {
         case .success(let auth):
@@ -51,7 +59,7 @@ final class UserState: ObservableObject {
           Piny.api.token = auth.token
 
           self.task = nil
-          self.fetchUser(user: user) { result in
+          self.fetchUser(name: name) { result in
             switch result {
               case .success():
                 self.user?.token = auth.token
@@ -76,16 +84,16 @@ final class UserState: ObservableObject {
   }
 
   func fetchUser(
-    user: String,
+    name: String,
     onCompletion: API.Completion<Void>? = nil
   ) {
     task?.cancel()
-    task = Piny.api.get(User.self, path: "/\(user)") { result in
+    task = Piny.api.get(User.self, path: "/\(name)") { result in
       switch result {
-        case .success(let json):
+        case .success(let user):
           log("User: \(user)")
 
-          self.user = json
+          self.user = user
           self.task = nil
 
           onCompletion?(.success(()))
