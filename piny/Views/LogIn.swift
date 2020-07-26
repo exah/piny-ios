@@ -44,6 +44,7 @@ struct LogIn: View {
 
 struct Login_Previews: PreviewProvider {
   static var previews: some View {
-    LogIn().environmentObject(UserState())
+    LogIn()
+      .environmentObject(UserState())
   }
 }
