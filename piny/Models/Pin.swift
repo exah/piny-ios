@@ -30,7 +30,7 @@ extension Pin: Persistable {
       description: object.desc,
       privacy: PrivacyType(rawValue: object.privacy)!,
       link: PinLink.fromObject(object.link),
-      tags: object.tags.map { tag in
+      tags: Array(object.tags).map { tag in
         PinTag.fromObject(tag)
       }
     )
@@ -44,9 +44,9 @@ extension Pin: Persistable {
     entity.desc = description
     entity.privacy = privacy.rawValue
     entity.link = link.toObject(in: context)
-    entity.tags = tags.map { tag in
+    entity.tags = Set(tags.map { tag in
       tag.toObject(in: context)
-    }
+    })
 
     return entity
   }
@@ -58,5 +58,5 @@ class DBPin: NSManagedObject {
   @NSManaged var desc: String?
   @NSManaged var privacy: String
   @NSManaged var link: DBPinLink
-  @NSManaged var tags: [DBPinTag]
+  @NSManaged var tags: Set<DBPinTag>
 }

@@ -29,6 +29,13 @@ final class UserState: ObservableObject {
   init(initialPins: [Pin]? = nil, initialUser: User? = nil) {
     if let pins = initialPins {
       self.pins = pins
+    } else {
+      let pins = Piny.storage.fetch(Pin.self)
+      log("Fetched pins(\(pins.count)): \(pins)")
+
+      if pins.count > 0 {
+        self.pins = pins
+      }
     }
 
     if let user = initialUser {
@@ -118,6 +125,9 @@ final class UserState: ObservableObject {
         case .success(var pins):
           log("Pins: \(pins)")
           self.pins = pins
+
+          Piny.storage.remove(Pin.self)
+          Piny.storage.save(&pins)
 
           onCompletion?(.success(()))
         case .failure(let error):
