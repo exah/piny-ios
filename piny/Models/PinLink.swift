@@ -11,21 +11,21 @@ import CoreData
 
 struct PinLink: Hashable, Codable, Identifiable {
   var id: UUID
-  var url: String
+  var url: URL
 }
 
 extension PinLink: Persistable {
   static func fromObject(_ object: DBPinLink) -> PinLink {
     PinLink(
       id: object.id,
-      url: object.url
+      url: URL(string: object.url)!
     )
   }
 
   func toObject(in context: NSManagedObjectContext) -> DBPinLink {
     let entity = DBPinLink.create(in: context)
     entity.id = id
-    entity.url = url
+    entity.url = url.absoluteString
     return entity
   }
 }

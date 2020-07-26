@@ -20,7 +20,7 @@ struct PinRow: View {
         if (pin.description != nil) {
           Text(pin.description!)
         }
-        Text(pin.link.url)
+        Text("\(pin.link.url)")
         PinRowTags(tags: pin.tags)
       }
       

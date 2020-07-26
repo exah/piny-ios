@@ -74,7 +74,10 @@ struct API {
           }
         } else {
           let message = try? JSONDecoder().decode(API.ResultMessage.self, from: data!)
-          onCompletion(.failure(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message)))
+
+          DispatchQueue.main.async {
+            onCompletion(.failure(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message)))
+          }
         }
       }
     }
@@ -107,6 +110,9 @@ struct API {
     )
   }
 
+  typealias Result<T> = Swift.Result<T, Error>
+  typealias Completion<T> = (_ result: API.Result<T>) -> Void
+
   enum Error: Swift.Error {
     case serializationFailed(data: Any?, underlyingError: Swift.Error)
     case parsingFailed(data: Any?, underlyingError: Swift.Error)
@@ -120,9 +126,6 @@ struct API {
       return message
     }
   }
-
-  typealias Result<T> = Swift.Result<T, API.Error>
-  typealias Completion<T> = (_ result: API.Result<T>) -> Void
 }
 
 extension API.Error: CustomStringConvertible {

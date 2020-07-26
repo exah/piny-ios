@@ -9,14 +9,12 @@
 import SwiftUI
 
 struct PinList: View {
-  @EnvironmentObject var userData: UserData
-  
+  @EnvironmentObject var userData: UserState
   @State var link: PinLink?
-  @State var isLoading: Bool = false
 
   var body: some View {
     VStack {
-      if isLoading {
+      if userData.pinsTask?.isLoading == true {
         Text("Loading...")
       }
       List {
@@ -30,14 +28,11 @@ struct PinList: View {
       }
     }
     .sheet(item: $link, content: { link in
-      WebView(url: URL(string: link.url)!)
+      WebView(url: link.url)
         .edgesIgnoringSafeArea(.all)
     })
     .onAppear {
-      self.isLoading = true
-      self.userData.fetchUserPins() {
-        self.isLoading = false
-      }
+      self.userData.fetchPins()
     }
   }
 }
@@ -45,6 +40,6 @@ struct PinList: View {
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
     PinList()
-      .environmentObject(UserData(initialPins: PREVIEW_PINS))
+      .environmentObject(UserState(initialPins: PREVIEW_PINS))
   }
 }

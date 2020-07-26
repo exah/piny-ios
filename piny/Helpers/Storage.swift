@@ -229,11 +229,6 @@ extension Storage {
     }
   }
 
-  func replaceAll<Model: Identifiable & Persistable>(_ objects: inout [Model]) {
-    remove(Model.self)
-    save(&objects)
-  }
-
   private func contextForCurrentThread() -> NSManagedObjectContext {
     if Thread.isMainThread {
       return self.container.viewContext

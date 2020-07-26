@@ -10,12 +10,12 @@ import SwiftUI
 
 struct Root: View {
   static let storage = Storage("piny")
-  @EnvironmentObject var userData: UserData
+  @EnvironmentObject var userState: UserState
   
   var body: some View {
     NavigationView {
       Group {
-        if userData.user?.token != nil {
+        if userState.user?.token != nil {
           PinList()
         } else {
           LogIn()
@@ -28,8 +28,6 @@ struct Root: View {
 
 struct Root_Previews: PreviewProvider {
   static var previews: some View {
-    Root()
-      .environmentObject(UserData())
-      .environment(\.managedObjectContext, Root.storage.context)
+    Root().environmentObject(UserState())
   }
 }

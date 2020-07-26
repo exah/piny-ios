@@ -9,25 +9,17 @@
 import SwiftUI
 
 struct LogIn: View {
-  @EnvironmentObject var userData: UserData
-
-  @State private var isLoading: Bool = false
+  @EnvironmentObject var userData: UserState
   @State private var user: String = ""
   @State private var pass: String = ""
   
   func handleLogin() {
-    print("Login... user: \(user) / pass: \(pass)")
-    
-    self.isLoading = true
     self.userData.login(
       user: user,
       pass: pass
-    ) {
-      print("Welcome 👋")
-      self.isLoading = false
-    }
+    )
   }
-  
+
   var body: some View {
     VStack(spacing: 32) {
       Group {
@@ -38,12 +30,12 @@ struct LogIn: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .autocapitalization(.none)
   
-      if isLoading {
+      if userData.loginTask?.isLoading == true {
         Text("Loading...")
       } else {
         Button("Login", action: handleLogin)
       }
-      
+
       Spacer()
     }
     .padding(16)
@@ -52,8 +44,6 @@ struct LogIn: View {
 
 struct Login_Previews: PreviewProvider {
   static var previews: some View {
-    LogIn()
-      .environmentObject(UserData())
-      .environment(\.managedObjectContext, Root.storage.context)
+    LogIn().environmentObject(UserState())
   }
 }

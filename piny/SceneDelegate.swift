@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
       window.rootViewController = UIHostingController(
         rootView: Root()
-          .environmentObject(UserData())
+          .environmentObject(UserState())
           .environment(\.managedObjectContext, Root.storage.context)
       )
       
