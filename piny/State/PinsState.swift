@@ -32,9 +32,15 @@ final class PinsState: ObservableObject {
     }
   }
 
-  func fetchPins(user: User, onCompletion: API.Completion<Void>? = nil) {
+  func fetch(
+    for user: User,
+    onCompletion: API.Completion<Void>? = nil
+  ) {
     task?.cancel()
-    task = Piny.api.get([Pin].self, path: "/\(user.name)/bookmarks") { result in
+    task = Piny.api.get(
+      [Pin].self,
+      path: "/\(user.name)/bookmarks"
+    ) { result in
       switch result {
         case .success(var pins):
           log("Pins: \(pins)")
@@ -49,6 +55,38 @@ final class PinsState: ObservableObject {
         case .failure(let error):
           log(error, level: .error)
 
+          onCompletion?(.failure(error))
+      }
+    }
+  }
+
+  func create(
+    for user: User,
+    title: String? = nil,
+    description: String? = nil,
+    url: URL,
+    privacy: PrivacyType,
+    onCompletion: API.Completion<Void>? = nil
+  ) {
+    task?.cancel()
+    task = Piny.api.post(
+      API.Message.self,
+      path: "/\(user.name)/bookmarks",
+      data: [
+        "url": url.absoluteString,
+        "privacy": privacy.rawValue,
+        "title": title,
+        "description": description,
+      ]
+    ) { result in
+      switch result {
+        case .success:
+          self.task = nil
+          self.fetch(for: user) { result in
+            onCompletion?(result)
+          }
+        case .failure(let error):
+          log(error, level: .error)
           onCompletion?(.failure(error))
       }
     }

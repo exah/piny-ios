@@ -13,7 +13,7 @@ struct UserPinList: View {
 
   var user: User
   func handleAppear() {
-    pinsState.fetchPins(user: user)
+    pinsState.fetch(for: user)
   }
 
   var body: some View {

@@ -6,9 +6,7 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
-import Combine
-import CoreData
+import Foundation
 
 let PREVIEW_USER: User = loadJSON("user.json")
 

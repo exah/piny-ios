@@ -80,7 +80,7 @@ struct API {
             }
           }
         } else {
-          let message = try? JSONDecoder().decode(API.ResultMessage.self, from: data!)
+          let message = try? JSONDecoder().decode(API.Message.self, from: data!)
 
           DispatchQueue.main.async {
             onCompletion(.failure(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message)))
@@ -128,10 +128,10 @@ struct API {
     case serializationFailed(data: Any?, underlyingError: Swift.Error)
     case parsingFailed(data: Any?, underlyingError: Swift.Error)
     case requestFailed(path: String, underlyingError: Swift.Error)
-    case notOK(path: String, statusCode: Int?, message: API.ResultMessage?)
+    case notOK(path: String, statusCode: Int?, message: API.Message?)
   }
 
-  struct ResultMessage: Decodable, CustomStringConvertible {
+  struct Message: Decodable, CustomStringConvertible {
     let message: String
     var description: String {
       return message

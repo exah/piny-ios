@@ -28,7 +28,7 @@ struct Root: View {
 struct Root_Previews: PreviewProvider {
   static var previews: some View {
     Root()
-      .environmentObject(PinsState())
       .environmentObject(UserState())
+      .environmentObject(PinsState())
   }
 }

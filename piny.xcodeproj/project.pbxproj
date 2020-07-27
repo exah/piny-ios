@@ -8,7 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
+		0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0944686324CDEDB900CB9D9F /* Media.xcassets */; };
+		0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944686524CDEDB900CB9D9F /* ActionViewController.swift */; };
+		0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0944686724CDEDB900CB9D9F /* MainInterface.storyboard */; };
+		0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		094F3F4124C8FA00004F0F84 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
+		095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
+		095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
+		0969B04E24CF06140013B066 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
+		0969B05024CF20570013B066 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
+		0969B05124CF205A0013B066 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
+		0969B05224CF20630013B066 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
+		0969B05324CF206E0013B066 /* loadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D624C059AC0021CC4A /* loadJSON.swift */; };
+		0969B05424CF207A0013B066 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
+		0969B05524CF20A90013B066 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
+		0969B05624CF20A90013B066 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
+		0969B05724CF20BD0013B066 /* pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* pins.json */; };
+		0969B05824CF20BD0013B066 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* user.json */; };
+		0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DA24C0CB380021CC4A /* Authorisation.swift */; };
+		0969B05A24CF20CE0013B066 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
+		0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054324C79075003609F0 /* PinTag.swift */; };
+		0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054124C79056003609F0 /* PinLink.swift */; };
+		0969B05D24CF20CE0013B066 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DC24C0CB580021CC4A /* User.swift */; };
+		0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
+		0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
+		0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
 		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
 		09752F6624C0DCBD003E1B24 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6524C0DCBD003E1B24 /* Root.swift */; };
 		09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
@@ -41,6 +65,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0944686B24CDEDB900CB9D9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 099156C324BB99690041938C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0944686024CDEDB900CB9D9F;
+			remoteInfo = pinyAdd;
+		};
 		099156E524BB996B0041938C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 099156C324BB99690041938C /* Project object */;
@@ -57,9 +88,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0944686E24CDEDB900CB9D9F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
+		0944686124CDEDB900CB9D9F /* pinyAdd.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = pinyAdd.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0944686324CDEDB900CB9D9F /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		0944686524CDEDB900CB9D9F /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		0944686824CDEDB900CB9D9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0944686A24CDEDB900CB9D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0944687824CE003100CB9D9F /* piny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = piny.entitlements; sourceTree = "<group>"; };
+		0944687924CE003F00CB9D9F /* pinyAdd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pinyAdd.entitlements; sourceTree = "<group>"; };
 		094F3F4024C8FA00004F0F84 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
+		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
+		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		09752FA624C22A6C003E1B24 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -99,6 +153,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0944685E24CDEDB900CB9D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		099156C824BB99690041938C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -123,6 +184,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0944686224CDEDB900CB9D9F /* pinyAdd */ = {
+			isa = PBXGroup;
+			children = (
+				0944687924CE003F00CB9D9F /* pinyAdd.entitlements */,
+				0944686324CDEDB900CB9D9F /* Media.xcassets */,
+				0944686524CDEDB900CB9D9F /* ActionViewController.swift */,
+				0944686724CDEDB900CB9D9F /* MainInterface.storyboard */,
+				0944686A24CDEDB900CB9D9F /* Info.plist */,
+			);
+			path = pinyAdd;
+			sourceTree = "<group>";
+		};
+		0969B05E24CF4F460013B066 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
 		099156C224BB99690041938C = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +211,7 @@
 				099156CD24BB99690041938C /* piny */,
 				099156E724BB996B0041938C /* pinyTests */,
 				099156F224BB996B0041938C /* pinyUITests */,
+				0944686224CDEDB900CB9D9F /* pinyAdd */,
 				099156CC24BB99690041938C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -140,6 +222,7 @@
 				099156CB24BB99690041938C /* piny.app */,
 				099156E424BB996B0041938C /* pinyTests.xctest */,
 				099156EF24BB996B0041938C /* pinyUITests.xctest */,
+				0944686124CDEDB900CB9D9F /* pinyAdd.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,11 +230,13 @@
 		099156CD24BB99690041938C /* piny */ = {
 			isa = PBXGroup;
 			children = (
+				0944687824CE003100CB9D9F /* piny.entitlements */,
 				0991570924BCAB750041938C /* Resources */,
 				09EB08D524C059890021CC4A /* Helpers */,
 				09EB08D224C051380021CC4A /* Controllers */,
 				0991571024BCAD3B0041938C /* Models */,
 				09DEB76E24BE45D9001CE612 /* State */,
+				0969B05E24CF4F460013B066 /* Styles */,
 				0991570724BC60460041938C /* Views */,
 				099156CE24BB99690041938C /* AppDelegate.swift */,
 				099156D024BB99690041938C /* SceneDelegate.swift */,
@@ -194,6 +279,7 @@
 		0991570724BC60460041938C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				095F88DC24CE066400793A9E /* QuickAdd.swift */,
 				09EA169524BEA32B0028121D /* PinList.swift */,
 				09EB08CA24BEAB990021CC4A /* PinRow.swift */,
 				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
@@ -258,6 +344,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0944686024CDEDB900CB9D9F /* pinyAdd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0944687124CDEDB900CB9D9F /* Build configuration list for PBXNativeTarget "pinyAdd" */;
+			buildPhases = (
+				0944685D24CDEDB900CB9D9F /* Sources */,
+				0944685E24CDEDB900CB9D9F /* Frameworks */,
+				0944685F24CDEDB900CB9D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pinyAdd;
+			productName = pinyAdd;
+			productReference = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		099156CA24BB99690041938C /* piny */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 099156F824BB996B0041938C /* Build configuration list for PBXNativeTarget "piny" */;
@@ -265,10 +368,12 @@
 				099156C724BB99690041938C /* Sources */,
 				099156C824BB99690041938C /* Frameworks */,
 				099156C924BB99690041938C /* Resources */,
+				0944686E24CDEDB900CB9D9F /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0944686C24CDEDB900CB9D9F /* PBXTargetDependency */,
 			);
 			name = piny;
 			productName = piny;
@@ -317,10 +422,13 @@
 		099156C324BB99690041938C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "John Grishin";
 				TargetAttributes = {
+					0944686024CDEDB900CB9D9F = {
+						CreatedOnToolsVersion = 11.6;
+					};
 					099156CA24BB99690041938C = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -350,11 +458,23 @@
 				099156CA24BB99690041938C /* piny */,
 				099156E324BB996B0041938C /* pinyTests */,
 				099156EE24BB996B0041938C /* pinyUITests */,
+				0944686024CDEDB900CB9D9F /* pinyAdd */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0944685F24CDEDB900CB9D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0969B05824CF20BD0013B066 /* user.json in Resources */,
+				0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */,
+				0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */,
+				0969B05724CF20BD0013B066 /* pins.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		099156C924BB99690041938C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,12 +504,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0944685D24CDEDB900CB9D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0969B05524CF20A90013B066 /* UserState.swift in Sources */,
+				0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */,
+				0969B05024CF20570013B066 /* Storage.swift in Sources */,
+				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
+				0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */,
+				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
+				0969B05324CF206E0013B066 /* loadJSON.swift in Sources */,
+				0969B04E24CF06140013B066 /* log.swift in Sources */,
+				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
+				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
+				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
+				095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */,
+				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
+				0969B05424CF207A0013B066 /* Piny.swift in Sources */,
+				0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */,
+				0969B05224CF20630013B066 /* API.swift in Sources */,
+				0969B05124CF205A0013B066 /* Persistable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		099156C724BB99690041938C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				099156CF24BB99690041938C /* AppDelegate.swift in Sources */,
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
+				0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D724C059AC0021CC4A /* loadJSON.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
@@ -399,6 +544,7 @@
 				094F3F4124C8FA00004F0F84 /* log.swift in Sources */,
 				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
+				095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */,
 				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
@@ -434,6 +580,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0944686C24CDEDB900CB9D9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0944686024CDEDB900CB9D9F /* pinyAdd */;
+			targetProxy = 0944686B24CDEDB900CB9D9F /* PBXContainerItemProxy */;
+		};
 		099156E624BB996B0041938C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 099156CA24BB99690041938C /* piny */;
@@ -447,6 +598,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0944686724CDEDB900CB9D9F /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0944686824CDEDB900CB9D9F /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		099156DC24BB996B0041938C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -458,6 +617,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0944686F24CDEDB900CB9D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pinyAdd/pinyAdd.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
+				INFOPLIST_FILE = pinyAdd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.exah.piny.quick-add";
+				PRODUCT_NAME = pinyAdd;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0944687024CDEDB900CB9D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pinyAdd/pinyAdd.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
+				INFOPLIST_FILE = pinyAdd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.exah.piny.quick-add";
+				PRODUCT_NAME = pinyAdd;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		099156F624BB996B0041938C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -575,7 +778,9 @@
 		099156F924BB996B0041938C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"piny/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
@@ -596,7 +801,9 @@
 		099156FA24BB996B0041938C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"piny/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
@@ -697,6 +904,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0944687124CDEDB900CB9D9F /* Build configuration list for PBXNativeTarget "pinyAdd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0944686F24CDEDB900CB9D9F /* Debug */,
+				0944687024CDEDB900CB9D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		099156C624BB99690041938C /* Build configuration list for PBXProject "piny" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

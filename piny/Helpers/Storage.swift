@@ -79,8 +79,15 @@ struct Storage {
     return self.container.viewContext
   }
 
-  init(_ name: String) {
+  init(_ name: String, groupURL: URL? = nil) {
     container = NSPersistentContainer(name: name)
+
+    if let groupURL = groupURL {
+      let storeURL = groupURL.appendingPathComponent("\(name).sqlite")
+      let storeDescription = NSPersistentStoreDescription(url: storeURL)
+
+      container.persistentStoreDescriptions = [storeDescription]
+    }
 
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
       if let error = error as NSError? {

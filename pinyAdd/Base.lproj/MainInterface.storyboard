@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5bT-qq-E9w">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Action View Controller-->
+        <scene sceneID="AKM-7V-iBH">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NOP-bS-sjI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="5bT-qq-E9w" customClass="ActionViewController" customModule="pinyAdd" customModuleProvider="target" sceneMemberID="viewController">
+                    <containerView key="view" opaque="NO" contentMode="scaleToFill" id="4VF-5P-AZ6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <segue destination="d5D-jF-zeR" kind="embed" destinationCreationSelector="connectSwiftUI:" id="EJ5-9e-Nfd"/>
+                        </connections>
+                    </containerView>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="81" y="-691"/>
+        </scene>
+        <!--SwiftUI-->
+        <scene sceneID="r2c-ek-Shz">
+            <objects>
+                <hostingController id="d5D-jF-zeR" userLabel="SwiftUI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TLF-As-Pql" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1104" y="-691"/>
+        </scene>
+    </scenes>
+</document>
