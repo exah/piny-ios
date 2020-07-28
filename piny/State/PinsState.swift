@@ -82,11 +82,9 @@ final class PinsState: ObservableObject {
       switch result {
         case .success:
           self.task = nil
-          self.fetch(for: user) { result in
-            onCompletion?(result)
-          }
+
+          onCompletion?(.success(()))
         case .failure(let error):
-          log(error, level: .error)
           onCompletion?(.failure(error))
       }
     }

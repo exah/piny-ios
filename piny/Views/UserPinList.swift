@@ -17,14 +17,11 @@ struct UserPinList: View {
   }
 
   var body: some View {
-    VStack {
-      if pinsState.isLoading {
-        Text("Loading...")
+    PinList(pins: pinsState.pins)
+      .onAppear(perform: handleAppear)
+      .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+        self.handleAppear()
       }
-
-      PinList(pins: pinsState.pins)
-        .onAppear(perform: handleAppear)
-    }
   }
 }
 
