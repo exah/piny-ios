@@ -26,6 +26,8 @@
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<dict>
+				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
+				<integer>1</integer>
 				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 				<integer>1</integer>
 			</dict>
@@ -39,6 +41,8 @@
 			<string>TouchBarBezel</string>
 			<key>NSExtensionServiceTouchBarIconName</key>
 			<string>NSActionTemplate</string>
+			<key>NSExtensionJavaScriptPreprocessingFile</key>
+			<string>ExtensionPreprocessing</string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>

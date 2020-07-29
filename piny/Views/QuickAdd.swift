@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import PromiseKit
 import MobileCoreServices
 
 private enum QuickAddError: Error {
   case invalidInput
+  case invalidResult
   case invalidURL
   case noAttachments
   case noResult
@@ -19,35 +21,43 @@ private enum QuickAddError: Error {
 struct QuickAdd: View {
   @EnvironmentObject var userState: UserState
   @EnvironmentObject var pinsState: PinsState
+  @State var isError: Bool = false
 
   let context: NSExtensionContext
   let timeout: Double = 2
+  var isSuccess: Bool {
+    !self.pinsState.isLoading && !isError
+  }
 
   func handleAppear() {
-    getUrl() { url in
-      switch url {
-        case .success(let url):
-          if let user = self.userState.user {
-            self.pinsState.create(
-              for: user,
-              url: url,
-              privacy: .Public
-            ) { result in
-              switch result {
-                case .success:
-                  log("Shared: \(url) <3")
+    firstly {
+      getInput()
+    }.done { page in
+      if let user = self.userState.user {
+        self.pinsState.create(
+          for: user,
+          title: page.title,
+          url: page.url,
+          privacy: .Public
+        ) { result in
+          switch result {
+            case .success:
+              log("Shared: \(page.url) <3")
+            case .failure(let error):
+              self.isError = true
 
-                  DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
-                    self.handleComplete()
-                  }
-                case .failure(let error):
-                  log(error, level: .error)
-              }
-            }
+              log(error, level: .error)
           }
-        case .failure(let error):
-          log(error, level: .error)
+
+          DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
+            self.handleComplete()
+          }
+        }
       }
+    }.catch { error in
+      self.isError = true
+
+      log(error, level: .error)
     }
   }
 
@@ -57,48 +67,54 @@ struct QuickAdd: View {
     }
   }
 
-  func handleAction() {
-    log("Action")
-  }
-
-  func getUrl(onComplete: @escaping (_ result: Result<URL, Error>) -> Void) {
-    guard let inputItems = context.inputItems as? [NSExtensionItem] else {
-      onComplete(.failure(QuickAddError.invalidInput))
-      return
-    }
-
-    for item in inputItems {
-      guard let attachments = item.attachments else {
-        onComplete(.failure(QuickAddError.noAttachments))
-        return
+  func getInput() -> Promise<ParsedPage> {
+    return Promise { seal in
+      guard let inputItems = self.context.inputItems as? [NSExtensionItem] else {
+        return seal.reject(QuickAddError.invalidInput)
       }
 
-      for provider in attachments {
-        if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-          provider.loadItem(
-            forTypeIdentifier: kUTTypeURL as String,
-            options: nil
-          ) { url, error in
-            if let error = error {
-              onComplete(.failure(error))
-              return
-            }
+      for item in inputItems {
+        guard let attachments = item.attachments else {
+          return seal.reject(QuickAddError.noAttachments)
+        }
 
-            OperationQueue.main.addOperation {
-              if let url = url as? URL {
-                onComplete(.success(url))
-              } else {
-                onComplete(.failure(QuickAddError.invalidURL))
-              }
+        for provider in attachments {
+          if let promise = self.getPage(provider) {
+            firstly {
+              promise
+            }.done { page in
+              log("page \(page)")
+
+              seal.fulfill(page)
+            }.catch { error in
+              seal.reject(error)
             }
           }
+        }
+      }
+    }
+  }
 
-          return
+  private func getPage(_ provider: NSItemProvider) -> Promise<ParsedPage>? {
+    let typePropertyList = String(kUTTypePropertyList)
+
+    if provider.hasItemConformingToTypeIdentifier(typePropertyList) {
+      return Promise { seal in
+        provider.loadItem(forTypeIdentifier: typePropertyList) { item, error in
+          if
+            let dictionary = item as? NSDictionary,
+            let result = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
+            let pageURL = URL(string: result["url"]!)
+          {
+            seal.fulfill(ParsedPage(title: result["title"], url: pageURL))
+          } else {
+            seal.reject(QuickAddError.invalidResult)
+          }
         }
       }
     }
 
-    onComplete(.failure(QuickAddError.noResult))
+    return nil
   }
 
   var body: some View {
@@ -110,28 +126,34 @@ struct QuickAdd: View {
             systemName:
               self.pinsState.isLoading
                 ? "clock.fill"
-                : "checkmark.circle.fill"
+                : self.isError
+                  ? "xmark.circle.fill"
+                  : "checkmark.circle.fill"
           )
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(
               self.pinsState.isLoading
                 ? .orange
-                : .green
+                : self.isError
+                  ? .red
+                  : .green
             )
             .frame(width: 24)
           Text(
             self.pinsState.isLoading
               ? "Adding..."
-              : "Added to Piny"
+              : self.isError
+                ? "Failed"
+                : "Added to Piny"
           )
             .font(.system(size: 18))
             .fontWeight(.semibold)
             .foregroundColor(.black)
           Spacer()
           if !self.pinsState.isLoading {
-            Button(action: self.handleAction) {
-              Text("Action")
+            Button(action: self.handleComplete) {
+              Text("Close")
                 .font(.system(size: 14))
                 .fontWeight(.medium)
             }

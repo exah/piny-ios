@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,11 @@
 		0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944686524CDEDB900CB9D9F /* ActionViewController.swift */; };
 		0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0944686724CDEDB900CB9D9F /* MainInterface.storyboard */; };
 		0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		094855CF24D0D1D400C38309 /* ExtensionPreprocessing.js in Resources */ = {isa = PBXBuildFile; fileRef = 094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */; };
+		094855D224D0E99F00C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D124D0E99F00C38309 /* PromiseKit */; };
+		094855D524D0E9B000C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D424D0E9B000C38309 /* PromiseKit */; };
+		094855D724D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
+		094855D824D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		094F3F4124C8FA00004F0F84 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
 		095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
@@ -111,6 +116,8 @@
 		0944686A24CDEDB900CB9D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0944687824CE003100CB9D9F /* piny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = piny.entitlements; sourceTree = "<group>"; };
 		0944687924CE003F00CB9D9F /* pinyAdd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pinyAdd.entitlements; sourceTree = "<group>"; };
+		094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ExtensionPreprocessing.js; sourceTree = "<group>"; };
+		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
 		094F3F4024C8FA00004F0F84 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
 		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
@@ -157,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094855D524D0E9B000C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094855D224D0E99F00C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,11 +198,19 @@
 			children = (
 				0944687924CE003F00CB9D9F /* pinyAdd.entitlements */,
 				0944686324CDEDB900CB9D9F /* Media.xcassets */,
+				094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */,
 				0944686524CDEDB900CB9D9F /* ActionViewController.swift */,
 				0944686724CDEDB900CB9D9F /* MainInterface.storyboard */,
 				0944686A24CDEDB900CB9D9F /* Info.plist */,
 			);
 			path = pinyAdd;
+			sourceTree = "<group>";
+		};
+		094855D324D0E9B000C38309 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0969B05E24CF4F460013B066 /* Styles */ = {
@@ -213,6 +230,7 @@
 				099156F224BB996B0041938C /* pinyUITests */,
 				0944686224CDEDB900CB9D9F /* pinyAdd */,
 				099156CC24BB99690041938C /* Products */,
+				094855D324D0E9B000C38309 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -308,6 +326,7 @@
 				097A054324C79075003609F0 /* PinTag.swift */,
 				097A054124C79056003609F0 /* PinLink.swift */,
 				09EB08DC24C0CB580021CC4A /* User.swift */,
+				094855D624D102C700C38309 /* ParsedPage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -357,6 +376,9 @@
 			dependencies = (
 			);
 			name = pinyAdd;
+			packageProductDependencies = (
+				094855D424D0E9B000C38309 /* PromiseKit */,
+			);
 			productName = pinyAdd;
 			productReference = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -376,6 +398,9 @@
 				0944686C24CDEDB900CB9D9F /* PBXTargetDependency */,
 			);
 			name = piny;
+			packageProductDependencies = (
+				094855D124D0E99F00C38309 /* PromiseKit */,
+			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
 			productType = "com.apple.product-type.application";
@@ -451,6 +476,9 @@
 				Base,
 			);
 			mainGroup = 099156C224BB99690041938C;
+			packageReferences = (
+				094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */,
+			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -471,6 +499,7 @@
 				0969B05824CF20BD0013B066 /* user.json in Resources */,
 				0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */,
 				0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */,
+				094855CF24D0D1D400C38309 /* ExtensionPreprocessing.js in Resources */,
 				0969B05724CF20BD0013B066 /* pins.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -519,6 +548,7 @@
 				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
 				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
+				094855D824D102C700C38309 /* ParsedPage.swift in Sources */,
 				095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */,
 				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
 				0969B05424CF207A0013B066 /* Piny.swift in Sources */,
@@ -552,6 +582,7 @@
 				09DEB77024BE45ED001CE612 /* UserState.swift in Sources */,
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				097A054024C76F84003609F0 /* Persistable.swift in Sources */,
+				094855D724D102C700C38309 /* ParsedPage.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
 				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
@@ -950,6 +981,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.13.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		094855D124D0E99F00C38309 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
+		};
+		094855D424D0E9B000C38309 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		099156D224BB99690041938C /* piny.xcdatamodeld */ = {
