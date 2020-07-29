@@ -45,11 +45,11 @@ final class PinsState: ObservableObject {
         case .success(var pins):
           log("Pins: \(pins)")
 
-          self.pins = pins
-          self.task = nil
-
           Piny.storage.remove(Pin.self)
           Piny.storage.save(&pins)
+
+          self.task = nil
+          self.pins = pins
 
           onCompletion?(.success(()))
         case .failure(let error):

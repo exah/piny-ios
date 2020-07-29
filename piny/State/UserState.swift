@@ -57,7 +57,7 @@ final class UserState: ObservableObject {
           Piny.api.token = auth.token
 
           self.task = nil
-          self.fetchUser(name: name) { result in
+          self.fetch(name: name) { result in
             switch result {
               case .success():
                 self.user?.token = auth.token
@@ -81,7 +81,7 @@ final class UserState: ObservableObject {
     }
   }
 
-  func fetchUser(
+  func fetch(
     name: String,
     onCompletion: API.Completion<Void>? = nil
   ) {
