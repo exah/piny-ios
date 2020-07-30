@@ -12,6 +12,6 @@ enum LogLevel: String {
   case info, warn, error
 }
 
-func log<T>(_ input: T, level: LogLevel = .info) {
+func log<T>(_ input: T, _ level: LogLevel = LogLevel.info) {
   print("[\(level)] \(Date()): \(input)")
 }

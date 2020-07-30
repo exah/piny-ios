@@ -17,7 +17,9 @@ struct LogIn: View {
     self.userState.login(
       name: name,
       pass: pass
-    )
+    ).catch { error in
+      log(error, .error)
+    }
   }
 
   var body: some View {

@@ -13,7 +13,7 @@ import MobileCoreServices
 class ActionViewController: UIViewController {
   @IBSegueAction func connectSwiftUI(_ coder: NSCoder) -> UIViewController? {
     guard let context = self.extensionContext else {
-      log("Extention context is required", level: .error)
+      log("Extention context is required", .error)
       return nil
     }
 
@@ -21,7 +21,7 @@ class ActionViewController: UIViewController {
       coder: coder,
       rootView: QuickAdd(context: context)
         .environmentObject(UserState())
-        .environmentObject(PinsState())
+        .environmentObject(PinsState([]))
     )
 
     controller?.view.backgroundColor = .clear

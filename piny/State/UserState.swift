@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 let PREVIEW_USER: User = loadJSON("user.json")
 
@@ -34,72 +35,50 @@ final class UserState: ObservableObject {
         Piny.api.token = users[0].token
       }
 
-      log("Fetched users(\(users.count)): \(users)")
+      log("Fetched from store users(\(users.count)): \(users)")
     }
   }
 
-
-  func login(
-    name: String,
-    pass: String,
-    onCompletion: API.Completion<Void>? = nil
-  ) {
-    task?.cancel()
-    task = Piny.api.post(
-      Authorisation.self,
-      path: "/login",
-      data: [ "user": name, "pass": pass ]
-    ) { result in
-      switch result {
-        case .success(let auth):
-          log("Token: \(auth.token)")
-
-          Piny.api.token = auth.token
-
-          self.task = nil
-          self.fetch(name: name) { result in
-            switch result {
-              case .success():
-                self.user?.token = auth.token
-
-                if var user = self.user {
-                  Piny.storage.remove(User.self)
-                  Piny.storage.save(&user)
-                }
-
-                onCompletion?(.success(()))
-              case .failure(let error):
-                onCompletion?(.failure(error))
-            }
-          }
-
-        case .failure(let error):
-          log(error, level: .error)
-          
-          onCompletion?(.failure(error))
-      }
+  private func fetchUser(name: String) -> Promise<User> {
+    Piny.api.get(
+      User.self,
+      path: "/\(name)"
+    ) { task in
+      self.task?.cancel()
+      self.task = task
+    }
+    .ensure {
+      self.task = nil
     }
   }
 
-  func fetch(
-    name: String,
-    onCompletion: API.Completion<Void>? = nil
-  ) {
-    task?.cancel()
-    task = Piny.api.get(User.self, path: "/\(name)") { result in
-      switch result {
-        case .success(let user):
-          log("User: \(user)")
-
-          self.user = user
-          self.task = nil
-
-          onCompletion?(.success(()))
-        case .failure(let error):
-          log(error, level: .error)
-
-          onCompletion?(.failure(error))
+  func login(name: String, pass: String) -> Promise<Void> {
+    firstly {
+      Piny.api.post(
+        Authorisation.self,
+        path: "/login",
+        data: [ "user": name, "pass": pass ]
+      ) { task in
+        self.task?.cancel()
+        self.task = task
       }
+      .ensure {
+        self.task = nil
+      }
+    }.get { auth in
+      log("Token: \(auth.token)")
+
+      Piny.api.token = auth.token
+    }.then { auth in
+      self.fetchUser(name: name).map { user in (auth, user) }
+    }.done { auth, user in
+      log("User: \(user)")
+
+      self.user = user
+      self.user?.token = auth.token
+
+      Piny.storage.remove(User.self)
+      Piny.storage.save(self.user!)
     }
   }
 }

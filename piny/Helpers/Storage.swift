@@ -148,28 +148,30 @@ extension Storage {
     return result
   }
 
-  func save<T: Identifiable & Persistable>(_ objects: inout [T], batchSize: Int = 100) {
+  @discardableResult func save<T: Identifiable & Persistable>(_ objects: [T], batchSize: Int = 100) -> [T] {
     let context = contextForCurrentThread()
     let batches = batch(objects, size: batchSize)
 
     for var item in batches {
       let objectsIds = item.map({ $0.identifier })
       let predicate = NSPredicate(format: "identifier IN %@", objectsIds)
-      let itemCopy = item
+      let copy = item
 
       self.remove(T.self, predicate: predicate, in: context)
       context.applyStackChangesAndWait {
-        _ = itemCopy.map({ $0.toObject(in: context) })
+        _ = copy.map({ $0.toObject(in: context) })
       }
 
       item = self.fetch(T.self, predicate: predicate)
-      if itemCopy.count != item.count {
+      if copy.count != item.count {
         log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
       }
     }
+
+    return Array(batches.joined())
   }
 
-  func save<T: Identifiable & Persistable>(_ object: inout T) {
+  @discardableResult func save<T: Identifiable & Persistable>(_ object: T) -> T {
     let context = contextForCurrentThread()
 
     log("identifier \(object.identifier)")
@@ -183,9 +185,10 @@ extension Storage {
     }
 
     if let cachedObject = self.fetch(T.self, identifier: object.identifier) {
-      object = cachedObject
+      return cachedObject
     } else {
       log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifier: \(object.identifier)")
+      return object
     }
   }
 

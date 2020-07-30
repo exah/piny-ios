@@ -30,34 +30,30 @@ struct QuickAdd: View {
   }
 
   func handleAppear() {
+    guard let user = self.userState.user else {
+      return
+    }
+
     firstly {
-      getInput()
-    }.done { page in
-      if let user = self.userState.user {
-        self.pinsState.create(
-          for: user,
-          title: page.title,
-          url: page.url,
-          privacy: .Public
-        ) { result in
-          switch result {
-            case .success:
-              log("Shared: \(page.url) <3")
-            case .failure(let error):
-              self.isError = true
-
-              log(error, level: .error)
-          }
-
-          DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
-            self.handleComplete()
-          }
-        }
+      self.getInput()
+    }
+    .then { page in
+      self.pinsState.create(
+        for: user,
+        title: page.title,
+        url: page.url,
+        privacy: .Public
+      ).map { _ in
+        page
       }
-    }.catch { error in
+    }
+    .done { page in
+      log("Shared: \(page.url) <3")
+    }
+    .catch { error in
       self.isError = true
 
-      log(error, level: .error)
+      log(error, .error)
     }
   }
 
@@ -68,31 +64,23 @@ struct QuickAdd: View {
   }
 
   func getInput() -> Promise<ParsedPage> {
-    return Promise { seal in
-      guard let inputItems = self.context.inputItems as? [NSExtensionItem] else {
-        return seal.reject(QuickAddError.invalidInput)
+    guard let inputItems = self.context.inputItems as? [NSExtensionItem] else {
+      return Promise(error: QuickAddError.invalidInput)
+    }
+
+    for item in inputItems {
+      guard let attachments = item.attachments else {
+        return Promise(error: QuickAddError.noAttachments)
       }
 
-      for item in inputItems {
-        guard let attachments = item.attachments else {
-          return seal.reject(QuickAddError.noAttachments)
-        }
-
-        for provider in attachments {
-          if let promise = self.getPage(provider) {
-            firstly {
-              promise
-            }.done { page in
-              log("page \(page)")
-
-              seal.fulfill(page)
-            }.catch { error in
-              seal.reject(error)
-            }
-          }
+      for provider in attachments {
+        if let promise = self.getPage(provider) {
+          return promise
         }
       }
     }
+
+    return Promise(error: QuickAddError.noResult)
   }
 
   private func getPage(_ provider: NSItemProvider) -> Promise<ParsedPage>? {
@@ -180,7 +168,7 @@ struct QuickAdd_Previews: PreviewProvider {
   static var previews: some View {
     QuickAdd(context: NSExtensionContext())
       .environmentObject(UserState())
-      .environmentObject(PinsState())
+      .environmentObject(PinsState([]))
       .previewLayout(PreviewLayout.sizeThatFits)
       .background(Color.gray)
   }

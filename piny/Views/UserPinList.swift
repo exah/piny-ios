@@ -7,13 +7,18 @@
 //
 
 import SwiftUI
+import PromiseKit
 
 struct UserPinList: View {
   @EnvironmentObject var pinsState: PinsState
 
   var user: User
   func handleAppear() {
-    pinsState.fetch(for: user)
+    firstly {
+      pinsState.fetch(for: user)
+    }.catch { error in
+      log(error, .error)
+    }
   }
 
   var body: some View {

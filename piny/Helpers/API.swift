@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 private extension URLResponse {
   func getStatusCode() -> Int? {
@@ -39,70 +40,72 @@ struct API {
     method: String,
     path: String,
     data: Decodable? = nil,
-    onCompletion: @escaping API.Completion<T>
-  ) -> URLSessionDataTask? {
-    var request = URLRequest(url: URL(string: baseURL + path)!)
-    request.httpMethod = method
+    onTask: TaskHandler? = nil
+  ) -> Promise<T> {
+    return Promise { seal in
+      var request = URLRequest(url: URL(string: baseURL + path)!)
+      request.httpMethod = method
 
-    if let data = data {
-      do {
-        let json = try JSONSerialization.data(withJSONObject: data)
+      if let data = data {
+        do {
+          let json = try JSONSerialization.data(withJSONObject: data)
 
-        request.httpBody = json
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-      } catch {
-        onCompletion(.failure(API.Error.serializationFailed(data: data, underlyingError: error)))
-        return nil
-      }
-    }
-    
-    if let token = token {
-      request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    }
-
-    let task = session.dataTask(with: request) { data, response, error in
-      if let error = error {
-        onCompletion(.failure(API.Error.requestFailed(path: path, underlyingError: error)))
-        return
+          request.httpBody = json
+          request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        } catch {
+          seal.reject(API.Error.serializationFailed(data: data, underlyingError: error))
+          return
+        }
       }
 
-      if let response = response {
-        if response.isOK() {
-          do {
-            let json = try JSONDecoder().decode(T.self, from: data!)
+      if let token = token {
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      }
+
+      let task = session.dataTask(with: request) { data, response, error in
+        if let error = error {
+          seal.reject(API.Error.requestFailed(path: path, underlyingError: error))
+          return
+        }
+
+        if let response = response {
+          if response.isOK() {
+            do {
+              let json = try JSONDecoder().decode(T.self, from: data!)
+
+              DispatchQueue.main.async {
+                seal.fulfill(json)
+              }
+            } catch {
+              DispatchQueue.main.async {
+                seal.reject(API.Error.parsingFailed(data: data, underlyingError: error))
+              }
+            }
+          } else {
+            let message = try? JSONDecoder().decode(API.Message.self, from: data!)
 
             DispatchQueue.main.async {
-              onCompletion(.success(json))
+              seal.reject(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message))
             }
-          } catch {
-            DispatchQueue.main.async {
-              onCompletion(.failure(API.Error.parsingFailed(data: data, underlyingError: error)))
-            }
-          }
-        } else {
-          let message = try? JSONDecoder().decode(API.Message.self, from: data!)
-
-          DispatchQueue.main.async {
-            onCompletion(.failure(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message)))
           }
         }
       }
-    }
 
-    task.resume()
-    return task
+      task.resume()
+      onTask?(task)
+    }
   }
 
   func get<T: Decodable>(
     _ type: T.Type,
     path: String,
-    onCompletion: @escaping API.Completion<T>
-  ) -> URLSessionDataTask? {
+    onTask: TaskHandler? = nil
+  ) -> Promise<T> {
     return fetch(
       type,
       method: "GET",
       path: path,
-      onCompletion: onCompletion
+      onTask: onTask
     )
   }
 
@@ -110,19 +113,18 @@ struct API {
     _ type: T.Type,
     path: String,
     data: Decodable,
-    onCompletion: @escaping API.Completion<T>
-  ) -> URLSessionDataTask? {
+    onTask: TaskHandler? = nil
+  ) -> Promise<T> {
     return fetch(
       type,
       method: "POST",
       path: path,
       data: data,
-      onCompletion: onCompletion
+      onTask: onTask
     )
   }
 
-  typealias Result<T> = Swift.Result<T, API.Error>
-  typealias Completion<T> = (_ result: API.Result<T>) -> Void
+  typealias TaskHandler = (_ task: URLSessionDataTask) -> Void
 
   enum Error: Swift.Error {
     case serializationFailed(data: Any?, underlyingError: Swift.Error)

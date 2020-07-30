@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
@@ -28,35 +29,27 @@ final class PinsState: ObservableObject {
         self.pins = pins
       }
 
-      log("Fetched pins(\(pins.count)): \(pins)")
+      log("Fetched from store pins(\(pins.count)): \(pins)")
     }
   }
 
-  func fetch(
-    for user: User,
-    onCompletion: API.Completion<Void>? = nil
-  ) {
-    task?.cancel()
-    task = Piny.api.get(
-      [Pin].self,
-      path: "/\(user.name)/bookmarks"
-    ) { result in
-      switch result {
-        case .success(var pins):
-          log("Pins: \(pins)")
-
-          Piny.storage.remove(Pin.self)
-          Piny.storage.save(&pins)
-
-          self.task = nil
-          self.pins = pins
-
-          onCompletion?(.success(()))
-        case .failure(let error):
-          log(error, level: .error)
-
-          onCompletion?(.failure(error))
+  func fetch(for user: User) -> Promise<[Pin]> {
+    firstly {
+      Piny.api.get(
+        [Pin].self,
+        path: "/\(user.name)/bookmarks"
+      ) { task in
+        self.task?.cancel()
+        self.task = task
       }
+      .ensure {
+        self.task = nil
+      }
+    }.get { pins in
+      self.pins = pins
+
+      Piny.storage.remove(Pin.self)
+      Piny.storage.save(pins)
     }
   }
 
@@ -65,11 +58,9 @@ final class PinsState: ObservableObject {
     title: String? = nil,
     description: String? = nil,
     url: URL,
-    privacy: PrivacyType,
-    onCompletion: API.Completion<Void>? = nil
-  ) {
-    task?.cancel()
-    task = Piny.api.post(
+    privacy: PrivacyType
+  ) -> Promise<API.Message> {
+    Piny.api.post(
       API.Message.self,
       path: "/\(user.name)/bookmarks",
       data: [
@@ -78,15 +69,11 @@ final class PinsState: ObservableObject {
         "title": title,
         "description": description,
       ]
-    ) { result in
-      switch result {
-        case .success:
-          self.task = nil
-
-          onCompletion?(.success(()))
-        case .failure(let error):
-          onCompletion?(.failure(error))
-      }
+    ) { task in
+      self.task?.cancel()
+      self.task = task
+    }.ensure {
+      self.task = nil
     }
   }
 }
