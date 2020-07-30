@@ -40,7 +40,7 @@ struct API {
     method: String,
     path: String,
     data: Decodable? = nil,
-    onTask: TaskHandler? = nil
+    task: inout URLSessionDataTask?
   ) -> Promise<T> {
     return Promise { seal in
       var request = URLRequest(url: URL(string: baseURL + path)!)
@@ -62,7 +62,11 @@ struct API {
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
       }
 
-      let task = session.dataTask(with: request) { data, response, error in
+      if let task = task, task.isLoading {
+        task.cancel()
+      }
+
+      task = session.dataTask(with: request) { data, response, error in
         if let error = error {
           seal.reject(API.Error.requestFailed(path: path, underlyingError: error))
           return
@@ -91,21 +95,20 @@ struct API {
         }
       }
 
-      task.resume()
-      onTask?(task)
+      task?.resume()
     }
   }
 
   func get<T: Decodable>(
     _ type: T.Type,
     path: String,
-    onTask: TaskHandler? = nil
+    task: inout URLSessionDataTask?
   ) -> Promise<T> {
     return fetch(
       type,
       method: "GET",
       path: path,
-      onTask: onTask
+      task: &task
     )
   }
 
@@ -113,14 +116,14 @@ struct API {
     _ type: T.Type,
     path: String,
     data: Decodable,
-    onTask: TaskHandler? = nil
+    task: inout URLSessionDataTask?
   ) -> Promise<T> {
     return fetch(
       type,
       method: "POST",
       path: path,
       data: data,
-      onTask: onTask
+      task: &task
     )
   }
 

@@ -11,13 +11,8 @@ import PromiseKit
 
 let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
-final class PinsState: ObservableObject {
+final class PinsState: AsyncState {
   @Published var pins: [Pin] = []
-  @Published var task: URLSessionDataTask?
-
-  var isLoading: Bool {
-    return task?.isLoading == true
-  }
 
   init(_ initial: [Pin]? = nil) {
     if let pins = initial {
@@ -37,14 +32,9 @@ final class PinsState: ObservableObject {
     firstly {
       Piny.api.get(
         [Pin].self,
-        path: "/\(user.name)/bookmarks"
-      ) { task in
-        self.task?.cancel()
-        self.task = task
-      }
-      .ensure {
-        self.task = nil
-      }
+        path: "/\(user.name)/bookmarks",
+        task: &task
+      )
     }.get { pins in
       self.pins = pins
 
@@ -68,12 +58,8 @@ final class PinsState: ObservableObject {
         "privacy": privacy.rawValue,
         "title": title,
         "description": description,
-      ]
-    ) { task in
-      self.task?.cancel()
-      self.task = task
-    }.ensure {
-      self.task = nil
-    }
+      ],
+      task: &task
+    )
   }
 }

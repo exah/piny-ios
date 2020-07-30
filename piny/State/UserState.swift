@@ -11,13 +11,8 @@ import PromiseKit
 
 let PREVIEW_USER: User = loadJSON("user.json")
 
-final class UserState: ObservableObject {
+final class UserState: AsyncState {
   @Published var user: User?
-  @Published var task: URLSessionDataTask?
-
-  var isLoading: Bool {
-    return task?.isLoading == true
-  }
 
   var isLoggedIn: Bool {
     return user?.token != nil
@@ -42,14 +37,9 @@ final class UserState: ObservableObject {
   private func fetchUser(name: String) -> Promise<User> {
     Piny.api.get(
       User.self,
-      path: "/\(name)"
-    ) { task in
-      self.task?.cancel()
-      self.task = task
-    }
-    .ensure {
-      self.task = nil
-    }
+      path: "/\(name)",
+      task: &task
+    )
   }
 
   func login(name: String, pass: String) -> Promise<Void> {
@@ -57,14 +47,9 @@ final class UserState: ObservableObject {
       Piny.api.post(
         Authorisation.self,
         path: "/login",
-        data: [ "user": name, "pass": pass ]
-      ) { task in
-        self.task?.cancel()
-        self.task = task
-      }
-      .ensure {
-        self.task = nil
-      }
+        data: [ "user": name, "pass": pass ],
+        task: &task
+      )
     }.get { auth in
       log("Token: \(auth.token)")
 

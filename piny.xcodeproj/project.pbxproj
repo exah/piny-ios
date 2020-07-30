@@ -20,6 +20,8 @@
 		094F3F4124C8FA00004F0F84 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
 		095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
+		0963331524D295EA000D5506 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0963331424D295EA000D5506 /* AsyncState.swift */; };
+		0963331624D295EA000D5506 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0963331424D295EA000D5506 /* AsyncState.swift */; };
 		0969B04E24CF06140013B066 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		0969B05024CF20570013B066 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
 		0969B05124CF205A0013B066 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
@@ -120,6 +122,7 @@
 		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
 		094F3F4024C8FA00004F0F84 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
+		0963331424D295EA000D5506 /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -334,6 +337,7 @@
 		09DEB76E24BE45D9001CE612 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				0963331424D295EA000D5506 /* AsyncState.swift */,
 				09DEB76F24BE45ED001CE612 /* UserState.swift */,
 				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
 			);
@@ -553,6 +557,7 @@
 				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
 				0969B05424CF207A0013B066 /* Piny.swift in Sources */,
 				0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */,
+				0963331624D295EA000D5506 /* AsyncState.swift in Sources */,
 				0969B05224CF20630013B066 /* API.swift in Sources */,
 				0969B05124CF205A0013B066 /* Persistable.swift in Sources */,
 			);
@@ -576,6 +581,7 @@
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
 				095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */,
 				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
+				0963331524D295EA000D5506 /* AsyncState.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,
