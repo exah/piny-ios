@@ -11,7 +11,7 @@ import PromiseKit
 
 let PREVIEW_USER: User = loadJSON("user.json")
 
-final class UserState: ObservableObject {
+final class UserState: ObservableObject, AsyncState {
   @Published var user: User?
   @Published var isLoading: Bool = false
 
@@ -30,14 +30,6 @@ final class UserState: ObservableObject {
       }
 
       log("Fetched from store users(\(users.count)): \(users)")
-    }
-  }
-
-  private func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
-    self.isLoading = true
-
-    return body().ensure {
-      self.isLoading = false
     }
   }
 

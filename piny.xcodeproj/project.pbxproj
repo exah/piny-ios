@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* AsyncState.swift */; };
 		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
 		0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0944686324CDEDB900CB9D9F /* Media.xcassets */; };
 		0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944686524CDEDB900CB9D9F /* ActionViewController.swift */; };
@@ -38,6 +39,7 @@
 		0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
 		0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
 		0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
+		09735BD724D47418009E765E /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* AsyncState.swift */; };
 		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
 		09752F6624C0DCBD003E1B24 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6524C0DCBD003E1B24 /* Root.swift */; };
 		09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
@@ -108,6 +110,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		093A99AD24D46FA600ADBB0A /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
 		0944686124CDEDB900CB9D9F /* pinyAdd.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = pinyAdd.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0944686324CDEDB900CB9D9F /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -334,6 +337,7 @@
 		09DEB76E24BE45D9001CE612 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				093A99AD24D46FA600ADBB0A /* AsyncState.swift */,
 				09DEB76F24BE45ED001CE612 /* UserState.swift */,
 				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
 			);
@@ -553,6 +557,7 @@
 				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
 				0969B05424CF207A0013B066 /* Piny.swift in Sources */,
 				0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */,
+				09735BD724D47418009E765E /* AsyncState.swift in Sources */,
 				0969B05224CF20630013B066 /* API.swift in Sources */,
 				0969B05124CF205A0013B066 /* Persistable.swift in Sources */,
 			);
@@ -588,6 +593,7 @@
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
+				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

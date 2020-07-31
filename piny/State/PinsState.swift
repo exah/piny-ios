@@ -11,7 +11,7 @@ import PromiseKit
 
 let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
-final class PinsState: ObservableObject {
+final class PinsState: ObservableObject, AsyncState {
   @Published var pins: [Pin] = []
   @Published var isLoading: Bool = false
 
@@ -26,14 +26,6 @@ final class PinsState: ObservableObject {
       }
 
       log("Fetched from store pins(\(pins.count)): \(pins)")
-    }
-  }
-
-  private func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
-    self.isLoading = true
-
-    return body().ensure {
-      self.isLoading = false
     }
   }
 
