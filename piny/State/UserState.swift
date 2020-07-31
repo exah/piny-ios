@@ -13,15 +13,9 @@ let PREVIEW_USER: User = loadJSON("user.json")
 
 final class UserState: ObservableObject {
   @Published var user: User?
-  @Published var task: URLSessionDataTask?
+  @Published var isLoading: Bool = false
 
-  var isLoading: Bool {
-    return task?.isLoading == true
-  }
-
-  var isLoggedIn: Bool {
-    return user?.token != nil
-  }
+  var isLoggedIn: Bool { user?.token != nil }
 
   init(_ initial: User? = nil) {
     if let user = initial {
@@ -39,46 +33,44 @@ final class UserState: ObservableObject {
     }
   }
 
+  private func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
+    self.isLoading = true
+
+    return body().ensure {
+      self.isLoading = false
+    }
+  }
+
   private func fetchUser(name: String) -> Promise<User> {
     Piny.api.get(
       User.self,
       path: "/\(name)"
-    ) { task in
-      self.task?.cancel()
-      self.task = task
-    }
-    .ensure {
-      self.task = nil
-    }
+    )
   }
 
   func login(name: String, pass: String) -> Promise<Void> {
-    firstly {
+    capture {
       Piny.api.post(
         Authorisation.self,
         path: "/login",
         data: [ "user": name, "pass": pass ]
-      ) { task in
-        self.task?.cancel()
-        self.task = task
+      )
+      .get { auth in
+        log("Token: \(auth.token)")
+
+        Piny.api.token = auth.token
       }
-      .ensure {
-        self.task = nil
+      .then { auth in
+        self.fetchUser(name: name).map { user in (auth, user) }
+      }.done { auth, user in
+        log("User: \(user)")
+
+        self.user = user
+        self.user?.token = auth.token
+
+        Piny.storage.remove(User.self)
+        Piny.storage.save(self.user!)
       }
-    }.get { auth in
-      log("Token: \(auth.token)")
-
-      Piny.api.token = auth.token
-    }.then { auth in
-      self.fetchUser(name: name).map { user in (auth, user) }
-    }.done { auth, user in
-      log("User: \(user)")
-
-      self.user = user
-      self.user?.token = auth.token
-
-      Piny.storage.remove(User.self)
-      Piny.storage.save(self.user!)
     }
   }
 }

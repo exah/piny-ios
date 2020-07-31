@@ -23,12 +23,6 @@ private extension URLResponse {
   }
 }
 
-extension URLSessionDataTask {
-  var isLoading: Bool {
-    return self.state == .running
-  }
-}
-
 struct API {
   var baseURL: String
   var token: String? = nil

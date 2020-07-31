@@ -13,11 +13,7 @@ let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
 final class PinsState: ObservableObject {
   @Published var pins: [Pin] = []
-  @Published var task: URLSessionDataTask?
-
-  var isLoading: Bool {
-    return task?.isLoading == true
-  }
+  @Published var isLoading: Bool = false
 
   init(_ initial: [Pin]? = nil) {
     if let pins = initial {
@@ -33,23 +29,25 @@ final class PinsState: ObservableObject {
     }
   }
 
+  private func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
+    self.isLoading = true
+
+    return body().ensure {
+      self.isLoading = false
+    }
+  }
+
   func fetch(for user: User) -> Promise<[Pin]> {
-    firstly {
+    capture {
       Piny.api.get(
         [Pin].self,
         path: "/\(user.name)/bookmarks"
-      ) { task in
-        self.task?.cancel()
-        self.task = task
-      }
-      .ensure {
-        self.task = nil
-      }
-    }.get { pins in
-      self.pins = pins
+      ).get { pins in
+        self.pins = pins
 
-      Piny.storage.remove(Pin.self)
-      Piny.storage.save(pins)
+        Piny.storage.remove(Pin.self)
+        Piny.storage.save(pins)
+      }
     }
   }
 
@@ -60,20 +58,17 @@ final class PinsState: ObservableObject {
     url: URL,
     privacy: PrivacyType
   ) -> Promise<API.Message> {
-    Piny.api.post(
-      API.Message.self,
-      path: "/\(user.name)/bookmarks",
-      data: [
-        "url": url.absoluteString,
-        "privacy": privacy.rawValue,
-        "title": title,
-        "description": description,
-      ]
-    ) { task in
-      self.task?.cancel()
-      self.task = task
-    }.ensure {
-      self.task = nil
+    capture {
+      Piny.api.post(
+        API.Message.self,
+        path: "/\(user.name)/bookmarks",
+        data: [
+          "url": url.absoluteString,
+          "privacy": privacy.rawValue,
+          "title": title,
+          "description": description,
+        ]
+      )
     }
   }
 }
