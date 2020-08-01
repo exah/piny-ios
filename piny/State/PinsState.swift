@@ -11,7 +11,7 @@ import PromiseKit
 
 let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
 
-final class PinsState: ObservableObject, AsyncState {
+final class PinsState: AsyncState {
   @Published var pins: [Pin] = []
   @Published var isLoading: Bool = false
 

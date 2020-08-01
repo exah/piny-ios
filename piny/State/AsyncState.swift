@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-protocol AsyncState: class {
+protocol AsyncState: ObservableObject {
   var isLoading: Bool { get set }
 
   func capture<T>(_ body: () -> Promise<T>) -> Promise<T>
