@@ -25,12 +25,11 @@
 		0969B05024CF20570013B066 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
 		0969B05124CF205A0013B066 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		0969B05224CF20630013B066 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
-		0969B05324CF206E0013B066 /* loadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D624C059AC0021CC4A /* loadJSON.swift */; };
 		0969B05424CF207A0013B066 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		0969B05524CF20A90013B066 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		0969B05624CF20A90013B066 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
-		0969B05724CF20BD0013B066 /* pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* pins.json */; };
-		0969B05824CF20BD0013B066 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* user.json */; };
+		0969B05724CF20BD0013B066 /* preview-pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* preview-pins.json */; };
+		0969B05824CF20BD0013B066 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
 		0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DA24C0CB380021CC4A /* Authorisation.swift */; };
 		0969B05A24CF20CE0013B066 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
 		0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054324C79075003609F0 /* PinTag.swift */; };
@@ -46,6 +45,11 @@
 		097A054024C76F84003609F0 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		097A054224C79056003609F0 /* PinLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054124C79056003609F0 /* PinLink.swift */; };
 		097A054424C79075003609F0 /* PinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054324C79075003609F0 /* PinTag.swift */; };
+		097D48A624D6C5D800C926A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099156DA24BB996B0041938C /* Preview Assets.xcassets */; };
+		097D48A824D6C61400C926A3 /* PreviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48A724D6C61400C926A3 /* PreviewContent.swift */; };
+		097D48A924D6C61400C926A3 /* PreviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48A724D6C61400C926A3 /* PreviewContent.swift */; };
+		097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48AA24D6C7E300C926A3 /* JSON.swift */; };
+		097D48AC24D6C9F900C926A3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48AA24D6C7E300C926A3 /* JSON.swift */; };
 		099156CF24BB99690041938C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156CE24BB99690041938C /* AppDelegate.swift */; };
 		099156D124BB99690041938C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156D024BB99690041938C /* SceneDelegate.swift */; };
 		099156D424BB99690041938C /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
@@ -56,16 +60,15 @@
 		099156F424BB996B0041938C /* pinyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156F324BB996B0041938C /* pinyUITests.swift */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
-		09AFB4C824CDDC8700E6D9E3 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* user.json */; };
+		09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
-		09EA169224BE9F090028121D /* pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* pins.json */; };
+		09EA169224BE9F090028121D /* preview-pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* preview-pins.json */; };
 		09EA169424BE9FF70028121D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
 		09EA169624BEA32B0028121D /* PinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169524BEA32B0028121D /* PinList.swift */; };
 		09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CA24BEAB990021CC4A /* PinRow.swift */; };
 		09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */; };
 		09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CE24BEB31F0021CC4A /* WebView.swift */; };
 		09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D324C0514A0021CC4A /* WebViewController.swift */; };
-		09EB08D724C059AC0021CC4A /* loadJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D624C059AC0021CC4A /* loadJSON.swift */; };
 		09EB08D924C0A2690021CC4A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
 		09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DA24C0CB380021CC4A /* Authorisation.swift */; };
 		09EB08DD24C0CB580021CC4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DC24C0CB580021CC4A /* User.swift */; };
@@ -131,6 +134,8 @@
 		097A053F24C76F84003609F0 /* Persistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		097A054124C79056003609F0 /* PinLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinLink.swift; sourceTree = "<group>"; };
 		097A054324C79075003609F0 /* PinTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinTag.swift; sourceTree = "<group>"; };
+		097D48A724D6C61400C926A3 /* PreviewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewContent.swift; sourceTree = "<group>"; };
+		097D48AA24D6C7E300C926A3 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		099156CB24BB99690041938C /* piny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = piny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156CE24BB99690041938C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		099156D024BB99690041938C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -147,16 +152,15 @@
 		099156F524BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
-		09AFB4C724CDDC8700E6D9E3 /* user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
+		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
-		09EA169124BE9F090028121D /* pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pins.json; sourceTree = "<group>"; };
+		09EA169124BE9F090028121D /* preview-pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-pins.json"; sourceTree = "<group>"; };
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		09EA169524BEA32B0028121D /* PinList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinList.swift; sourceTree = "<group>"; };
 		09EB08CA24BEAB990021CC4A /* PinRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRow.swift; sourceTree = "<group>"; };
 		09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRowTags.swift; sourceTree = "<group>"; };
 		09EB08CE24BEB31F0021CC4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		09EB08D324C0514A0021CC4A /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		09EB08D624C059AC0021CC4A /* loadJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadJSON.swift; sourceTree = "<group>"; };
 		09EB08D824C0A2690021CC4A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		09EB08DA24C0CB380021CC4A /* Authorisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorisation.swift; sourceTree = "<group>"; };
 		09EB08DC24C0CB580021CC4A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -221,11 +225,11 @@
 		09481C3524D6480A00E874F9 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				0991570924BCAB750041938C /* Resources */,
 				09EB08D524C059890021CC4A /* Helpers */,
 				0991571024BCAD3B0041938C /* Models */,
 				09DEB76E24BE45D9001CE612 /* State */,
 				0969B05E24CF4F460013B066 /* Styles */,
+				099156D924BB996B0041938C /* Preview Content */,
 				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
 				099156D224BB99690041938C /* piny.xcdatamodeld */,
 			);
@@ -283,7 +287,6 @@
 				099156D724BB996B0041938C /* Assets.xcassets */,
 				099156DC24BB996B0041938C /* LaunchScreen.storyboard */,
 				099156DF24BB996B0041938C /* Info.plist */,
-				099156D924BB996B0041938C /* Preview Content */,
 			);
 			path = piny;
 			sourceTree = "<group>";
@@ -292,6 +295,9 @@
 			isa = PBXGroup;
 			children = (
 				099156DA24BB996B0041938C /* Preview Assets.xcassets */,
+				09EA169124BE9F090028121D /* preview-pins.json */,
+				09AFB4C724CDDC8700E6D9E3 /* preview-user.json */,
+				097D48A724D6C61400C926A3 /* PreviewContent.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -326,15 +332,6 @@
 				09752F6524C0DCBD003E1B24 /* Root.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		0991570924BCAB750041938C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				09EA169124BE9F090028121D /* pins.json */,
-				09AFB4C724CDDC8700E6D9E3 /* user.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		0991571024BCAD3B0041938C /* Models */ = {
@@ -372,9 +369,9 @@
 			isa = PBXGroup;
 			children = (
 				09EB08D824C0A2690021CC4A /* API.swift */,
+				097D48AA24D6C7E300C926A3 /* JSON.swift */,
 				09752FAA24C2FE89003E1B24 /* Storage.swift */,
 				097A053F24C76F84003609F0 /* Persistable.swift */,
-				09EB08D624C059AC0021CC4A /* loadJSON.swift */,
 				094F3F4024C8FA00004F0F84 /* log.swift */,
 			);
 			path = Helpers;
@@ -516,11 +513,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0969B05824CF20BD0013B066 /* user.json in Resources */,
+				0969B05824CF20BD0013B066 /* preview-user.json in Resources */,
+				097D48A624D6C5D800C926A3 /* Preview Assets.xcassets in Resources */,
 				0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */,
 				0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */,
 				094855CF24D0D1D400C38309 /* ExtensionPreprocessing.js in Resources */,
-				0969B05724CF20BD0013B066 /* pins.json in Resources */,
+				0969B05724CF20BD0013B066 /* preview-pins.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,10 +527,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */,
-				09EA169224BE9F090028121D /* pins.json in Resources */,
+				09EA169224BE9F090028121D /* preview-pins.json in Resources */,
 				099156DB24BB996B0041938C /* Preview Assets.xcassets in Resources */,
 				099156D824BB996B0041938C /* Assets.xcassets in Resources */,
-				09AFB4C824CDDC8700E6D9E3 /* user.json in Resources */,
+				09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,17 +555,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				097D48A924D6C61400C926A3 /* PreviewContent.swift in Sources */,
 				0969B05524CF20A90013B066 /* UserState.swift in Sources */,
 				0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */,
 				0969B05024CF20570013B066 /* Storage.swift in Sources */,
 				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
 				0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */,
 				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
-				0969B05324CF206E0013B066 /* loadJSON.swift in Sources */,
 				0969B04E24CF06140013B066 /* log.swift in Sources */,
 				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
 				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
+				097D48AC24D6C9F900C926A3 /* JSON.swift in Sources */,
 				094855D824D102C700C38309 /* ParsedPage.swift in Sources */,
 				095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */,
 				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
@@ -585,9 +584,9 @@
 			files = (
 				099156CF24BB99690041938C /* AppDelegate.swift in Sources */,
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
+				097D48A824D6C61400C926A3 /* PreviewContent.swift in Sources */,
 				0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
-				09EB08D724C059AC0021CC4A /* loadJSON.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
 				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
 				097A054424C79075003609F0 /* PinTag.swift in Sources */,
@@ -609,6 +608,7 @@
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
+				097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */,
 				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 			);
@@ -835,7 +835,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"piny/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
@@ -858,7 +858,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"piny/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;

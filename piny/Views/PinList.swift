@@ -32,6 +32,6 @@ struct PinList: View {
 
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
-    PinList(pins: PREVIEW_PINS)
+    PinList(pins: PreviewContent.pins)
   }
 }

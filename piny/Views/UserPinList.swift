@@ -32,7 +32,7 @@ struct UserPinList: View {
 
 struct UserPinList_Previews: PreviewProvider {
   static var previews: some View {
-    UserPinList(user: PREVIEW_USER)
-      .environmentObject(PinsState(PREVIEW_PINS))
+    UserPinList(user: PreviewContent.user)
+      .environmentObject(PinsState(PreviewContent.pins))
   }
 }

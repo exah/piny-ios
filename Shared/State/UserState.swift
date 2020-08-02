@@ -9,8 +9,6 @@
 import Foundation
 import PromiseKit
 
-let PREVIEW_USER: User = loadJSON("user.json")
-
 final class UserState: AsyncState {
   @Published var user: User?
   @Published var isLoading: Bool = false

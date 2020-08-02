@@ -9,8 +9,6 @@
 import Foundation
 import PromiseKit
 
-let PREVIEW_PINS: [Pin] = loadJSON("pins.json")
-
 final class PinsState: AsyncState {
   @Published var pins: [Pin] = []
   @Published var isLoading: Bool = false
@@ -48,7 +46,7 @@ final class PinsState: AsyncState {
     title: String? = nil,
     description: String? = nil,
     url: URL,
-    privacy: PinPrivacy
+    privacy: Pin.Privacy
   ) -> Promise<API.Message> {
     capture {
       Piny.api.post(

@@ -9,22 +9,22 @@
 import Foundation
 import CoreData
 
-enum PinState: String, Codable {
-  case ACTIVE = "active"
-  case REMOVED = "removed"
-}
-
-enum PinPrivacy: String, Codable {
-  case PUBLIC = "public"
-  case PRIVATE = "private"
-}
-
 struct Pin: Hashable, Codable, Identifiable {
+  enum State: String, Codable {
+    case ACTIVE = "active"
+    case REMOVED = "removed"
+  }
+
+  enum Privacy: String, Codable {
+    case PUBLIC = "public"
+    case PRIVATE = "private"
+  }
+
   var id: UUID
   var title: String?
   var description: String?
-  var state: PinState
-  var privacy: PinPrivacy
+  var state: Pin.State
+  var privacy: Pin.Privacy
   var link: PinLink
   var tags: [PinTag]
   var createdAt: Date
@@ -37,8 +37,8 @@ extension Pin: Persistable {
       id: object.id,
       title: object.title,
       description: object.desc,
-      state: PinState(rawValue: object.state)!,
-      privacy: PinPrivacy(rawValue: object.privacy)!,
+      state: Pin.State(rawValue: object.state)!,
+      privacy: Pin.Privacy(rawValue: object.privacy)!,
       link: PinLink.fromObject(object.link),
       tags: Array(object.tags).map { tag in
         PinTag.fromObject(tag)

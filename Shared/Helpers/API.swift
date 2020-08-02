@@ -28,16 +28,6 @@ struct API {
   var token: String? = nil
 
   private let session = URLSession(configuration: .default)
-  private let decoder: JSONDecoder = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .formatted(dateFormatter)
-
-    return decoder
-  }()
 
   func fetch<T: Decodable>(
     _ type: T.Type,
@@ -75,7 +65,7 @@ struct API {
         if let response = response {
           if response.isOK() {
             do {
-              let json = try self.decoder.decode(T.self, from: data!)
+              let json = try JSON().decode(T.self, from: data!)
 
               DispatchQueue.main.async {
                 seal.fulfill(json)
