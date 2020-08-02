@@ -17,7 +17,8 @@ final class PinsState: AsyncState {
     if let pins = initial {
       self.pins = pins
     } else {
-      let pins = Piny.storage.fetch(Pin.self)
+      let sort = NSSortDescriptor(key: "createdAt", ascending: false)
+      let pins = Piny.storage.fetch(Pin.self, sortDescriptors: [sort])
 
       if pins.count > 0 {
         self.pins = pins
