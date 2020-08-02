@@ -9,17 +9,26 @@
 import Foundation
 import CoreData
 
-enum PrivacyType: String, Codable {
-  case Public = "public"
+enum PinState: String, Codable {
+  case ACTIVE = "active"
+  case REMOVED = "removed"
+}
+
+enum PinPrivacy: String, Codable {
+  case PUBLIC = "public"
+  case PRIVATE = "private"
 }
 
 struct Pin: Hashable, Codable, Identifiable {
   var id: UUID
   var title: String?
   var description: String?
-  var privacy: PrivacyType
+  var state: PinState
+  var privacy: PinPrivacy
   var link: PinLink
   var tags: [PinTag]
+  var createdAt: Date
+  var updatedAt: Date
 }
 
 extension Pin: Persistable {
@@ -28,11 +37,14 @@ extension Pin: Persistable {
       id: object.id,
       title: object.title,
       description: object.desc,
-      privacy: PrivacyType(rawValue: object.privacy)!,
+      state: PinState(rawValue: object.state)!,
+      privacy: PinPrivacy(rawValue: object.privacy)!,
       link: PinLink.fromObject(object.link),
       tags: Array(object.tags).map { tag in
         PinTag.fromObject(tag)
-      }
+      },
+      createdAt: object.createdAt,
+      updatedAt: object.updatedAt
     )
   }
 
@@ -42,11 +54,14 @@ extension Pin: Persistable {
     entity.id = id
     entity.title = title
     entity.desc = description
+    entity.state = state.rawValue
     entity.privacy = privacy.rawValue
     entity.link = link.toObject(in: context)
     entity.tags = Set(tags.map { tag in
       tag.toObject(in: context)
     })
+    entity.createdAt = createdAt
+    entity.updatedAt = updatedAt
 
     return entity
   }
@@ -57,6 +72,9 @@ class DBPin: NSManagedObject {
   @NSManaged var title: String?
   @NSManaged var desc: String?
   @NSManaged var privacy: String
+  @NSManaged var state: String
   @NSManaged var link: DBPinLink
   @NSManaged var tags: Set<DBPinTag>
+  @NSManaged var createdAt: Date
+  @NSManaged var updatedAt: Date
 }

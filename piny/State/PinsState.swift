@@ -48,7 +48,7 @@ final class PinsState: AsyncState {
     title: String? = nil,
     description: String? = nil,
     url: URL,
-    privacy: PrivacyType
+    privacy: PinPrivacy
   ) -> Promise<API.Message> {
     capture {
       Piny.api.post(

@@ -42,7 +42,7 @@ struct QuickAdd: View {
         for: user,
         title: page.title,
         url: page.url,
-        privacy: .Public
+        privacy: .PUBLIC
       ).map { _ in
         page
       }
