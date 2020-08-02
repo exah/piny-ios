@@ -13,18 +13,32 @@ struct UserPinList: View {
   @EnvironmentObject var pinsState: PinsState
   var user: User
 
-  func loadData() {
+  func load() {
     firstly {
-      pinsState.fetch(for: user)
+      pinsState.fetch()
     }.catch { error in
       log(error, .error)
     }
   }
 
+  func remove(_ offsets: IndexSet) {
+    for index in offsets {
+      let pin = pinsState.pins[index]
+
+      self.pinsState.remove(pin).catch { error in
+        log(error, .error)
+      }
+    }
+  }
+
   var body: some View {
-    PinList(pins: pinsState.pins, onAppear: loadData)
+    PinList(
+      pins: pinsState.pins,
+      onAppear: load,
+      onDelete: remove
+    )
       .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-        self.loadData()
+        self.load()
       }
   }
 }

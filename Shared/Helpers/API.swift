@@ -118,34 +118,60 @@ struct API {
     )
   }
 
+  func patch<T: Decodable>(
+    _ type: T.Type,
+    path: String,
+    data: Decodable,
+    onTask: TaskHandler? = nil
+  ) -> Promise<T> {
+    return fetch(
+      type,
+      method: "PATCH",
+      path: path,
+      data: data,
+      onTask: onTask
+    )
+  }
+
+  func delete<T: Decodable>(
+    _ type: T.Type,
+    path: String,
+    onTask: TaskHandler? = nil
+  ) -> Promise<T> {
+    return fetch(
+      type,
+      method: "DELETE",
+      path: path,
+      onTask: onTask
+    )
+  }
+
   typealias TaskHandler = (_ task: URLSessionDataTask) -> Void
 
-  enum Error: Swift.Error {
+  enum Error: Swift.Error, CustomStringConvertible {
     case serializationFailed(data: Any?, underlyingError: Swift.Error)
     case parsingFailed(data: Any?, underlyingError: Swift.Error)
     case requestFailed(path: String, underlyingError: Swift.Error)
     case notOK(path: String, statusCode: Int?, message: API.Message?)
+
+    var description: String {
+      switch self {
+        case .serializationFailed(let data, let underlyingError):
+          return "API.Error: Can't serialize body JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
+        case .requestFailed(let path, let underlyingError):
+          return "API.Error: Can't fetch '\(path)'\n\(String(describing: underlyingError))"
+        case .parsingFailed(let data, let underlyingError):
+          return "API.Error: Can't parse result JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
+        case .notOK(let path, let statusCode, let message):
+          return "API.Error: Request \(path), status: '\(statusCode ?? 0)'\n\(String(describing: message))"
+      }
+    }
   }
 
   struct Message: Decodable, CustomStringConvertible {
     let message: String
     var description: String {
       return message
-    }
-  }
-}
-
-extension API.Error: CustomStringConvertible {
-  var description: String {
-    switch self {
-      case .serializationFailed(let data, let underlyingError):
-        return "API.Error: Can't serialize body JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
-      case .requestFailed(let path, let underlyingError):
-        return "API.Error: Can't fetch '\(path)'\n\(String(describing: underlyingError))"
-      case .parsingFailed(let data, let underlyingError):
-        return "API.Error: Can't parse result JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
-      case .notOK(let path, let statusCode, let message):
-        return "API.Error: Request \(path), status: '\(statusCode ?? 0)'\n\(String(describing: message))"
     }
   }
 }

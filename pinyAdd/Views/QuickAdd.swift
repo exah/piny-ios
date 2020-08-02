@@ -30,16 +30,11 @@ struct QuickAdd: View {
   }
 
   func handleAppear() {
-    guard let user = self.userState.user else {
-      return
-    }
-
     firstly {
       self.getInput()
     }
     .then { page in
       self.pinsState.create(
-        for: user,
         title: page.title,
         url: page.url,
         privacy: .PUBLIC

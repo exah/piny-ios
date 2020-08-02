@@ -28,11 +28,11 @@ final class PinsState: AsyncState {
     }
   }
 
-  func fetch(for user: User) -> Promise<[Pin]> {
+  func fetch() -> Promise<[Pin]> {
     capture {
       Piny.api.get(
         [Pin].self,
-        path: "/\(user.name)/bookmarks"
+        path: "/bookmarks"
       ).get { pins in
         self.pins = pins
 
@@ -43,7 +43,6 @@ final class PinsState: AsyncState {
   }
 
   func create(
-    for user: User,
     title: String? = nil,
     description: String? = nil,
     url: URL,
@@ -52,7 +51,7 @@ final class PinsState: AsyncState {
     capture {
       Piny.api.post(
         API.Message.self,
-        path: "/\(user.name)/bookmarks",
+        path: "/bookmarks",
         data: [
           "url": url.absoluteString,
           "privacy": privacy.rawValue,
@@ -60,6 +59,48 @@ final class PinsState: AsyncState {
           "description": description,
         ]
       )
+    }
+  }
+
+  func edit(
+    _ pin: Pin,
+    title: String? = nil,
+    description: String? = nil,
+    url: URL,
+    privacy: Pin.Privacy
+  ) -> Promise<Pin> {
+    firstly {
+      Piny.api.patch(
+        API.Message.self,
+        path: "/bookmarks/\(pin.getId())",
+        data: [
+          "url": url.absoluteString,
+          "privacy": privacy.rawValue,
+          "title": title,
+          "description": description,
+        ]
+      )
+    }.then { _ in
+      Piny.api.get(
+        Pin.self,
+        path: "/bookmarks/\(pin.getId())"
+      )
+    }.get { pin in
+      Piny.storage.save(pin)
+    }
+  }
+
+  func remove(_ pin: Pin) -> Promise<Void> {
+    firstly {
+      Piny.api.delete(
+        API.Message.self,
+        path: "/bookmarks/\(pin.getId())"
+      )
+    }.done { _ in
+      if let index = self.pins.firstIndex(of: pin) {
+        Piny.storage.remove(pin)
+        self.pins.remove(at: index)
+      }
     }
   }
 }

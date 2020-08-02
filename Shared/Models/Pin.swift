@@ -10,6 +10,16 @@ import Foundation
 import CoreData
 
 struct Pin: Hashable, Codable, Identifiable {
+  var id: UUID
+  var title: String?
+  var description: String?
+  var state: Pin.State
+  var privacy: Pin.Privacy
+  var link: PinLink
+  var tags: [PinTag]
+  var createdAt: Date
+  var updatedAt: Date
+
   enum State: String, Codable {
     case ACTIVE = "active"
     case REMOVED = "removed"
@@ -20,15 +30,9 @@ struct Pin: Hashable, Codable, Identifiable {
     case PRIVATE = "private"
   }
 
-  var id: UUID
-  var title: String?
-  var description: String?
-  var state: Pin.State
-  var privacy: Pin.Privacy
-  var link: PinLink
-  var tags: [PinTag]
-  var createdAt: Date
-  var updatedAt: Date
+  func getId() -> String {
+    self.id.uuidString.lowercased()
+  }
 }
 
 extension Pin: Persistable {

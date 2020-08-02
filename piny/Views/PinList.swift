@@ -13,6 +13,7 @@ struct PinList: View {
 
   var pins: [Pin] = []
   var onAppear: (() -> Void)? = nil
+  var onDelete: ((_ offsets: IndexSet) -> Void)? = nil
 
   var body: some View {
     List {
@@ -22,7 +23,7 @@ struct PinList: View {
         }) {
           PinRow(pin: pin).padding(.vertical, 8)
         }
-      }
+      }.onDelete(perform: onDelete)
     }
     .onAppear(perform: onAppear)
     .sheet(item: $link, onDismiss: onAppear) { link in
