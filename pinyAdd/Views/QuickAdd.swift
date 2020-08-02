@@ -50,6 +50,11 @@ struct QuickAdd: View {
 
       log(error, .error)
     }
+    .finally {
+      DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
+        self.handleComplete()
+      }
+    }
   }
 
   func handleComplete() {
