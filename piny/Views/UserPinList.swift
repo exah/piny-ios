@@ -11,9 +11,9 @@ import PromiseKit
 
 struct UserPinList: View {
   @EnvironmentObject var pinsState: PinsState
-
   var user: User
-  func handleAppear() {
+
+  func loadData() {
     firstly {
       pinsState.fetch(for: user)
     }.catch { error in
@@ -22,10 +22,9 @@ struct UserPinList: View {
   }
 
   var body: some View {
-    PinList(pins: pinsState.pins)
-      .onAppear(perform: handleAppear)
+    PinList(pins: pinsState.pins, onAppear: loadData)
       .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-        self.handleAppear()
+        self.loadData()
       }
   }
 }

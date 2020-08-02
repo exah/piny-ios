@@ -12,6 +12,7 @@ struct PinList: View {
   @State var link: PinLink?
 
   var pins: [Pin] = []
+  var onAppear: (() -> Void)? = nil
 
   var body: some View {
     List {
@@ -23,10 +24,11 @@ struct PinList: View {
         }
       }
     }
-    .sheet(item: $link, content: { link in
+    .onAppear(perform: onAppear)
+    .sheet(item: $link, onDismiss: onAppear) { link in
       WebView(url: link.url)
         .edgesIgnoringSafeArea(.all)
-    })
+    }
   }
 }
 
