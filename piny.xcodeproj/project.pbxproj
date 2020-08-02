@@ -199,6 +199,7 @@
 		0944686224CDEDB900CB9D9F /* pinyAdd */ = {
 			isa = PBXGroup;
 			children = (
+				09481C3424D647E100E874F9 /* Views */,
 				0944687924CE003F00CB9D9F /* pinyAdd.entitlements */,
 				0944686324CDEDB900CB9D9F /* Media.xcassets */,
 				094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */,
@@ -207,6 +208,28 @@
 				0944686A24CDEDB900CB9D9F /* Info.plist */,
 			);
 			path = pinyAdd;
+			sourceTree = "<group>";
+		};
+		09481C3424D647E100E874F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				095F88DC24CE066400793A9E /* QuickAdd.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		09481C3524D6480A00E874F9 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0991570924BCAB750041938C /* Resources */,
+				09EB08D524C059890021CC4A /* Helpers */,
+				0991571024BCAD3B0041938C /* Models */,
+				09DEB76E24BE45D9001CE612 /* State */,
+				0969B05E24CF4F460013B066 /* Styles */,
+				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
+				099156D224BB99690041938C /* piny.xcdatamodeld */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		094855D324D0E9B000C38309 /* Frameworks */ = {
@@ -228,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				09752FA624C22A6C003E1B24 /* README.md */,
+				09481C3524D6480A00E874F9 /* Shared */,
 				099156CD24BB99690041938C /* piny */,
 				099156E724BB996B0041938C /* pinyTests */,
 				099156F224BB996B0041938C /* pinyUITests */,
@@ -252,20 +276,13 @@
 			isa = PBXGroup;
 			children = (
 				0944687824CE003100CB9D9F /* piny.entitlements */,
-				0991570924BCAB750041938C /* Resources */,
-				09EB08D524C059890021CC4A /* Helpers */,
 				09EB08D224C051380021CC4A /* Controllers */,
-				0991571024BCAD3B0041938C /* Models */,
-				09DEB76E24BE45D9001CE612 /* State */,
-				0969B05E24CF4F460013B066 /* Styles */,
 				0991570724BC60460041938C /* Views */,
 				099156CE24BB99690041938C /* AppDelegate.swift */,
 				099156D024BB99690041938C /* SceneDelegate.swift */,
-				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
 				099156D724BB996B0041938C /* Assets.xcassets */,
 				099156DC24BB996B0041938C /* LaunchScreen.storyboard */,
 				099156DF24BB996B0041938C /* Info.plist */,
-				099156D224BB99690041938C /* piny.xcdatamodeld */,
 				099156D924BB996B0041938C /* Preview Content */,
 			);
 			path = piny;
@@ -300,7 +317,6 @@
 		0991570724BC60460041938C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				095F88DC24CE066400793A9E /* QuickAdd.swift */,
 				09EA169524BEA32B0028121D /* PinList.swift */,
 				09EB08CA24BEAB990021CC4A /* PinRow.swift */,
 				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
