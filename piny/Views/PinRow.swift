@@ -16,11 +16,14 @@ struct PinRow: View {
       VStack(alignment: .leading, spacing: 8) {
         if (pin.title != nil) {
           Text(pin.title!)
+            .lineLimit(1)
         }
         if (pin.description != nil) {
           Text(pin.description!)
+            .lineLimit(2)
         }
         Text("\(pin.link.url)")
+          .lineLimit(1)
         PinRowTags(tags: pin.tags)
       }
       
