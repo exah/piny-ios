@@ -16,6 +16,7 @@ struct PinRow: View {
       VStack(alignment: .leading, spacing: 8) {
         if (pin.title != nil) {
           Text(pin.title!)
+            .fontWeight(.semibold)
             .lineLimit(1)
         }
         if (pin.description != nil) {

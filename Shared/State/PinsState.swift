@@ -66,18 +66,16 @@ final class PinsState: AsyncState {
     _ pin: Pin,
     title: String? = nil,
     description: String? = nil,
-    url: URL,
-    privacy: Pin.Privacy
+    privacy: Pin.Privacy? = nil
   ) -> Promise<Pin> {
     firstly {
       Piny.api.patch(
         API.Message.self,
         path: "/bookmarks/\(pin.getId())",
         data: [
-          "url": url.absoluteString,
-          "privacy": privacy.rawValue,
-          "title": title,
-          "description": description,
+          "privacy": privacy?.rawValue,
+          "title": title?.isEmpty == true ? nil : title,
+          "description": description?.isEmpty == true ? nil : description,
         ]
       )
     }.then { _ in
@@ -85,22 +83,30 @@ final class PinsState: AsyncState {
         Pin.self,
         path: "/bookmarks/\(pin.getId())"
       )
-    }.get { pin in
-      Piny.storage.save(pin)
+    }.get { result in
+      if let index = self.pins.firstIndex(of: pin) {
+        self.pins[index] = result
+      }
+
+      Piny.storage.save(result)
     }
   }
 
   func remove(_ pin: Pin) -> Promise<Void> {
-    firstly {
-      Piny.api.delete(
-        API.Message.self,
-        path: "/bookmarks/\(pin.getId())"
-      )
-    }.done { _ in
-      if let index = self.pins.firstIndex(of: pin) {
-        Piny.storage.remove(pin)
-        self.pins.remove(at: index)
-      }
+    guard let index = self.pins.firstIndex(of: pin) else {
+      return Promise(error: Piny.Error.runtimeError("Invalid pin index"))
+    }
+
+    self.pins.remove(at: index)
+
+    return Piny.api.delete(
+      API.Message.self,
+      path: "/bookmarks/\(pin.getId())"
+    ).done { _ in
+      Piny.storage.remove(pin)
+    }.recover { error in
+      self.pins.insert(pin, at: index)
+      throw error
     }
   }
 }

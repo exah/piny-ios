@@ -14,4 +14,8 @@ struct Piny {
 
   static let groupID = "group.872a0eea-5eee-42ad-8633-a43cddf6b675.piny"
   static let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID)
+
+  enum Error: Swift.Error {
+    case runtimeError(String)
+  }
 }

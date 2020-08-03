@@ -21,10 +21,8 @@ struct UserPinList: View {
     }
   }
 
-  func remove(_ offsets: IndexSet) {
-    for index in offsets {
-      let pin = pinsState.pins[index]
-
+  func remove(_ pins: [Pin]) {
+    for pin in pins {
       self.pinsState.remove(pin).catch { error in
         log(error, .error)
       }

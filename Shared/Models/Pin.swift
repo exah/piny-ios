@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-struct Pin: Hashable, Codable, Identifiable {
+struct Pin: Hashable, Codable, Identifiable, Equatable {
   var id: UUID
   var title: String?
   var description: String?

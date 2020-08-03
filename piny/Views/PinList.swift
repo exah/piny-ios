@@ -9,27 +9,26 @@
 import SwiftUI
 
 struct PinList: View {
-  @State var link: PinLink?
-
   var pins: [Pin] = []
   var onAppear: (() -> Void)? = nil
-  var onDelete: ((_ offsets: IndexSet) -> Void)? = nil
+  var onEdit: ((_ pin: Pin) -> Void)? = nil
+  var onDelete: ((_ pins: [Pin]) -> Void)? = nil
 
   var body: some View {
     List {
       ForEach(pins) { pin in
-        Button(action: {
-          self.link = pin.link
-        }) {
-          PinRow(pin: pin).padding(.vertical, 8)
+        PinActionRow(pin: pin, onDelete: {
+          self.onDelete?([pin])
+        })
+          .padding(.vertical, 8)
+      }
+      .onDelete { offsets in
+        if let first = offsets.first, let last = offsets.last {
+          self.onDelete?(Array(self.pins[first...last]))
         }
-      }.onDelete(perform: onDelete)
+      }
     }
     .onAppear(perform: onAppear)
-    .sheet(item: $link, onDismiss: onAppear) { link in
-      WebView(url: link.url)
-        .edgesIgnoringSafeArea(.all)
-    }
   }
 }
 
