@@ -37,7 +37,7 @@ struct QuickAdd: View {
       self.pinsState.create(
         title: page.title,
         url: page.url,
-        privacy: .PUBLIC
+        privacy: .public
       ).map { _ in
         page
       }

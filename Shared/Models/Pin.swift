@@ -21,13 +21,13 @@ struct Pin: Hashable, Codable, Identifiable, Equatable {
   var updatedAt: Date
 
   enum State: String, Codable {
-    case ACTIVE = "active"
-    case REMOVED = "removed"
+    case active = "active"
+    case removed = "removed"
   }
 
   enum Privacy: String, Codable {
-    case PUBLIC = "public"
-    case PRIVATE = "private"
+    case `public` = "public"
+    case `private` = "private"
   }
 
   func getId() -> String {
