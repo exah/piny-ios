@@ -68,14 +68,28 @@ struct QuickAdd: View {
       return Promise(error: QuickAddError.invalidInput)
     }
 
-    for item in inputItems {
-      guard let attachments = item.attachments else {
-        return Promise(error: QuickAddError.noAttachments)
+    let promises = inputItems.compactMap { item in
+      return item.attachments?.map { provider in
+        firstly {
+          self.getPage(provider)
+        }.recover { _ in
+          self.getURL(provider)
+        }
       }
+    }
 
-      for provider in attachments {
-        if let promise = self.getPage(provider) {
-          return promise
+    return race(Array(promises.joined()))
+  }
+
+  private func loadItem(_ identifier: String, in provider: NSItemProvider) -> Promise<NSSecureCoding?> {
+    if provider.hasItemConformingToTypeIdentifier(identifier) {
+      return Promise { seal in
+        provider.loadItem(forTypeIdentifier: identifier) { item, error in
+          if let error = error {
+            return seal.reject(error)
+          } else {
+            return seal.fulfill(item)
+          }
         }
       }
     }
@@ -83,26 +97,32 @@ struct QuickAdd: View {
     return Promise(error: QuickAddError.noResult)
   }
 
-  private func getPage(_ provider: NSItemProvider) -> Promise<ParsedPage>? {
-    let typePropertyList = String(kUTTypePropertyList)
-
-    if provider.hasItemConformingToTypeIdentifier(typePropertyList) {
-      return Promise { seal in
-        provider.loadItem(forTypeIdentifier: typePropertyList) { item, error in
-          if
-            let dictionary = item as? NSDictionary,
-            let result = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
-            let pageURL = URL(string: result["url"]!)
-          {
-            seal.fulfill(ParsedPage(title: result["title"], url: pageURL))
-          } else {
-            seal.reject(QuickAddError.invalidResult)
-          }
-        }
+  private func getPage(_ provider: NSItemProvider) -> Promise<ParsedPage> {
+    firstly {
+      loadItem(String(kUTTypePropertyList), in: provider)
+    }.map { item in
+      if
+        let dict = item as? NSDictionary,
+        let data = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
+        let pageURL = URL(string: data["url"]!)
+      {
+        return ParsedPage(title: data["title"], url: pageURL)
+      } else {
+        throw QuickAddError.invalidResult
       }
     }
+  }
 
-    return nil
+  private func getURL(_ provider: NSItemProvider) -> Promise<ParsedPage> {
+    firstly {
+      loadItem(String(kUTTypeURL), in: provider)
+    }.map { item in
+      if let url = item as? URL {
+        return ParsedPage(title: nil, url: url)
+      } else {
+        throw QuickAddError.invalidResult
+      }
+    }
   }
 
   var body: some View {
