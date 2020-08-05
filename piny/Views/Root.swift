@@ -12,15 +12,12 @@ struct Root: View {
   @EnvironmentObject var userState: UserState
   
   var body: some View {
-    NavigationView {
-      Group {
-        if userState.isLoggedIn {
-          UserPinList(user: userState.user!)
-        } else {
-          LogIn()
-        }
+    Group {
+      if userState.isLoggedIn {
+        UserTabs()
+      } else {
+        LogIn()
       }
-      .navigationBarTitle("Piny")
     }
   }
 }

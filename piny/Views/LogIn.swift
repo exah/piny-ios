@@ -23,24 +23,27 @@ struct LogIn: View {
   }
 
   var body: some View {
-    VStack(spacing: 32) {
-      Group {
-        TextField("User", text: $name)
-        SecureField("Password", text: $pass)
-      }
-        .font(.system(size: 18))
-        .textFieldStyle(RoundedBorderTextFieldStyle())
-        .autocapitalization(.none)
-  
-      if userState.isLoading {
-        Text("Loading...")
-      } else {
-        Button("Login", action: handleLogin)
-      }
+    NavigationView {
+      VStack(spacing: 32) {
+        Group {
+          TextField("User", text: $name)
+          SecureField("Password", text: $pass)
+        }
+          .font(.system(size: 18))
+          .textFieldStyle(RoundedBorderTextFieldStyle())
+          .autocapitalization(.none)
 
-      Spacer()
+        if userState.isLoading {
+          Text("Loading...")
+        } else {
+          Button("Login", action: handleLogin)
+        }
+
+        Spacer()
+      }
+      .padding(16)
+      .navigationBarTitle("Login")
     }
-    .padding(16)
   }
 }
 

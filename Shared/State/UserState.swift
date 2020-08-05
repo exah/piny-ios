@@ -63,4 +63,18 @@ final class UserState: AsyncState {
       }
     }
   }
+
+  func logout() -> Promise<Void> {
+    capture {
+      Piny.api.get(
+        API.Message.self,
+        path: "/logout"
+      )
+    }.done { _ in
+      self.user = nil
+
+      Piny.api.token = nil
+      Piny.storage.remove(User.self)
+    }
+  }
 }

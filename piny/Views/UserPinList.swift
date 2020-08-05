@@ -11,7 +11,6 @@ import PromiseKit
 
 struct UserPinList: View {
   @EnvironmentObject var pinsState: PinsState
-  var user: User
 
   func load() {
     firstly {
@@ -43,7 +42,7 @@ struct UserPinList: View {
 
 struct UserPinList_Previews: PreviewProvider {
   static var previews: some View {
-    UserPinList(user: PreviewContent.user)
+    UserPinList()
       .environmentObject(PinsState(PreviewContent.pins))
   }
 }

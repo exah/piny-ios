@@ -63,6 +63,8 @@
 		09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
 		09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
 		09DAB89D24D8BF5E00A6635D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
+		09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89E24DB159100A6635D /* UserTabs.swift */; };
+		09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A224DB207400A6635D /* UserSettings.swift */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */; };
 		09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */; };
@@ -158,6 +160,8 @@
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
 		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
 		09DAB89B24D8BF5E00A6635D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		09DAB89E24DB159100A6635D /* UserTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTabs.swift; sourceTree = "<group>"; };
+		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinEdit.swift; sourceTree = "<group>"; };
 		09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinActionRow.swift; sourceTree = "<group>"; };
@@ -338,6 +342,8 @@
 				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
 				09752F6324C0D352003E1B24 /* LogIn.swift */,
 				0944684624CDE16100CB9D9F /* UserPinList.swift */,
+				09DAB8A224DB207400A6635D /* UserSettings.swift */,
+				09DAB89E24DB159100A6635D /* UserTabs.swift */,
 				09752F6524C0DCBD003E1B24 /* Root.swift */,
 			);
 			path = Views;
@@ -619,12 +625,14 @@
 				094855D724D102C700C38309 /* ParsedPage.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
 				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
+				09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
 				097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */,
 				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
+				09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
