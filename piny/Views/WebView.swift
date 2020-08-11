@@ -11,8 +11,6 @@ import SafariServices
 
 struct WebView: UIViewControllerRepresentable {
   var url: URL
-  
-  typealias UIViewControllerType = WebViewController
 
   func makeUIViewController(context: UIViewControllerRepresentableContext<WebView>) -> WebViewController {
     return WebViewController(url: url)

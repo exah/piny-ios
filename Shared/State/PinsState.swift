@@ -66,17 +66,19 @@ final class PinsState: AsyncState {
     _ pin: Pin,
     title: String? = nil,
     description: String? = nil,
-    privacy: Pin.Privacy? = nil
+    privacy: Pin.Privacy? = nil,
+    tags: [String] = []
   ) -> Promise<Pin> {
     firstly {
       Piny.api.patch(
         API.Message.self,
         path: "/bookmarks/\(pin.getId())",
-        data: [
-          "privacy": privacy?.rawValue,
-          "title": title?.isEmpty == true ? nil : title,
-          "description": description?.isEmpty == true ? nil : description,
-        ]
+        data: Pin.Payload(
+          title: title?.isEmpty == true ? nil : title,
+          description: description?.isEmpty == true ? nil : description,
+          privacy: privacy,
+          tags: tags
+        )
       )
     }.then { _ in
       Piny.api.get(

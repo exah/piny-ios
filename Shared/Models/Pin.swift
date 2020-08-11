@@ -30,6 +30,14 @@ struct Pin: Hashable, Codable, Identifiable, Equatable {
     case `private` = "private"
   }
 
+  struct Payload: Codable {
+    var title: String?
+    var description: String?
+    var state: Pin.State?
+    var privacy: Pin.Privacy?
+    var tags: [String]?
+  }
+
   func getId() -> String {
     self.id.uuidString.lowercased()
   }

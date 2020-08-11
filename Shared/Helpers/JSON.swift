@@ -11,6 +11,7 @@ import Foundation
 struct JSON {
   private let formatter: DateFormatter
   private let decoder: JSONDecoder
+  private let encoder: JSONEncoder
 
   init() {
     formatter = DateFormatter()
@@ -19,9 +20,16 @@ struct JSON {
 
     decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .formatted(formatter)
+
+    encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .formatted(formatter)
   }
 
   func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable {
     try decoder.decode(T.self, from: data)
+  }
+
+  func encode<T>(_ value: T) throws -> Data where T : Encodable {
+    try encoder.encode(value)
   }
 }

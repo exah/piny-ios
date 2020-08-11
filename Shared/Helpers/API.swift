@@ -9,6 +9,8 @@
 import Foundation
 import PromiseKit
 
+private struct Empty: Encodable {}
+
 private extension URLResponse {
   func getStatusCode() -> Int? {
     if let response = self as? HTTPURLResponse {
@@ -29,20 +31,20 @@ struct API {
 
   private let session = URLSession(configuration: .default)
 
-  func fetch<T: Decodable>(
-    _ type: T.Type,
+  func fetch<Result: Decodable, Data: Encodable>(
+    _ type: Result.Type,
     method: String,
     path: String,
-    data: Decodable? = nil,
+    data: Data,
     onTask: TaskHandler? = nil
-  ) -> Promise<T> {
+  ) -> Promise<Result> {
     return Promise { seal in
       var request = URLRequest(url: URL(string: baseURL + path)!)
       request.httpMethod = method
 
-      if let data = data {
+      if !(data is Empty) {
         do {
-          let json = try JSONSerialization.data(withJSONObject: data)
+          let json = try JSON().encode(data)
 
           request.httpBody = json
           request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
@@ -65,7 +67,7 @@ struct API {
         if let response = response {
           if response.isOK() {
             do {
-              let json = try JSON().decode(T.self, from: data!)
+              let json = try JSON().decode(Result.self, from: data!)
 
               DispatchQueue.main.async {
                 seal.fulfill(json)
@@ -90,25 +92,26 @@ struct API {
     }
   }
 
-  func get<T: Decodable>(
-    _ type: T.Type,
+  func get<Result: Decodable>(
+    _ type: Result.Type,
     path: String,
     onTask: TaskHandler? = nil
-  ) -> Promise<T> {
+  ) -> Promise<Result> {
     return fetch(
       type,
       method: "GET",
       path: path,
+      data: Empty(),
       onTask: onTask
     )
   }
 
-  func post<T: Decodable>(
-    _ type: T.Type,
+  func post<Result: Decodable, Data: Encodable>(
+    _ type: Result.Type,
     path: String,
-    data: Decodable,
+    data: Data,
     onTask: TaskHandler? = nil
-  ) -> Promise<T> {
+  ) -> Promise<Result> {
     return fetch(
       type,
       method: "POST",
@@ -118,12 +121,12 @@ struct API {
     )
   }
 
-  func patch<T: Decodable>(
-    _ type: T.Type,
+  func patch<Result: Decodable, Data: Encodable>(
+    _ type: Result.Type,
     path: String,
-    data: Decodable,
+    data: Data,
     onTask: TaskHandler? = nil
-  ) -> Promise<T> {
+  ) -> Promise<Result> {
     return fetch(
       type,
       method: "PATCH",
@@ -133,15 +136,16 @@ struct API {
     )
   }
 
-  func delete<T: Decodable>(
-    _ type: T.Type,
+  func delete<Result: Decodable>(
+    _ type: Result.Type,
     path: String,
     onTask: TaskHandler? = nil
-  ) -> Promise<T> {
+  ) -> Promise<Result> {
     return fetch(
       type,
       method: "DELETE",
       path: path,
+      data: Empty(),
       onTask: onTask
     )
   }
