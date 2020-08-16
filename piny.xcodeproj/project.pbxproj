@@ -169,6 +169,7 @@
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		09EA169524BEA32B0028121D /* PinList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinList.swift; sourceTree = "<group>"; };
 		09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedTextFieldStyle.swift; sourceTree = "<group>"; };
+		09EA49E324E9B2BB00B20619 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		09EB08CA24BEAB990021CC4A /* PinRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRow.swift; sourceTree = "<group>"; };
 		09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRowTags.swift; sourceTree = "<group>"; };
 		09EB08CE24BEB31F0021CC4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -268,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				09752FA624C22A6C003E1B24 /* README.md */,
+				09EA49E324E9B2BB00B20619 /* screenshot.png */,
 				09481C3524D6480A00E874F9 /* Shared */,
 				099156CD24BB99690041938C /* piny */,
 				099156E724BB996B0041938C /* pinyTests */,

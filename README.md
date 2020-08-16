@@ -6,6 +6,8 @@
 
 >  iOS App for tiny bookmarking service
 
+<img src="./screenshot.png" width="290" height="auto" />
+
 
 ## Requirements
 
