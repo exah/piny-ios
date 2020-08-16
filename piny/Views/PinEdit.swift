@@ -9,7 +9,7 @@
 import SwiftUI
 import PromiseKit
 
-private func defaultTo<T>(
+private func ??<T>(
   _ a: Binding<Optional<T>>,
   _ b: T
 ) -> Binding<T> {
@@ -25,8 +25,29 @@ struct PinEdit: View {
 
   var onClose: (() -> Void)? = nil
 
+  func save() {
+    if (self.$pin.hasChanges) {
+      firstly {
+        self.pinsState.edit(
+          self.pin,
+          title: self.pin.title,
+          description: self.pin.description,
+          tags: self.pin.tags.map { $0.name }
+        )
+      }.done { pin in
+        self.$pin.commit()
+        self.onClose?()
+      }.catch { error in
+        self.$pin.rollback()
+        log(error, .error)
+      }
+    } else {
+      self.onClose?()
+    }
+  }
+
   var body: some View {
-    VStack(spacing: 8) {
+    VStack {
       HStack {
         Text("Edit bookmark").font(.title)
         Spacer()
@@ -38,34 +59,31 @@ struct PinEdit: View {
           }
         }
       }
-      .padding(.bottom, 24)
-      TextField("Title", text: defaultTo($pin.title, ""))
-      TextField("Description", text: defaultTo($pin.description, ""))
-      Button(action: {
-        if (self.$pin.hasChanges) {
-          self.$pin.commit()
-
-          firstly {
-            self.pinsState.edit(
-              self.pin,
-              title: self.pin.title,
-              description: self.pin.description
-            )
-          }.done { pin in
-            self.onClose?()
-          }.catch { error in
-            log(error, .error)
+      VStack(spacing: 24) {
+        VStack(spacing: 8) {
+          Group {
+            TextField("Title", text: $pin.title ?? "")
+            TextField("Description", text: $pin.description ?? "")
           }
-        } else {
-          self.onClose?()
+            .textFieldStyle(ShapedTextFieldStyle())
+          TagsField(tags: $pin.tags)
+            .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 22)
         }
-      }) {
-        $pin.hasChanges
-          ? Text("Save")
-          : Text("Close")
+        Button(action: self.save) {
+          $pin.hasChanges ? Text("Save") : Text("Close")
+        }
       }
       Spacer()
     }
     .padding(24)
+  }
+}
+
+struct PinEdit_Previews: PreviewProvider {
+  @State static var pin = PreviewContent.pins[0]
+
+  static var previews: some View {
+    PinEdit(pin: self.$pin.transaction())
+      .environmentObject(PinsState())
   }
 }

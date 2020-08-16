@@ -65,12 +65,14 @@
 		09DAB89D24D8BF5E00A6635D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
 		09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89E24DB159100A6635D /* UserTabs.swift */; };
 		09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A224DB207400A6635D /* UserSettings.swift */; };
+		09DAB8AA24DB54CF00A6635D /* TagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A924DB54CF00A6635D /* TagsField.swift */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */; };
 		09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */; };
 		09EA169224BE9F090028121D /* preview-pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* preview-pins.json */; };
 		09EA169424BE9FF70028121D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
 		09EA169624BEA32B0028121D /* PinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169524BEA32B0028121D /* PinList.swift */; };
+		09EA49E224E951C800B20619 /* ShapedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */; };
 		09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CA24BEAB990021CC4A /* PinRow.swift */; };
 		09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */; };
 		09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CE24BEB31F0021CC4A /* WebView.swift */; };
@@ -162,12 +164,14 @@
 		09DAB89B24D8BF5E00A6635D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		09DAB89E24DB159100A6635D /* UserTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTabs.swift; sourceTree = "<group>"; };
 		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		09DAB8A924DB54CF00A6635D /* TagsField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsField.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinEdit.swift; sourceTree = "<group>"; };
 		09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinActionRow.swift; sourceTree = "<group>"; };
 		09EA169124BE9F090028121D /* preview-pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-pins.json"; sourceTree = "<group>"; };
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		09EA169524BEA32B0028121D /* PinList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinList.swift; sourceTree = "<group>"; };
+		09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedTextFieldStyle.swift; sourceTree = "<group>"; };
 		09EB08CA24BEAB990021CC4A /* PinRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRow.swift; sourceTree = "<group>"; };
 		09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRowTags.swift; sourceTree = "<group>"; };
 		09EB08CE24BEB31F0021CC4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -258,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */,
+				09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
 				09EA169524BEA32B0028121D /* PinList.swift */,
 				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
+				09DAB8A924DB54CF00A6635D /* TagsField.swift */,
 				09752F6324C0D352003E1B24 /* LogIn.swift */,
 				0944684624CDE16100CB9D9F /* UserPinList.swift */,
 				09DAB8A224DB207400A6635D /* UserSettings.swift */,
@@ -607,6 +613,7 @@
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
 				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
+				09EA49E224E951C800B20619 /* ShapedTextFieldStyle.swift in Sources */,
 				097A054424C79075003609F0 /* PinTag.swift in Sources */,
 				097A054224C79056003609F0 /* PinLink.swift in Sources */,
 				094F3F4124C8FA00004F0F84 /* log.swift in Sources */,
@@ -615,6 +622,7 @@
 				095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */,
 				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
+				09DAB8AA24DB54CF00A6635D /* TagsField.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,
 				09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */,
@@ -861,7 +869,7 @@
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -884,7 +892,7 @@
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
