@@ -38,6 +38,21 @@ final class UserState: AsyncState {
     )
   }
 
+  func signUp(name: String, pass: String, email: String) -> Promise<Void> {
+    capture {
+      Piny.api.post(
+        API.Message.self,
+        path: "/signup",
+        data: [ "user": name, "pass": pass, "email": email ]
+      )
+    }.then { _ in
+      self.login(
+        name: name,
+        pass: pass
+      )
+    }
+  }
+
   func login(name: String, pass: String) -> Promise<Void> {
     capture {
       Piny.api.post(
@@ -75,6 +90,7 @@ final class UserState: AsyncState {
 
       Piny.api.token = nil
       Piny.storage.remove(User.self)
+      Piny.storage.remove(Pin.self)
     }
   }
 }

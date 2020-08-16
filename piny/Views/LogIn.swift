@@ -18,8 +18,55 @@ struct LogIn: View {
       name: name,
       pass: pass
     ).catch { error in
+      if let error = error as? API.Error {
+        switch error {
+          case .notOK( _, let statusCode, _): do {
+            if statusCode == 404 {
+              self.signUpAlert { email in
+                self.handleSignUp(email)
+              }
+            }
+          }
+          default:
+            Piny.log(error, .error)
+        }
+      }
+    }
+  }
+
+  func handleSignUp(_ email: String) {
+    self.userState.signUp(
+      name: name,
+      pass: pass,
+      email: email
+    ).catch { error in
       Piny.log(error, .error)
     }
+  }
+
+  private func signUpAlert(action: @escaping (_ email: String) -> Void) {
+    guard let controller = UIApplication.shared.windows[0].rootViewController else {
+      return
+    }
+
+    let alert = UIAlertController(
+      title: "👋 Welcome",
+      message: "Please, enter your email to create an account",
+      preferredStyle: .alert
+    )
+
+    alert.addTextField { textField in
+      textField.placeholder = "Email"
+    }
+
+    alert.addAction(UIAlertAction(title: "Create account", style: .default) { _ in
+      if let text = alert.textFields?[0].text {
+        action(text)
+      }
+    })
+
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    controller.present(alert, animated: true)
   }
 
   var body: some View {
@@ -37,10 +84,10 @@ struct LogIn: View {
         if userState.isLoading {
           Text("Loading...")
         } else {
-          Button("Login", action: handleLogin)
+          Button("Login / Sign Up", action: handleLogin)
         }
         Spacer()
-      }.navigationBarTitle("Login")
+      }.navigationBarTitle("Piny")
     }
   }
 }
