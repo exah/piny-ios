@@ -51,7 +51,7 @@ struct LogIn: View {
 
     let alert = UIAlertController(
       title: "👋 Welcome",
-      message: "Please, enter your email to create an account",
+      message: "Enter your email to create an account",
       preferredStyle: .alert
     )
 
