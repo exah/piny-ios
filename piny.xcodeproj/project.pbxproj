@@ -18,10 +18,8 @@
 		094855D524D0E9B000C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D424D0E9B000C38309 /* PromiseKit */; };
 		094855D724D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		094855D824D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
-		094F3F4124C8FA00004F0F84 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
 		095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
-		0969B04E24CF06140013B066 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094F3F4024C8FA00004F0F84 /* log.swift */; };
 		0969B05024CF20570013B066 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
 		0969B05124CF205A0013B066 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		0969B05224CF20630013B066 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
@@ -132,7 +130,6 @@
 		0944687924CE003F00CB9D9F /* pinyAdd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pinyAdd.entitlements; sourceTree = "<group>"; };
 		094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ExtensionPreprocessing.js; sourceTree = "<group>"; };
 		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
-		094F3F4024C8FA00004F0F84 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
 		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
@@ -394,7 +391,6 @@
 				09752FAA24C2FE89003E1B24 /* Storage.swift */,
 				097A053F24C76F84003609F0 /* Persistable.swift */,
 				09DAB89B24D8BF5E00A6635D /* Transaction.swift */,
-				094F3F4024C8FA00004F0F84 /* log.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -585,7 +581,6 @@
 				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
 				0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */,
 				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
-				0969B04E24CF06140013B066 /* log.swift in Sources */,
 				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
 				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
@@ -616,7 +611,6 @@
 				09EA49E224E951C800B20619 /* ShapedTextFieldStyle.swift in Sources */,
 				097A054424C79075003609F0 /* PinTag.swift in Sources */,
 				097A054224C79056003609F0 /* PinLink.swift in Sources */,
-				094F3F4124C8FA00004F0F84 /* log.swift in Sources */,
 				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
 				095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */,

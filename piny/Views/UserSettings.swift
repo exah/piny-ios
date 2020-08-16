@@ -13,7 +13,7 @@ struct UserSettings: View {
 
   func logout() {
     userState.logout().catch { error in
-      log(error, .error)
+      Piny.log(error, .error)
     }
   }
 

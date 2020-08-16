@@ -39,7 +39,7 @@ struct PinEdit: View {
         self.onClose?()
       }.catch { error in
         self.$pin.rollback()
-        log(error, .error)
+        Piny.log(error, .error)
       }
     } else {
       self.onClose?()

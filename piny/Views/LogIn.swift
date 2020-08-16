@@ -18,7 +18,7 @@ struct LogIn: View {
       name: name,
       pass: pass
     ).catch { error in
-      log(error, .error)
+      Piny.log(error, .error)
     }
   }
 

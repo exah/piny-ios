@@ -43,12 +43,12 @@ struct QuickAdd: View {
       }
     }
     .done { page in
-      log("Shared: \(page.url) <3")
+      Piny.log("Shared: \(page.url) <3")
     }
     .catch { error in
       self.isError = true
 
-      log(error, .error)
+      Piny.log(error, .error)
     }
     .finally {
       DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
@@ -59,7 +59,7 @@ struct QuickAdd: View {
 
   func handleComplete() {
     self.context.completeRequest(returningItems: nil) { _ in
-      log("Done")
+      Piny.log("Done")
     }
   }
 

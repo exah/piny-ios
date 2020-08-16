@@ -13,7 +13,7 @@ import MobileCoreServices
 class ActionViewController: UIViewController {
   @IBSegueAction func connectSwiftUI(_ coder: NSCoder) -> UIViewController? {
     guard let context = self.extensionContext else {
-      log("Extention context is required", .error)
+      Piny.log("Extention context is required", .error)
       return nil
     }
 

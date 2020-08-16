@@ -24,7 +24,7 @@ final class PinsState: AsyncState {
         self.pins = pins
       }
 
-      log("Fetched from store pins(\(pins.count)): \(pins)")
+      Piny.log("Fetched from store pins(\(pins.count)): \(pins)")
     }
   }
 

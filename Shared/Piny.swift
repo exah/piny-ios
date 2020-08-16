@@ -15,7 +15,15 @@ struct Piny {
   static let groupID = "group.872a0eea-5eee-42ad-8633-a43cddf6b675.piny"
   static let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID)
 
+  static func log<T>(_ input: T, _ level: LogLevel = LogLevel.info) {
+    print("🌲 [\(level)] \(Date()): \(input)")
+  }
+
   enum Error: Swift.Error {
     case runtimeError(String)
+  }
+
+  enum LogLevel: String {
+    case info, warn, error
   }
 }

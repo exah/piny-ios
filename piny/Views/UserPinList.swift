@@ -16,14 +16,14 @@ struct UserPinList: View {
     firstly {
       pinsState.fetch()
     }.catch { error in
-      log(error, .error)
+      Piny.log(error, .error)
     }
   }
 
   func remove(_ pins: [Pin]) {
     for pin in pins {
       self.pinsState.remove(pin).catch { error in
-        log(error, .error)
+        Piny.log(error, .error)
       }
     }
   }

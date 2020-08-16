@@ -27,7 +27,7 @@ final class UserState: AsyncState {
         Piny.api.token = users[0].token
       }
 
-      log("Fetched from store users(\(users.count)): \(users)")
+      Piny.log("Fetched from store users(\(users.count)): \(users)")
     }
   }
 
@@ -46,14 +46,14 @@ final class UserState: AsyncState {
         data: [ "user": name, "pass": pass ]
       )
       .get { auth in
-        log("Token: \(auth.token)")
+        Piny.log("Token: \(auth.token)")
 
         Piny.api.token = auth.token
       }
       .then { auth in
         self.fetchUser(name: name).map { user in (auth, user) }
       }.done { auth, user in
-        log("User: \(user)")
+        Piny.log("User: \(user)")
 
         self.user = user
         self.user?.token = auth.token

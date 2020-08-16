@@ -40,7 +40,7 @@ extension NSManagedObjectContext {
         do {
           try currentContext.save()
         } catch {
-          log("context saving failure: \(error)")
+          Piny.log("context saving failure: \(error)")
         }
       }
 
@@ -122,7 +122,7 @@ extension Storage {
           + "sortDescriptorsCount: \(sortDescriptors?.count ?? 0),"
           + "error: \(error)"
 
-        log("Core Data Fetch Failed \(metadata)")
+        Piny.log("Core Data Fetch Failed \(metadata)")
       }
     }
 
@@ -141,7 +141,7 @@ extension Storage {
         let fetched = try context.fetch(request)
         result = fetched.map(T.fromObject).first
       } catch {
-        log("Core Data Fetch By ID Failed entity: \(T.ObjectType.getName()), identifier: \(identifier), error: \(error)")
+        Piny.log("Core Data Fetch By ID Failed entity: \(T.ObjectType.getName()), identifier: \(identifier), error: \(error)")
       }
     }
 
@@ -164,7 +164,7 @@ extension Storage {
 
       item = self.fetch(T.self, predicate: predicate)
       if copy.count != item.count {
-        log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
+        Piny.log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
       }
     }
 
@@ -174,7 +174,7 @@ extension Storage {
   @discardableResult func save<T: Identifiable & Persistable>(_ object: T) -> T {
     let context = contextForCurrentThread()
 
-    log("identifier \(object.identifier)")
+    Piny.log("identifier \(object.identifier)")
 
     let predicate = NSPredicate(format: "identifier == %@", object.identifier)
     let objectCopy = object
@@ -187,7 +187,7 @@ extension Storage {
     if let cachedObject = self.fetch(T.self, identifier: object.identifier) {
       return cachedObject
     } else {
-      log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifier: \(object.identifier)")
+      Piny.log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifier: \(object.identifier)")
       return object
     }
   }
@@ -227,7 +227,7 @@ extension Storage {
           + "predicate: \(predicate?.predicateFormat ?? ""), "
           + "error: \(error)"
 
-        log("Core Data Fetch on Remove Failed \(metadata)")
+        Piny.log("Core Data Fetch on Remove Failed \(metadata)")
       }
     }
 
