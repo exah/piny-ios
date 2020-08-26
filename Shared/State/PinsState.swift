@@ -86,7 +86,7 @@ final class PinsState: AsyncState {
         path: "/bookmarks/\(pin.getId())"
       )
     }.get { result in
-      if let index = self.pins.firstIndex(of: pin) {
+      if let index = self.pins.firstIndex(where: { $0.id == pin.id }) {
         self.pins[index] = result
       }
 

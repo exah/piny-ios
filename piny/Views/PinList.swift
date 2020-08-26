@@ -10,7 +10,6 @@ import SwiftUI
 
 struct PinList: View {
   var pins: [Pin] = []
-  var onAppear: (() -> Void)? = nil
   var onEdit: ((_ pin: Pin) -> Void)? = nil
   var onDelete: ((_ pins: [Pin]) -> Void)? = nil
 
@@ -28,7 +27,6 @@ struct PinList: View {
         }
       }
     }
-    .onAppear(perform: onAppear)
   }
 }
 

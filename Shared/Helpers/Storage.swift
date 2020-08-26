@@ -25,9 +25,9 @@ extension Identifiable {
 
 private
 extension NSManagedObjectContext {
-  func applyStackChangesAndWait(_ completion: @escaping () -> Void) {
+  func applyStackChangesAndWait(_ block: @escaping () -> Void) {
     performAndWait {
-      completion()
+      block()
       self.saveContextsStack()
     }
   }
@@ -65,19 +65,28 @@ extension NSManagedObject {
     guard let object = NSEntityDescription.entity(
       forEntityName: self.getName(),
       in: context
-      ) else {
-        fatalError("Entity not found: \(self)")
+    ) else {
+      fatalError("Entity not found: \(self)")
     }
 
     return self.init(entity: object, insertInto: context)
   }
 }
 
-struct Storage {
+final class Storage {
   let container: NSPersistentContainer
-  var context: NSManagedObjectContext {
-    return self.container.viewContext
+
+  var currentContext: NSManagedObjectContext {
+    if Thread.isMainThread {
+      return self.container.viewContext
+    } else {
+      return self.backgroundContext
+    }
   }
+
+  private lazy var backgroundContext: NSManagedObjectContext = {
+    return self.container.newBackgroundContext()
+  }()
 
   init(_ name: String, groupURL: URL? = nil) {
     container = NSPersistentContainer(name: name)
@@ -95,16 +104,15 @@ struct Storage {
       }
     })
   }
-}
 
-extension Storage {
   func fetch<T: Identifiable & Persistable>(
     _ type: T.Type,
     predicate: NSPredicate? = nil,
     sortDescriptors: [NSSortDescriptor]? = nil,
-    limit: Int = 0
+    limit: Int = 0,
+    in specificContext: NSManagedObjectContext? = nil
   ) -> [T] {
-    let context = contextForCurrentThread()
+    let context = specificContext ?? currentContext
     let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
     var result: [T] = []
 
@@ -129,12 +137,16 @@ extension Storage {
     return result
   }
 
-  func fetch<T: Identifiable & Persistable>(_ type: T.Type, identifier: String) -> T? {
-    let context = contextForCurrentThread()
+  func fetch<T: Identifiable & Persistable>(
+    _ type: T.Type,
+    identifier: String,
+    in specificContext: NSManagedObjectContext? = nil
+  ) -> T? {
+    let context = specificContext ?? currentContext
     let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
     var result: T? = nil
 
-    request.predicate = NSPredicate(format: "identifier == %@", identifier)
+    request.predicate = NSPredicate(format: "id == %@", identifier)
 
     context.performAndWait {
       do {
@@ -148,71 +160,89 @@ extension Storage {
     return result
   }
 
-  @discardableResult func save<T: Identifiable & Persistable>(_ objects: [T], batchSize: Int = 100) -> [T] {
-    let context = contextForCurrentThread()
+  func save<T: Identifiable & Persistable>(
+    _ objects: [T],
+    batchSize: Int = 100,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    let context = specificContext ?? currentContext
     let batches = batch(objects, size: batchSize)
 
-    for var item in batches {
-      let objectsIds = item.map({ $0.identifier })
-      let predicate = NSPredicate(format: "identifier IN %@", objectsIds)
-      let copy = item
+    for var batch in batches {
+      let objectsIds = batch.map({ $0.identifier })
+      let predicate = NSPredicate(format: "id IN %@", objectsIds)
+      let copy = batch
 
       self.remove(T.self, predicate: predicate, in: context)
+
       context.applyStackChangesAndWait {
         _ = copy.map({ $0.toObject(in: context) })
       }
 
-      item = self.fetch(T.self, predicate: predicate)
-      if copy.count != item.count {
+      batch = self.fetch(T.self, predicate: predicate, in: context)
+
+      if copy.count != batch.count {
         Piny.log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifiers: \(objectsIds.joined(separator: ","))")
       }
     }
-
-    return Array(batches.joined())
   }
 
-  @discardableResult func save<T: Identifiable & Persistable>(_ object: T) -> T {
-    let context = contextForCurrentThread()
+  func save<T: Identifiable & Persistable>(
+    _ object: T,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    let context = specificContext ?? currentContext
 
-    Piny.log("identifier \(object.identifier)")
-
-    let predicate = NSPredicate(format: "identifier == %@", object.identifier)
+    let predicate = NSPredicate(format: "id == %@", object.identifier)
     let objectCopy = object
 
     self.remove(T.self, predicate: predicate, in: context)
+
     context.applyStackChangesAndWait {
       objectCopy.toObject(in: context)
     }
 
-    if let cachedObject = self.fetch(T.self, identifier: object.identifier) {
-      return cachedObject
-    } else {
+    if self.fetch(T.self, identifier: object.identifier) == nil {
       Piny.log("Core Data Fetch after Save Failed entity: \(T.ObjectType.getName()), identifier: \(object.identifier)")
-      return object
     }
   }
 
-  func remove<T: Identifiable & Persistable>(_ objects: [T], batchSize: Int = 100) {
-    let context = contextForCurrentThread()
+  func remove<T: Identifiable & Persistable>(
+    _ objects: [T],
+    batchSize: Int = 100,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    let context = specificContext ?? currentContext
     let batches = batch(objects, size: batchSize)
 
     for item in batches {
       let identifiers = item.map({ $0.identifier })
-      let predicate = NSPredicate(format: "identifier IN %@", identifiers)
+      let predicate = NSPredicate(format: "id IN %@", identifiers)
       self.remove(T.self, predicate: predicate, in: context)
     }
   }
 
-  func remove<T: Identifiable & Persistable>(_ object: T) {
-    remove(T.self, identifier: object.identifier)
+  func remove<T: Identifiable & Persistable>(
+    _ object: T,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    remove(T.self, identifier: object.identifier, in: specificContext)
   }
 
-  func remove<T: Identifiable & Persistable>(_ type: T.Type, identifier: String) {
-    self.remove(type, predicate: NSPredicate(format: "identifier == %@", identifier))
+  func remove<T: Identifiable & Persistable>(
+    _ type: T.Type,
+    identifier: String,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    self.remove(type, predicate: NSPredicate(format: "id == %@", identifier), in: specificContext)
   }
 
-  func remove<T: Identifiable & Persistable>(_ type: T.Type, predicate: NSPredicate? = nil, in specificContext: NSManagedObjectContext? = nil) {
-    let context = specificContext ?? contextForCurrentThread()
+  func remove<T: Identifiable & Persistable>(
+    _ type: T.Type,
+    predicate: NSPredicate? = nil,
+    in specificContext: NSManagedObjectContext? = nil
+  ) {
+    let context = specificContext ?? currentContext
     let request = NSFetchRequest<T.ObjectType>(entityName: T.ObjectType.getName())
     var fetched: [T.ObjectType] = []
 
@@ -233,14 +263,6 @@ extension Storage {
 
     context.applyStackChangesAndWait {
       fetched.forEach(context.delete)
-    }
-  }
-
-  private func contextForCurrentThread() -> NSManagedObjectContext {
-    if Thread.isMainThread {
-      return self.container.viewContext
-    } else {
-      return self.container.newBackgroundContext()
     }
   }
 

@@ -52,7 +52,7 @@ extension Pin: Persistable {
       state: Pin.State(rawValue: object.state)!,
       privacy: Pin.Privacy(rawValue: object.privacy)!,
       link: PinLink.fromObject(object.link),
-      tags: Array(object.tags).map { tag in
+      tags: Array(_immutableCocoaArray: object.tags).map { tag in
         PinTag.fromObject(tag)
       },
       createdAt: object.createdAt,
@@ -69,7 +69,7 @@ extension Pin: Persistable {
     entity.state = state.rawValue
     entity.privacy = privacy.rawValue
     entity.link = link.toObject(in: context)
-    entity.tags = Set(tags.map { tag in
+    entity.tags = NSOrderedSet(array: tags.map { tag in
       tag.toObject(in: context)
     })
     entity.createdAt = createdAt
@@ -86,7 +86,7 @@ class DBPin: NSManagedObject {
   @NSManaged var privacy: String
   @NSManaged var state: String
   @NSManaged var link: DBPinLink
-  @NSManaged var tags: Set<DBPinTag>
+  @NSManaged var tags: NSOrderedSet
   @NSManaged var createdAt: Date
   @NSManaged var updatedAt: Date
 }

@@ -31,9 +31,9 @@ struct UserPinList: View {
   var body: some View {
     PinList(
       pins: pinsState.pins,
-      onAppear: load,
       onDelete: remove
     )
+      .onAppear(perform: load)
       .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
         self.load()
       }
