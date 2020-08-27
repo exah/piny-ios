@@ -12,7 +12,7 @@ struct Piny {
   static var api = API(baseURL: "https://dev.piny.link")
   static var storage = Storage("piny", groupURL: groupURL)
 
-  static let groupID = "group.872a0eea-5eee-42ad-8633-a43cddf6b675.piny"
+  static let groupID = "group.com.exah.piny"
   static let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID)
 
   static func log<T>(_ input: T, _ level: LogLevel = LogLevel.info) {

@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.872a0eea-5eee-42ad-8633-a43cddf6b675.piny</string>
+		<string>group.com.exah.piny</string>
 	</array>
 </dict>
 </plist>
