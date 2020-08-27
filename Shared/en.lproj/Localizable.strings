@@ -1,0 +1,33 @@
+/* Messages */
+"Piny" = "Piny";
+"Edit bookmark" = "Edit bookmark";
+"👋 Welcome" = "👋 Welcome";
+"Enter your email to create an account" = "Enter your email to create an account";
+"All" = "All";
+"Settings" = "Settings";
+
+/* States */
+"Loading..." = "Loading...";
+"Added to Piny" = "Added to Piny";
+"Adding..." = "Adding...";
+"Failed" = "Failed";
+
+/* Actions */
+"Save" = "Save";
+"Cancel" = "Cancel";
+"Close" = "Close";
+"Reset" = "Reset";
+"Edit" = "Edit";
+"Delete" = "Delete";
+"Create account" = "Create account";
+"Log In / Sign Up" = "Log In / Sign Up";
+"Log Out" = "Log Out";
+
+/* Fields */
+"Title" = "Title";
+"Description" = "Description";
+"Tags..." = "Tags...";
+"Name" = "Name";
+"User" = "User";
+"Email" = "Email";
+"Password" = "Password";

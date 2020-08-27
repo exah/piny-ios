@@ -84,7 +84,7 @@ struct LogIn: View {
         if userState.isLoading {
           Text("Loading...")
         } else {
-          Button("Login / Sign Up", action: handleLogin)
+          Button("Log In / Sign Up", action: handleLogin)
         }
         Spacer()
       }.navigationBarTitle("Piny")
