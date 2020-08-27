@@ -30,6 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
-    Piny.saveContext()
+    Piny.storage.saveContext()
   }
 }

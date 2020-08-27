@@ -266,6 +266,18 @@ final class Storage {
     }
   }
 
+  func saveContext() {
+    if container.viewContext.hasChanges {
+      do {
+        try container.viewContext.save()
+      } catch {
+        if let error = error as NSError? {
+          fatalError("Unresolved error \(error), \(error.userInfo)")
+        }
+      }
+    }
+  }
+
   private func batch<T>(_ input: [T], size: Int) -> [[T]] {
     var result: [[T]] = []
     var accumulator: [T] = []
