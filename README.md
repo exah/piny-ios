@@ -18,6 +18,8 @@
 
 Clone the repository and open `piny.xcodeproj`.
 
+Install with [**Test Flight**](https://testflight.apple.com/join/zYcM6jWa)
+
 
 ## Related
 
