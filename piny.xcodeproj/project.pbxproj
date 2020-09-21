@@ -121,6 +121,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		091DE00225193720005E5E05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		091DE00325193720005E5E05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		093A99AD24D46FA600ADBB0A /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
 		0944686124CDEDB900CB9D9F /* pinyAdd.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = pinyAdd.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,8 +161,6 @@
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
 		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
 		09BE837324F81A9700A21581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		09BE837524F8221000A21581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		09BE837624F8221000A21581 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		09DAB89B24D8BF5E00A6635D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		09DAB89E24DB159100A6635D /* UserTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTabs.swift; sourceTree = "<group>"; };
 		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -247,6 +247,7 @@
 				0969B05E24CF4F460013B066 /* Styles */,
 				099156D924BB996B0041938C /* Preview Content */,
 				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
+				097D48A724D6C61400C926A3 /* PreviewContent.swift */,
 				09BE837424F81A9700A21581 /* Localizable.strings */,
 				099156D224BB99690041938C /* piny.xcdatamodeld */,
 			);
@@ -316,7 +317,6 @@
 				099156DA24BB996B0041938C /* Preview Assets.xcassets */,
 				09EA169124BE9F090028121D /* preview-pins.json */,
 				09AFB4C724CDDC8700E6D9E3 /* preview-user.json */,
-				097D48A724D6C61400C926A3 /* PreviewContent.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -489,7 +489,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "John Grishin";
 				TargetAttributes = {
 					0944686024CDEDB900CB9D9F = {
@@ -514,6 +514,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
@@ -685,7 +686,7 @@
 		0944686724CDEDB900CB9D9F /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				09BE837624F8221000A21581 /* en */,
+				091DE00325193720005E5E05 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -693,7 +694,7 @@
 		099156DC24BB996B0041938C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				09BE837524F8221000A21581 /* en */,
+				091DE00225193720005E5E05 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -779,6 +780,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -839,6 +841,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

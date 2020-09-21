@@ -11,42 +11,44 @@ import SwiftUI
 private enum Action {
   case edit
   case view
+  case none
 }
 
 struct PinActionRow: View {
   @EnvironmentObject var pinsState: PinsState
-  @State private var isOpen: Bool = false
-  @State private var selected: Action? = nil
+  @State private var selected: Action = .none
   @State var pin: Pin
 
   var onDelete: (() -> Void)? = nil
 
-  private func toggle(_ action: Action? = nil) {
-    self.isOpen.toggle()
+  private func toggle(_ action: Action) {
     self.selected = action
   }
 
   var body: some View {
-    Button(action: { self.toggle(.view) }) {
-      PinRow(pin: self.pin)
+    Button(action: { toggle(.view) }) {
+      PinRow(pin: pin)
         .contextMenu {
-          Button(action: { self.toggle(.edit) }) {
+          Button(action: { toggle(.edit) }) {
             Text("Edit")
           }
-          Button(action: { self.onDelete?() }) {
+          Button(action: { onDelete?() }) {
             Text("Delete")
           }
         }
     }
-    .sheet(isPresented: $isOpen) {
-      if self.selected == .view {
-        WebView(url: self.pin.link.url)
-          .edgesIgnoringSafeArea(.all)
-      } else if self.selected == .edit {
-        PinEdit(pin: self.$pin.transaction(), onClose: {
-          self.toggle()
-        })
-          .environmentObject(self.pinsState)
+    .sheet(isPresented: Binding(get: { selected != .none }, set: { _ in selected = .none })) {
+      switch selected {
+        case .view:
+          WebView(url: pin.link.url)
+            .edgesIgnoringSafeArea(.all)
+        case .edit:
+          PinEdit(pin: $pin.transaction(), onClose: {
+            toggle(.none)
+          })
+          .environmentObject(pinsState)
+        case .none:
+          EmptyView()
       }
     }
   }

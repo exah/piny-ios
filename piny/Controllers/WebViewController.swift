@@ -42,7 +42,7 @@ final class WebViewController: UIViewController {
     }
 
     let nextController = SFSafariViewController(url: nextUrl)
-    
+
     addChild(nextController)
     view.addSubview(nextController.view)
     nextController.didMove(toParent: self)
