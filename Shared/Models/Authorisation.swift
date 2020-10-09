@@ -10,4 +10,10 @@ import Foundation
 
 struct Authorisation: Codable {
   let token: String
+
+  struct Payload: Codable {
+    let user: String
+    let pass: String
+    let device: Device?
+  }
 }

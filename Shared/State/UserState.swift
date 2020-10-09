@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import UIKit
 
 final class UserState: AsyncState {
   @Published var user: User?
@@ -54,11 +55,25 @@ final class UserState: AsyncState {
   }
 
   func login(name: String, pass: String) -> Promise<Void> {
-    capture {
+    var device: Device? = nil
+
+    if let id = UIDevice.current.identifierForVendor {
+      let description = """
+      \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
+      """
+
+      device = Device(id: id, description: description)
+    }
+
+    return capture {
       Piny.api.post(
         Authorisation.self,
         path: "/login",
-        data: [ "user": name, "pass": pass ]
+        data: Authorisation.Payload(
+          user: name,
+          pass: pass,
+          device: device
+        )
       )
       .get { auth in
         Piny.log("Token: \(auth.token)")

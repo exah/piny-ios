@@ -20,6 +20,8 @@
 		094855D824D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		095F88DF24CE0E6B00793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
 		095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095F88DC24CE066400793A9E /* QuickAdd.swift */; };
+		0969583B252FB6B4009BCEAB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969583A252FB6B4009BCEAB /* Device.swift */; };
+		0969583C252FB6B4009BCEAB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969583A252FB6B4009BCEAB /* Device.swift */; };
 		0969B05024CF20570013B066 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
 		0969B05124CF205A0013B066 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		0969B05224CF20630013B066 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
@@ -134,6 +136,7 @@
 		094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ExtensionPreprocessing.js; sourceTree = "<group>"; };
 		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
 		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
+		0969583A252FB6B4009BCEAB /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -367,6 +370,7 @@
 				097A054124C79056003609F0 /* PinLink.swift */,
 				09EB08DC24C0CB580021CC4A /* User.swift */,
 				094855D624D102C700C38309 /* ParsedPage.swift */,
+				0969583A252FB6B4009BCEAB /* Device.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -593,6 +597,7 @@
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
 				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
 				097D48AC24D6C9F900C926A3 /* JSON.swift in Sources */,
+				0969583C252FB6B4009BCEAB /* Device.swift in Sources */,
 				094855D824D102C700C38309 /* ParsedPage.swift in Sources */,
 				095F88E024CE0E7500793A9E /* QuickAdd.swift in Sources */,
 				0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */,
@@ -611,6 +616,7 @@
 				099156CF24BB99690041938C /* AppDelegate.swift in Sources */,
 				09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */,
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
+				0969583B252FB6B4009BCEAB /* Device.swift in Sources */,
 				097D48A824D6C61400C926A3 /* PreviewContent.swift in Sources */,
 				0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
@@ -716,6 +722,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = pinyAdd/pinyAdd.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				INFOPLIST_FILE = pinyAdd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
@@ -738,6 +745,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = pinyAdd/pinyAdd.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				INFOPLIST_FILE = pinyAdd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
@@ -877,6 +885,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
@@ -900,6 +909,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
