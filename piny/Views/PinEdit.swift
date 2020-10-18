@@ -22,45 +22,42 @@ private func ??<T>(
 struct PinEdit: View {
   @EnvironmentObject var pinsState: PinsState
   @Transaction var pin: Pin
+  @State var showRemoveAlert: Bool = false
 
   var onClose: (() -> Void)? = nil
 
   func save() {
-    if (self.$pin.hasChanges) {
+    if ($pin.hasChanges) {
       firstly {
-        self.pinsState.edit(
-          self.pin,
-          title: self.pin.title,
-          description: self.pin.description,
-          tags: self.pin.tags.map { $0.name }
+        pinsState.edit(
+          pin,
+          title: pin.title,
+          description: pin.description,
+          tags: pin.tags.map { $0.name }
         )
       }.done { pin in
-        self.$pin.commit()
-        self.onClose?()
+        $pin.commit()
+        onClose?()
       }.catch { error in
-        self.$pin.rollback()
+        $pin.rollback()
         Piny.log(error, .error)
       }
     } else {
-      self.onClose?()
+      onClose?()
+    }
+  }
+
+  func remove() {
+    onClose?()
+    pinsState.remove(pin).catch { error in
+      Piny.log(error, .error)
     }
   }
 
   var body: some View {
-    VStack {
-      HStack {
-        Text("Edit bookmark").font(.title)
-        Spacer()
-        if ($pin.hasChanges) {
-          Button(action: {
-            self.$pin.rollback()
-          }) {
-            Text("Reset")
-          }
-        }
-      }
-      VStack(spacing: 24) {
-        VStack(spacing: 8) {
+    NavigationView {
+      VStack {
+        VStack(spacing: 16) {
           Group {
             TextField("Title", text: $pin.title ?? "")
             TextField("Description", text: $pin.description ?? "")
@@ -69,13 +66,41 @@ struct PinEdit: View {
           TagsField(tags: $pin.tags)
             .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 22)
         }
-        Button(action: self.save) {
-          $pin.hasChanges ? Text("Save") : Text("Close")
+        Spacer()
+      }
+      .padding(24)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button(action: save) {
+            Image(systemName: $pin.hasChanges ? "checkmark" : "xmark")
+          }
+        }
+        ToolbarItem(placement: .principal) {
+          Text(pin.link.url.absoluteString)
+            .font(.headline)
+            .lineLimit(1)
+            .frame(maxWidth: 200)
+            .truncationMode(.middle)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+          HStack(spacing: 16) {
+            Button(action: $pin.rollback) {
+              Image(systemName: "arrow.uturn.left")
+            }
+            Button(action: { showRemoveAlert = true }) {
+              Image(systemName: "trash")
+            }.alert(isPresented: $showRemoveAlert) {
+              Alert(
+                title: Text("Are you sure?"),
+                primaryButton: .destructive(Text("Yes"), action: remove),
+                secondaryButton: .cancel(Text("No"), action: { showRemoveAlert = false })
+              )
+            }
+          }
         }
       }
-      Spacer()
     }
-    .padding(24)
   }
 }
 
@@ -83,7 +108,7 @@ struct PinEdit_Previews: PreviewProvider {
   @State static var pin = PreviewContent.pins[0]
 
   static var previews: some View {
-    PinEdit(pin: self.$pin.transaction())
+    PinEdit(pin: $pin.transaction())
       .environmentObject(PinsState())
   }
 }
