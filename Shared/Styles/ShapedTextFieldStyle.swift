@@ -11,10 +11,10 @@ import SwiftUI
 struct ShapedTextFieldStyle: TextFieldStyle {
   func _body(configuration: TextField<_Label>) -> some View {
     configuration
-      .padding(.vertical, 8)
-      .padding(.horizontal, 12)
+      .padding(.vertical, 12)
+      .padding(.horizontal, 16)
       .background(
-        RoundedRectangle(cornerRadius: 10)
+        RoundedRectangle(cornerRadius: 20)
           .foregroundColor(Color(UIColor.systemFill))
       )
   }

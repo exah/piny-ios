@@ -160,12 +160,8 @@ struct QuickAdd: View {
             .foregroundColor(.black)
           Spacer()
           if !self.pinsState.isLoading {
-            Button(action: self.handleComplete) {
-              Text("Close")
-                .font(.system(size: 14))
-                .fontWeight(.medium)
-            }
-            .buttonStyle(ShapedButtonStyle(color: .blue))
+            Button(action: self.handleComplete) {}
+              .variant(.black, icon: Image(systemName: "checkmark"))
           }
         }
         .padding(.horizontal, 20)

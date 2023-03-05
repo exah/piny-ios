@@ -71,23 +71,40 @@ struct LogIn: View {
 
   var body: some View {
     NavigationView {
-      VStack(spacing: 24) {
-        VStack(spacing: 8) {
-          Group {
-            TextField("User", text: $name)
-            SecureField("Password", text: $pass)
+      ZStack {
+        Color(red: 0.93, green: 0.93, blue: 0.93)
+          .edgesIgnoringSafeArea(.all)
+        VStack {
+          VStack(spacing: 24) {
+            VStack(spacing: 12) {
+              Image("Logo")
+              Text("Welcome 👋")
+                .variant(.secondary, color: .gray)
+            }
+            VStack(spacing: 12) {
+              Group {
+                TextField("Username", text: $name)
+                SecureField("Password", text: $pass)
+              }
+              .textFieldStyle(ShapedTextFieldStyle())
+              .autocapitalization(.none)
+              .autocorrectionDisabled()
+            }
+            Button(action: handleLogin) {
+              Text(userState.isLoading ? "Loading..." : "Login")
+                .padding(.horizontal, 4)
+                .frame(maxWidth: .infinity)
+            }
+            .variant(.black)
+            .disabled(userState.isLoading)
           }
-          .textFieldStyle(ShapedTextFieldStyle())
-          .autocapitalization(.none)
+          .padding(32)
+          .background(Color.white)
+          .shadow(color: Color.black.opacity(0.08), radius: 48)
+          .cornerRadius(40)
         }
-        .padding(16)
-        if userState.isLoading {
-          Text("Loading...")
-        } else {
-          Button("Log In / Sign Up", action: handleLogin)
-        }
-        Spacer()
-      }.navigationBarTitle("Piny")
+        .padding(.horizontal, 12)
+      }
     }
   }
 }

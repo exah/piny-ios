@@ -12,7 +12,7 @@
 		0944686424CDEDB900CB9D9F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0944686324CDEDB900CB9D9F /* Media.xcassets */; };
 		0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944686524CDEDB900CB9D9F /* ActionViewController.swift */; };
 		0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0944686724CDEDB900CB9D9F /* MainInterface.storyboard */; };
-		0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0944686124CDEDB900CB9D9F /* pinyAdd.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		094855CF24D0D1D400C38309 /* ExtensionPreprocessing.js in Resources */ = {isa = PBXBuildFile; fileRef = 094855CE24D0D1D400C38309 /* ExtensionPreprocessing.js */; };
 		094855D224D0E99F00C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D124D0E99F00C38309 /* PromiseKit */; };
 		094855D524D0E9B000C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D424D0E9B000C38309 /* PromiseKit */; };
@@ -35,8 +35,8 @@
 		0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054324C79075003609F0 /* PinTag.swift */; };
 		0969B05C24CF20CE0013B066 /* PinLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054124C79056003609F0 /* PinLink.swift */; };
 		0969B05D24CF20CE0013B066 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DC24C0CB580021CC4A /* User.swift */; };
-		0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
-		0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */; };
+		0969B06024CF4F5B0013B066 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */; };
+		0969B06124CF4F720013B066 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */; };
 		0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
 		09735BD724D47418009E765E /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* AsyncState.swift */; };
 		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
@@ -58,6 +58,8 @@
 		099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099156DC24BB996B0041938C /* LaunchScreen.storyboard */; };
 		099156E924BB996B0041938C /* pinyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156E824BB996B0041938C /* pinyTests.swift */; };
 		099156F424BB996B0041938C /* pinyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156F324BB996B0041938C /* pinyUITests.swift */; };
+		09A223EA29B41C510047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
+		09A223EB29B422640047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
 		09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
@@ -109,15 +111,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0944686E24CDEDB900CB9D9F /* Embed App Extensions */ = {
+		0944686E24CDEDB900CB9D9F /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed App Extensions */,
+				0944686D24CDEDB900CB9D9F /* pinyAdd.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -137,7 +139,7 @@
 		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
 		095F88DC24CE066400793A9E /* QuickAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAdd.swift; sourceTree = "<group>"; };
 		0969583A252FB6B4009BCEAB /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedButtonStyle.swift; sourceTree = "<group>"; };
+		0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		09752F6324C0D352003E1B24 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		09752FA624C22A6C003E1B24 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		099156EF24BB996B0041938C /* pinyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pinyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156F324BB996B0041938C /* pinyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pinyUITests.swift; sourceTree = "<group>"; };
 		099156F524BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09A223E929B41C510047375B /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
 		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
@@ -267,8 +270,9 @@
 		0969B05E24CF4F460013B066 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				0969B05F24CF4F5B0013B066 /* ShapedButtonStyle.swift */,
+				0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */,
 				09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */,
+				09A223E929B41C510047375B /* Typography.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -435,7 +439,7 @@
 				099156C724BB99690041938C /* Sources */,
 				099156C824BB99690041938C /* Frameworks */,
 				099156C924BB99690041938C /* Resources */,
-				0944686E24CDEDB900CB9D9F /* Embed App Extensions */,
+				0944686E24CDEDB900CB9D9F /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -493,7 +497,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "John Grishin";
 				TargetAttributes = {
 					0944686024CDEDB900CB9D9F = {
@@ -591,7 +595,7 @@
 				0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */,
 				0969B05024CF20570013B066 /* Storage.swift in Sources */,
 				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
-				0969B06124CF4F720013B066 /* ShapedButtonStyle.swift in Sources */,
+				0969B06124CF4F720013B066 /* ButtonStyle.swift in Sources */,
 				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
 				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
@@ -605,6 +609,7 @@
 				0969B05924CF20CE0013B066 /* Authorisation.swift in Sources */,
 				09735BD724D47418009E765E /* AsyncState.swift in Sources */,
 				0969B05224CF20630013B066 /* API.swift in Sources */,
+				09A223EB29B422640047375B /* Typography.swift in Sources */,
 				0969B05124CF205A0013B066 /* Persistable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,7 +623,7 @@
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
 				0969583B252FB6B4009BCEAB /* Device.swift in Sources */,
 				097D48A824D6C61400C926A3 /* PreviewContent.swift in Sources */,
-				0969B06024CF4F5B0013B066 /* ShapedButtonStyle.swift in Sources */,
+				0969B06024CF4F5B0013B066 /* ButtonStyle.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
 				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
@@ -649,6 +654,7 @@
 				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 				09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */,
+				09A223EA29B41C510047375B /* Typography.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
