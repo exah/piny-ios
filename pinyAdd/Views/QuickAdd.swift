@@ -161,7 +161,7 @@ struct QuickAdd: View {
           Spacer()
           if !self.pinsState.isLoading {
             Button(action: self.handleComplete) {}
-              .variant(.black, icon: Image(systemName: "checkmark"))
+              .variant(.black, size: .small, icon: Image(systemName: "checkmark"))
           }
         }
         .padding(.horizontal, 20)

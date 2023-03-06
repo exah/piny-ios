@@ -58,6 +58,9 @@
 		099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099156DC24BB996B0041938C /* LaunchScreen.storyboard */; };
 		099156E924BB996B0041938C /* pinyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156E824BB996B0041938C /* pinyTests.swift */; };
 		099156F424BB996B0041938C /* pinyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156F324BB996B0041938C /* pinyUITests.swift */; };
+		0998B88529B578AB0068DC17 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0998B88429B578AB0068DC17 /* Colors.xcassets */; };
+		0998B88629B578AB0068DC17 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0998B88429B578AB0068DC17 /* Colors.xcassets */; };
+		0998B88729B57BD80068DC17 /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* TextFieldStyle.swift */; };
 		09A223EA29B41C510047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
 		09A223EB29B422640047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
@@ -71,12 +74,14 @@
 		09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A224DB207400A6635D /* UserSettings.swift */; };
 		09DAB8AA24DB54CF00A6635D /* TagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A924DB54CF00A6635D /* TagsField.swift */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
+		09DF794A29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
+		09DF794B29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
 		09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */; };
 		09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */; };
 		09EA169224BE9F090028121D /* preview-pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* preview-pins.json */; };
 		09EA169424BE9FF70028121D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
 		09EA169624BEA32B0028121D /* PinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169524BEA32B0028121D /* PinList.swift */; };
-		09EA49E224E951C800B20619 /* ShapedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */; };
+		09EA49E224E951C800B20619 /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* TextFieldStyle.swift */; };
 		09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CA24BEAB990021CC4A /* PinRow.swift */; };
 		09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */; };
 		09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CE24BEB31F0021CC4A /* WebView.swift */; };
@@ -162,6 +167,7 @@
 		099156EF24BB996B0041938C /* pinyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pinyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		099156F324BB996B0041938C /* pinyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pinyUITests.swift; sourceTree = "<group>"; };
 		099156F524BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0998B88429B578AB0068DC17 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		09A223E929B41C510047375B /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
@@ -172,12 +178,13 @@
 		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		09DAB8A924DB54CF00A6635D /* TagsField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsField.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
+		09DF794929B5F13900B287F5 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinEdit.swift; sourceTree = "<group>"; };
 		09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinActionRow.swift; sourceTree = "<group>"; };
 		09EA169124BE9F090028121D /* preview-pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-pins.json"; sourceTree = "<group>"; };
 		09EA169324BE9FF70028121D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		09EA169524BEA32B0028121D /* PinList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinList.swift; sourceTree = "<group>"; };
-		09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedTextFieldStyle.swift; sourceTree = "<group>"; };
+		09EA49E124E951C800B20619 /* TextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyle.swift; sourceTree = "<group>"; };
 		09EA49E324E9B2BB00B20619 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		09EB08CA24BEAB990021CC4A /* PinRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRow.swift; sourceTree = "<group>"; };
 		09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRowTags.swift; sourceTree = "<group>"; };
@@ -247,6 +254,8 @@
 		09481C3524D6480A00E874F9 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				09DF794829B5F12000B287F5 /* Components */,
+				09DF794729B5EFFF00B287F5 /* Tokens */,
 				09EB08D524C059890021CC4A /* Helpers */,
 				0991571024BCAD3B0041938C /* Models */,
 				09DEB76E24BE45D9001CE612 /* State */,
@@ -271,8 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */,
-				09EA49E124E951C800B20619 /* ShapedTextFieldStyle.swift */,
-				09A223E929B41C510047375B /* Typography.swift */,
+				09EA49E124E951C800B20619 /* TextFieldStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -387,6 +395,23 @@
 				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
 			);
 			path = State;
+			sourceTree = "<group>";
+		};
+		09DF794729B5EFFF00B287F5 /* Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				0998B88429B578AB0068DC17 /* Colors.xcassets */,
+				09A223E929B41C510047375B /* Typography.swift */,
+			);
+			path = Tokens;
+			sourceTree = "<group>";
+		};
+		09DF794829B5F12000B287F5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				09DF794929B5F13900B287F5 /* Input.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		09EB08D224C051380021CC4A /* Controllers */ = {
@@ -551,6 +576,7 @@
 				09BE837224F81A9700A21581 /* Localizable.strings in Resources */,
 				0944686924CDEDB900CB9D9F /* MainInterface.storyboard in Resources */,
 				094855CF24D0D1D400C38309 /* ExtensionPreprocessing.js in Resources */,
+				0998B88629B578AB0068DC17 /* Colors.xcassets in Resources */,
 				0969B05724CF20BD0013B066 /* preview-pins.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,6 +589,7 @@
 				09BE837124F81A9700A21581 /* Localizable.strings in Resources */,
 				09EA169224BE9F090028121D /* preview-pins.json in Resources */,
 				099156DB24BB996B0041938C /* Preview Assets.xcassets in Resources */,
+				0998B88529B578AB0068DC17 /* Colors.xcassets in Resources */,
 				099156D824BB996B0041938C /* Assets.xcassets in Resources */,
 				09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */,
 			);
@@ -595,8 +622,10 @@
 				0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */,
 				0969B05024CF20570013B066 /* Storage.swift in Sources */,
 				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
+				09DF794B29B5F13900B287F5 /* Input.swift in Sources */,
 				0969B06124CF4F720013B066 /* ButtonStyle.swift in Sources */,
 				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
+				0998B88729B57BD80068DC17 /* TextFieldStyle.swift in Sources */,
 				0969B05B24CF20CE0013B066 /* PinTag.swift in Sources */,
 				0969B06224CF95A50013B066 /* piny.xcdatamodeld in Sources */,
 				0969B05D24CF20CE0013B066 /* User.swift in Sources */,
@@ -627,7 +656,7 @@
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
 				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
-				09EA49E224E951C800B20619 /* ShapedTextFieldStyle.swift in Sources */,
+				09EA49E224E951C800B20619 /* TextFieldStyle.swift in Sources */,
 				097A054424C79075003609F0 /* PinTag.swift in Sources */,
 				097A054224C79056003609F0 /* PinLink.swift in Sources */,
 				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
@@ -644,6 +673,7 @@
 				09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */,
 				097A054024C76F84003609F0 /* Persistable.swift in Sources */,
 				094855D724D102C700C38309 /* ParsedPage.swift in Sources */,
+				09DF794A29B5F13900B287F5 /* Input.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
 				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
 				09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */,
@@ -731,7 +761,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				INFOPLIST_FILE = pinyAdd/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -754,7 +784,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				INFOPLIST_FILE = pinyAdd/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -819,7 +849,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -874,7 +904,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -889,6 +919,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
@@ -896,7 +927,7 @@
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -913,6 +944,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
@@ -920,7 +952,7 @@
 				DEVELOPMENT_TEAM = ZE7U5SKGNZ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

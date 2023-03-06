@@ -59,10 +59,9 @@ struct PinEdit: View {
       VStack {
         VStack(spacing: 16) {
           Group {
-            TextField("Title", text: $pin.title ?? "")
-            TextField("Description", text: $pin.description ?? "")
+            Input("Title", value: $pin.title ?? "")
+            Input("Description", value: $pin.description ?? "")
           }
-            .textFieldStyle(ShapedTextFieldStyle())
           TagsField(tags: $pin.tags)
             .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 22)
         }

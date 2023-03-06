@@ -12,6 +12,8 @@ struct LogIn: View {
   @EnvironmentObject var userState: UserState
   @State private var name: String = ""
   @State private var pass: String = ""
+  @State private var email: String = ""
+  @State private var shouldSignUp: Bool = false
   
   func handleLogin() {
     self.userState.login(
@@ -22,9 +24,7 @@ struct LogIn: View {
         switch error {
           case .notOK( _, let statusCode, _): do {
             if statusCode == 404 {
-              self.signUpAlert { email in
-                self.handleSignUp(email)
-              }
+              self.shouldSignUp = true
             }
           }
           default:
@@ -34,7 +34,7 @@ struct LogIn: View {
     }
   }
 
-  func handleSignUp(_ email: String) {
+  func handleSignUp() {
     self.userState.signUp(
       name: name,
       pass: pass,
@@ -42,31 +42,6 @@ struct LogIn: View {
     ).catch { error in
       Piny.log(error, .error)
     }
-  }
-
-  private func signUpAlert(action: @escaping (_ email: String) -> Void) {
-    guard let controller = UIApplication.shared.windows[0].rootViewController else {
-      return
-    }
-
-    let alert = UIAlertController(
-      title: "👋 Welcome",
-      message: "Enter your email to create an account",
-      preferredStyle: .alert
-    )
-
-    alert.addTextField { textField in
-      textField.placeholder = "Email"
-    }
-
-    alert.addAction(UIAlertAction(title: "Create account", style: .default) { _ in
-      if let text = alert.textFields?[0].text {
-        action(text)
-      }
-    })
-
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-    controller.present(alert, animated: true)
   }
 
   var body: some View {
@@ -79,24 +54,34 @@ struct LogIn: View {
             VStack(spacing: 12) {
               Image("Logo")
               Text("Welcome 👋")
-                .variant(.secondary, color: .gray)
+                .variant(.secondary)
+                .foregroundColor(.gray)
             }
             VStack(spacing: 12) {
               Group {
-                TextField("Username", text: $name)
-                SecureField("Password", text: $pass)
+                Input("Username", value: $name)
+                Input("Password", type: .password, value: $pass)
               }
-              .textFieldStyle(ShapedTextFieldStyle())
               .autocapitalization(.none)
               .autocorrectionDisabled()
             }
             Button(action: handleLogin) {
               Text(userState.isLoading ? "Loading..." : "Login")
-                .padding(.horizontal, 4)
                 .frame(maxWidth: .infinity)
             }
             .variant(.black)
             .disabled(userState.isLoading)
+            .alert(
+              "Enter your email to create an account",
+              isPresented: $shouldSignUp
+            ) {
+              TextField("Email", text: $email)
+              Button("Create account", action: handleSignUp)
+              Button("Cancel", role: .cancel, action: {
+                email = ""
+                shouldSignUp.toggle()
+              })
+            }
           }
           .padding(32)
           .background(Color.white)

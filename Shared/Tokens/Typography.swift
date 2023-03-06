@@ -34,18 +34,10 @@ extension View {
   func textStyle(_ variant: Typography) -> some View {
     modifier(Typography.Modifier(variant: variant))
   }
-  
-  func textStyle(_ variant: Typography, color: Color) -> some View {
-    textStyle(variant).foregroundColor(color)
-  }
 }
 
 extension Text {
   func variant(_ variant: Typography) -> some View {
     textStyle(variant)
-  }
-  
-  func variant(_ variant: Typography, color: Color) -> some View {
-    textStyle(variant, color: color)
   }
 }

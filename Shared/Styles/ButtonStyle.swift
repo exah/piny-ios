@@ -16,12 +16,13 @@ enum ButtonColor {
   struct Modifier: ViewModifier {
     let variant: ButtonColor
     let isPressed: Bool
+    var opacity: Double { isPressed ? 0.5 : 1 }
     
     @ViewBuilder func body(content: Content) -> some View {
       switch variant {
-      case .black: content.foregroundColor(.white.opacity(isPressed ? 0.5 : 1)).background(Color.black)
-      case .white: content.foregroundColor(.black.opacity(isPressed ? 0.5 : 1)).background(Color.white)
-      case .red: content.foregroundColor(.white.opacity(isPressed ? 0.5 : 1)).background(Color.red)
+      case .black: content.foregroundColor(.white.opacity(opacity)).background(Color.black)
+      case .white: content.foregroundColor(.black.opacity(opacity)).background(Color.white)
+      case .red: content.foregroundColor(.white.opacity(opacity)).background(Color.red)
       }
     }
   }
@@ -37,7 +38,7 @@ enum ButtonSize {
     @ViewBuilder func body(content: Content) -> some View {
       switch variant {
       case .medium: content.padding(12)
-      case .small: content.padding(.vertical, 6).padding(.horizontal, 8)
+      case .small: content.padding(6)
       }
     }
   }
@@ -69,10 +70,14 @@ extension View {
   func buttonSize(_ size: ButtonSize) -> some View {
     modifier(ButtonSize.Modifier(variant: size))
   }
+  
+  func buttonVariant(_ color: ButtonColor, size: ButtonSize, icon: Image? = nil) -> some View {
+    buttonStyle(PinyButtonStyle(color: color, size: size, icon: icon))
+  }
 }
 
 extension Button {
-  func variant(_ variant: ButtonColor, size: ButtonSize = .medium, icon: Image? = nil) -> some View {
-    buttonStyle(PinyButtonStyle(color: variant, size: size, icon: icon))
+  func variant(_ color: ButtonColor, size: ButtonSize = .medium, icon: Image? = nil) -> some View {
+    buttonVariant(color, size: size, icon: icon)
   }
 }
