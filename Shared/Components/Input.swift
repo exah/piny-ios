@@ -24,7 +24,7 @@ struct Input: View {
     _ placeholder: String = "",
     type: InputType = .text,
     value: Binding<String>,
-    variant: TextFieldColor = .light,
+    variant: TextFieldColor = .primary,
     size: TextFieldSize = .medium
   ) {
     self._value = value
@@ -36,13 +36,17 @@ struct Input: View {
   
   var body: some View {
     switch type {
-    case .text: TextField(text: $value) { label }.variant(variant)
-    case .password: SecureField(text: $value) { label }.variant(variant)
+    case .text:
+      TextField(text: $value) { label }
+        .variant(variant)
+    case .password:
+      SecureField(text: $value) { label }
+        .variant(variant)
     }
   }
   
   var label: some View {
-    Text(placeholder).foregroundColor(Color("grey50")).variant(.primary)
+    Placeholder(placeholder)
   }
 }
 

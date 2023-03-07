@@ -47,15 +47,17 @@ struct LogIn: View {
   var body: some View {
     NavigationView {
       ZStack {
-        Color(red: 0.93, green: 0.93, blue: 0.93)
+        Color.piny.background
           .edgesIgnoringSafeArea(.all)
         VStack {
           VStack(spacing: 24) {
             VStack(spacing: 12) {
               Image("Logo")
+                .renderingMode(.template)
+                .foregroundColor(.piny.foreground)
               Text("Welcome 👋")
                 .variant(.secondary)
-                .foregroundColor(.gray)
+                .foregroundColor(.piny.grey50)
             }
             VStack(spacing: 12) {
               Group {
@@ -66,10 +68,15 @@ struct LogIn: View {
               .autocorrectionDisabled()
             }
             Button(action: handleLogin) {
-              Text(userState.isLoading ? "Loading..." : "Login")
-                .frame(maxWidth: .infinity)
+              Group {
+                if (userState.isLoading) {
+                  Image(systemName: "circle.dotted")
+                } else {
+                  Text("Login")
+                }
+              }.frame(maxWidth: .infinity)
             }
-            .variant(.black)
+            .variant(.primary)
             .disabled(userState.isLoading)
             .alert(
               "Enter your email to create an account",
@@ -84,9 +91,9 @@ struct LogIn: View {
             }
           }
           .padding(32)
-          .background(Color.white)
-          .shadow(color: Color.black.opacity(0.08), radius: 48)
+          .background(Color.piny.level48)
           .cornerRadius(40)
+          .shadow(color: .piny.black.opacity(0.08), radius: 48)
         }
         .padding(.horizontal, 12)
       }

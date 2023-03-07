@@ -76,6 +76,10 @@
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09DF794A29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
 		09DF794B29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
+		09DF794D29B5FAD900B287F5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794C29B5FAD900B287F5 /* Colors.swift */; };
+		09DF794E29B5FAD900B287F5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794C29B5FAD900B287F5 /* Colors.swift */; };
+		09E5861F29B72D3000D06AB6 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5861E29B72D3000D06AB6 /* Placeholder.swift */; };
+		09E5862029B72D3000D06AB6 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5861E29B72D3000D06AB6 /* Placeholder.swift */; };
 		09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */; };
 		09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */; };
 		09EA169224BE9F090028121D /* preview-pins.json in Resources */ = {isa = PBXBuildFile; fileRef = 09EA169124BE9F090028121D /* preview-pins.json */; };
@@ -179,6 +183,8 @@
 		09DAB8A924DB54CF00A6635D /* TagsField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsField.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09DF794929B5F13900B287F5 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		09DF794C29B5FAD900B287F5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		09E5861E29B72D3000D06AB6 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinEdit.swift; sourceTree = "<group>"; };
 		09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinActionRow.swift; sourceTree = "<group>"; };
 		09EA169124BE9F090028121D /* preview-pins.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-pins.json"; sourceTree = "<group>"; };
@@ -402,6 +408,7 @@
 			children = (
 				0998B88429B578AB0068DC17 /* Colors.xcassets */,
 				09A223E929B41C510047375B /* Typography.swift */,
+				09DF794C29B5FAD900B287F5 /* Colors.swift */,
 			);
 			path = Tokens;
 			sourceTree = "<group>";
@@ -410,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				09DF794929B5F13900B287F5 /* Input.swift */,
+				09E5861E29B72D3000D06AB6 /* Placeholder.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -622,6 +630,7 @@
 				0944686624CDEDB900CB9D9F /* ActionViewController.swift in Sources */,
 				0969B05024CF20570013B066 /* Storage.swift in Sources */,
 				0969B05A24CF20CE0013B066 /* Pin.swift in Sources */,
+				09DF794E29B5FAD900B287F5 /* Colors.swift in Sources */,
 				09DF794B29B5F13900B287F5 /* Input.swift in Sources */,
 				0969B06124CF4F720013B066 /* ButtonStyle.swift in Sources */,
 				0969B05624CF20A90013B066 /* PinsState.swift in Sources */,
@@ -640,6 +649,7 @@
 				0969B05224CF20630013B066 /* API.swift in Sources */,
 				09A223EB29B422640047375B /* Typography.swift in Sources */,
 				0969B05124CF205A0013B066 /* Persistable.swift in Sources */,
+				09E5862029B72D3000D06AB6 /* Placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,9 +688,11 @@
 				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
 				09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
+				09E5861F29B72D3000D06AB6 /* Placeholder.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
 				097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */,
+				09DF794D29B5FAD900B287F5 /* Colors.swift in Sources */,
 				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 				09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */,

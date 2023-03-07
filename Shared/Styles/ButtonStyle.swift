@@ -9,9 +9,9 @@
 import SwiftUI
 
 enum ButtonColor {
-  case black
-  case white
-  case red
+  case primary
+  case secondary
+  case destructive
   
   struct Modifier: ViewModifier {
     let variant: ButtonColor
@@ -20,9 +20,9 @@ enum ButtonColor {
     
     @ViewBuilder func body(content: Content) -> some View {
       switch variant {
-      case .black: content.foregroundColor(.white.opacity(opacity)).background(Color.black)
-      case .white: content.foregroundColor(.black.opacity(opacity)).background(Color.white)
-      case .red: content.foregroundColor(.white.opacity(opacity)).background(Color.red)
+      case .primary: content.foregroundColor(Color.piny.background.opacity(opacity)).background(Color.piny.foreground)
+      case .secondary: content.foregroundColor(Color.piny.foreground.opacity(opacity)).background(Color.piny.background)
+      case .destructive: content.foregroundColor(Color.piny.white.opacity(opacity)).background(Color.piny.red)
       }
     }
   }

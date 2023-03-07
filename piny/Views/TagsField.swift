@@ -20,10 +20,11 @@ struct TagsField: UIViewRepresentable {
     uiView.autocorrectionType = .no
     uiView.autocapitalizationType = .none
 
-    uiView.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    uiView.leftView = .none
     uiView.leftViewMode = .never
     uiView.borderStyle = .roundedRect
     uiView.returnKeyType = .next
+    uiView.textRect(forBounds: .zero)
 
     uiView.delegate = context.coordinator
 

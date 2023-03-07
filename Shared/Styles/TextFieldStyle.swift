@@ -9,7 +9,7 @@
 import SwiftUI
 
 enum TextFieldColor {
-  case light
+  case primary
   case dark
 }
 
@@ -18,7 +18,7 @@ enum TextFieldSize {
   case small
 }
 
-struct PinyTextFieldStyle: TextFieldStyle {
+struct TextFieldModifier: ViewModifier {
   let color: TextFieldColor
   let size: TextFieldSize
   let invalid: Bool
@@ -28,25 +28,17 @@ struct PinyTextFieldStyle: TextFieldStyle {
   
   private var colors: (fg: Color, bg: Color, stroke: Color) {
     switch color {
-    case .light:
+    case .primary:
       return (
-        fg: invalid ? .red : .black,
-        bg: invalid
-          ? Color(red: 1, green: 0.93, blue: 0.93)
-          : focused
-            ? Color(red: 0.95, green: 0.98, blue: 1.0)
-            : Color(red: 0.93, green: 0.93, blue: 0.93),
-        stroke: focused
-          ? invalid
-            ? .red
-            : .blue
-          : .black.opacity(0)
+        fg: invalid ? .piny.red : .piny.foreground,
+        bg: invalid ? .piny.red10 : focused ? .piny.blue10 : .piny.grey10,
+        stroke: focused ? invalid ? .piny.red : .piny.blue : .clear
       )
     case .dark:
       return (
-        fg: .white,
-        bg: Color(red: 0.13, green: 0.13, blue: 0.13),
-        stroke: focused ? .white : .white.opacity(0)
+        fg: invalid ? .piny.red : .piny.foreground,
+        bg: invalid ? .piny.red10 : focused ? .piny.grey20 : .piny.grey10,
+        stroke: focused ? invalid ? .piny.red : .piny.foreground : .clear
       )
     }
   }
@@ -57,11 +49,10 @@ struct PinyTextFieldStyle: TextFieldStyle {
     case .small: return (8, 2)
     }
   }
-  
-  func _body(configuration: TextField<_Label>) -> some View {
+
+  @ViewBuilder func base(_ content: Content) -> some View {
     HStack {
-      configuration
-        .padding(.horizontal, 4)
+      content.padding(.horizontal, 4)
     }
       .padding(.horizontal, padding.x)
       .padding(.vertical, padding.y)
@@ -75,11 +66,22 @@ struct PinyTextFieldStyle: TextFieldStyle {
       .focused($focused)
       .textStyle(.primary)
   }
+  
+  @ViewBuilder func colored(_ content: Content) -> some View {
+    switch color {
+    case .dark: base(content).environment(\.colorScheme, .dark)
+    default: base(content)
+    }
+  }
+
+  func body(content: Content) -> some View {
+    colored(content)
+  }
 }
 
 extension View {
   func textFieldVariant(_ color: TextFieldColor, size: TextFieldSize = .medium, invalid: Bool = false) -> some View {
-    textFieldStyle(PinyTextFieldStyle(color: color, size: size, invalid: invalid))
+    modifier(TextFieldModifier(color: color, size: size, invalid: invalid))
   }
 }
 

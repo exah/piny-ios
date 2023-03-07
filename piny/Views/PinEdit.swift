@@ -63,6 +63,7 @@ struct PinEdit: View {
             Input("Description", value: $pin.description ?? "")
           }
           TagsField(tags: $pin.tags)
+            .textFieldVariant(.primary)
             .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 22)
         }
         Spacer()
