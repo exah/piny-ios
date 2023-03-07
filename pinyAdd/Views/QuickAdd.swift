@@ -129,52 +129,69 @@ struct QuickAdd: View {
     GeometryReader { geometry in
       VStack {
         Spacer()
-        HStack(alignment: .center, spacing: 16) {
-          Image(
-            systemName:
-              self.pinsState.isLoading
-                ? "clock.fill"
-                : self.isError
-                  ? "xmark.circle.fill"
-                  : "checkmark.circle.fill"
-          )
+        HStack(alignment: .center, spacing: 12) {
+          Group {
+            Image(
+              systemName:
+                self.pinsState.isLoading
+              ? "circle.dotted"
+              : isError
+              ? "xmark.circle.fill"
+              : "globe"
+            )
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(
-              self.pinsState.isLoading
-                ? .orange
-                : self.isError
-                  ? .red
-                  : .green
+              isError
+              ? .piny.red
+              : .piny.foreground
             )
-            .frame(width: 24)
+            .frame(width: 16, height: 16)
+          }
+            .frame(width: 24, height: 24)
           Text(
             self.pinsState.isLoading
               ? "Adding..."
-              : self.isError
-                ? "Failed"
+              : isError
+                ? "Failed to add"
                 : "Added to Piny"
           )
-            .font(.system(size: 18))
-            .fontWeight(.semibold)
-            .foregroundColor(.black)
+            .variant(.h2)
+            .foregroundColor(
+              isError
+              ? .piny.red
+              : .piny.foreground
+            )
           Spacer()
-          if !self.pinsState.isLoading {
+          if !self.pinsState.isLoading && !isError {
             Button(action: self.handleComplete) {}
-              .variant(.black, size: .small, icon: Image(systemName: "checkmark"))
+              .variant(.primary, size: .small, icon: Image(systemName: "checkmark"))
           }
         }
-        .padding(.horizontal, 20)
-        .frame(
-          width: geometry.size.width - 18,
-          height: 72
-        )
+        .padding(12)
         .background(
-          RoundedRectangle(cornerRadius: 32, style: .continuous)
-            .fill(Color.white)
+          isError
+          ? Color.piny.red10
+          : Color.piny.level48
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: 40, style: .continuous)
+            .stroke(
+              isError
+              ? Color.piny.red
+              : Color.clear,
+              lineWidth: 2
+            )
+        )
+        .cornerRadius(40)
+        .shadow(
+          color: isError
+          ? .piny.red.opacity(0.5)
+          : .piny.black.opacity(0.08),
+          radius: isError ? 16 : 48
         )
       }
-      .padding(.horizontal, 18)
+      .padding(.horizontal, 12)
       .onAppear(perform: self.handleAppear)
     }
   }
