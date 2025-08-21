@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import Combine
 
 final class PinsState: AsyncState {
   @Published var pins: [Pin] = []
@@ -24,7 +25,7 @@ final class PinsState: AsyncState {
         self.pins = pins
       }
 
-      Piny.log("Fetched from store pins(\(pins.count)): \(pins)")
+      Piny.log("Fetched from store pins: \(pins.count)")
     }
   }
 

@@ -9,6 +9,7 @@
 import Foundation
 import PromiseKit
 import UIKit
+import Combine
 
 final class UserState: AsyncState {
   @Published var user: User?
@@ -28,7 +29,7 @@ final class UserState: AsyncState {
         Piny.api.token = users[0].token
       }
 
-      Piny.log("Fetched from store users(\(users.count)): \(users)")
+      Piny.log("Fetched from store users: \(users.count)")
     }
   }
 
