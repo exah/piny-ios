@@ -12,6 +12,9 @@ import PromiseKit
 import UniformTypeIdentifiers
 import MobileCoreServices
 
+fileprivate let HEIGHT: CGFloat = 58
+fileprivate let WIDTH: CGFloat = 320
+
 class ShareViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,6 +32,11 @@ class ShareViewController: UIViewController {
     }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    makeContainersClear()
+  }
+
   func render(page: ParsedPage) {
     let rootView = QuickAdd(page: page, onComplete: complete)
       .environmentObject(UserState())
@@ -44,12 +52,11 @@ class ShareViewController: UIViewController {
       self.clearView(host.view)
       host.view.translatesAutoresizingMaskIntoConstraints = false
 
-
       NSLayoutConstraint.activate([
         host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
         host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
         host.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        host.view.heightAnchor.constraint(equalToConstant: 58)
+        host.view.heightAnchor.constraint(equalToConstant: HEIGHT)
       ])
 
       host.didMove(toParent: self)
@@ -123,9 +130,9 @@ class ShareViewController: UIViewController {
     }
   }
 
-  private func clearView(_ view: UIView) {
-    view.isOpaque = false
-    view.backgroundColor = .clear
+  private func clearView(_ view: UIView?) {
+    view?.isOpaque = false
+    view?.backgroundColor = .clear
   }
 
   private func makeContainersClear() {
@@ -135,12 +142,6 @@ class ShareViewController: UIViewController {
       view = superview
     }
 
-    self.view.window?.isOpaque = false
-    self.view.window?.backgroundColor = .clear
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    makeContainersClear()
+    clearView(self.view.window)
   }
 }

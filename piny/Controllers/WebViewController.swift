@@ -28,7 +28,6 @@ final class WebViewController: UIViewController {
     update(url: url!)
   }
 
-
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     controller?.view.frame = view.frame
