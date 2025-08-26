@@ -12,7 +12,7 @@ enum ButtonColor {
   case primary
   case secondary
   case destructive
-  
+
   struct Modifier: ViewModifier {
     let variant: ButtonColor
     let isPressed: Bool
@@ -31,14 +31,17 @@ enum ButtonColor {
 enum ButtonSize {
   case medium
   case small
-  
+  case tag
+
   struct Modifier: ViewModifier {
     let variant: ButtonSize
-    
+    let hug: Bool
+
     @ViewBuilder func body(content: Content) -> some View {
       switch variant {
-      case .medium: content.padding(12)
-      case .small: content.padding(6)
+      case .medium: content.textStyle(.primary).padding(12)
+      case .small: content.textStyle(.primary).padding(6)
+      case .tag: content.textStyle(.secondary).padding(.horizontal, hug ? 1 : 8).padding(.vertical, 1)
       }
     }
   }
@@ -48,15 +51,15 @@ struct PinyButtonStyle: ButtonStyle {
   let color: ButtonColor
   let size: ButtonSize
   let icon: Image?
+  let hug: Bool?
 
   func makeBody(configuration: Configuration) -> some View {
     HStack(spacing: size == ButtonSize.medium ? 8 : 4) {
       icon?.textStyle(.primary)
       configuration.label.padding(.horizontal, 4)
     }
-      .buttonSize(size)
+      .buttonSize(size, hug: hug ?? false)
       .buttonColor(color, isPressed: configuration.isPressed)
-      .textStyle(.primary)
       .cornerRadius(20)
       .shadow(color: .black.opacity(0.16), radius: configuration.isPressed ? 8 : 16)
   }
@@ -67,17 +70,17 @@ extension View {
     modifier(ButtonColor.Modifier(variant: color, isPressed: isPressed))
   }
   
-  func buttonSize(_ size: ButtonSize) -> some View {
-    modifier(ButtonSize.Modifier(variant: size))
+  func buttonSize(_ size: ButtonSize, hug: Bool = false) -> some View {
+    modifier(ButtonSize.Modifier(variant: size, hug: hug))
   }
   
-  func buttonVariant(_ color: ButtonColor, size: ButtonSize, icon: Image? = nil) -> some View {
-    buttonStyle(PinyButtonStyle(color: color, size: size, icon: icon))
+  func buttonVariant(_ color: ButtonColor, size: ButtonSize, icon: Image? = nil, hug: Bool = false) -> some View {
+    buttonStyle(PinyButtonStyle(color: color, size: size, icon: icon, hug: hug))
   }
 }
 
 extension Button {
-  func variant(_ color: ButtonColor, size: ButtonSize = .medium, icon: Image? = nil) -> some View {
-    buttonVariant(color, size: size, icon: icon)
+  func variant(_ color: ButtonColor, size: ButtonSize = .medium, icon: Image? = nil, hug: Bool = false) -> some View {
+    buttonVariant(color, size: size, icon: icon, hug: hug)
   }
 }

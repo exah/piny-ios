@@ -62,9 +62,7 @@ struct PinEdit: View {
             Input("Title", value: $pin.title ?? "")
             Input("Description", value: $pin.description ?? "")
           }
-          TagsField(tags: $pin.tags)
-            .textFieldVariant(.primary)
-            .frame(height: UIFont.preferredFont(forTextStyle: .body).pointSize + 22)
+          PinTags(tags: $pin.tags)
         }
         Spacer()
       }
@@ -110,5 +108,6 @@ struct PinEdit_Previews: PreviewProvider {
   static var previews: some View {
     PinEdit(pin: $pin.transaction())
       .environmentObject(PinsState())
+      .environmentObject(TagsState())
   }
 }

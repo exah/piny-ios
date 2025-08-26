@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         rootView: Root()
           .environmentObject(UserState())
           .environmentObject(PinsState())
+          .environmentObject(TagsState())
           .environment(\.managedObjectContext, Piny.storage.currentContext)
       )
       

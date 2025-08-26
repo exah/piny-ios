@@ -11,10 +11,14 @@ import PromiseKit
 
 struct UserPinList: View {
   @EnvironmentObject var pinsState: PinsState
+  @EnvironmentObject var tagsState: TagsState
 
   func load() {
     firstly {
-      pinsState.fetch()
+      when(fulfilled:
+        pinsState.fetch(),
+        tagsState.fetch()
+      )
     }.catch { error in
       Piny.log(error, .error)
     }
@@ -44,5 +48,6 @@ struct UserPinList_Previews: PreviewProvider {
   static var previews: some View {
     UserPinList()
       .environmentObject(PinsState(PreviewContent.pins))
+      .environmentObject(TagsState([]))
   }
 }

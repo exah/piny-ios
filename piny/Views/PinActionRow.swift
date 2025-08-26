@@ -32,7 +32,7 @@ struct PinActionRow: View {
 
   var body: some View {
     Button(action: { toggle(.view) }) {
-      PinRow(pin: pin)
+      PinRow(pin: $pin)
         .contextMenu {
           Button(action: { toggle(.edit) }) {
             Label("Edit", systemImage: "pencil")

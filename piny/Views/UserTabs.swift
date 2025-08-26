@@ -11,23 +11,24 @@ import SwiftUI
 struct UserTabs: View {
   var body: some View {
     TabView {
-      NavigationView {
-        UserPinList()
-          .navigationBarTitle("Piny")
+      Tab("All", image: "icons.16.all") {
+        NavigationStack {
+          UserPinList()
+            .navigationBarTitle("All")
+            .toolbar {
+              ToolbarItem(placement: .largeTitle) {
+                Image("assets.logo").padding(.bottom, 16)
+              }
+            }
+        }
       }
-      .tabItem {
-        Image(systemName: "pin.fill")
-        Text("All")
-      }
-      NavigationView {
+      Tab("Settings", image: "icons.16.settings") {
         UserSettings()
           .navigationBarTitle("Settings")
       }
-      .tabItem {
-        Image(systemName: "gear")
-        Text("Settings")
-      }
+
     }
+    .tabViewStyle(.sidebarAdaptable)
   }
 }
 

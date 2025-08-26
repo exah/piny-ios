@@ -61,6 +61,13 @@
 		09AC54A12E566349009902FA /* preview-user.json in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
 		09AC54C12E566620009902FA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09BE837424F81A9700A21581 /* Localizable.strings */; };
 		09AC55272E58BD25009902FA /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55262E58BD23009902FA /* ShareView.swift */; };
+		09AC55292E58C91A009902FA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55282E58C91A009902FA /* Tag.swift */; };
+		09AC552A2E58C91A009902FA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55282E58C91A009902FA /* Tag.swift */; };
+		09AC553B2E59DB84009902FA /* TagsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* TagsState.swift */; };
+		09AC553C2E59DB84009902FA /* TagsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* TagsState.swift */; };
+		09AC553E2E5A116F009902FA /* TagSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553D2E5A116F009902FA /* TagSelect.swift */; };
+		09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55402E5A13CF009902FA /* WrappingHStack */; };
+		09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55422E5A13D6009902FA /* WrappingHStack */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
 		09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
@@ -68,7 +75,6 @@
 		09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
 		09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89E24DB159100A6635D /* UserTabs.swift */; };
 		09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A224DB207400A6635D /* UserSettings.swift */; };
-		09DAB8AA24DB54CF00A6635D /* TagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A924DB54CF00A6635D /* TagsField.swift */; };
 		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
 		09DF794A29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
 		09DF794D29B5FAD900B287F5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794C29B5FAD900B287F5 /* Colors.swift */; };
@@ -80,7 +86,7 @@
 		09EA169624BEA32B0028121D /* PinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169524BEA32B0028121D /* PinList.swift */; };
 		09EA49E224E951C800B20619 /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* TextFieldStyle.swift */; };
 		09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CA24BEAB990021CC4A /* PinRow.swift */; };
-		09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */; };
+		09EB08CD24BEAFA90021CC4A /* PinTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CC24BEAFA90021CC4A /* PinTags.swift */; };
 		09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08CE24BEB31F0021CC4A /* WebView.swift */; };
 		09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D324C0514A0021CC4A /* WebViewController.swift */; };
 		09EB08D924C0A2690021CC4A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
@@ -141,6 +147,9 @@
 		09AC544C2E54D2DE009902FA /* pinyShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = pinyShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		09AC54602E54D319009902FA /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		09AC55262E58BD23009902FA /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		09AC55282E58C91A009902FA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		09AC553A2E59DB7E009902FA /* TagsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsState.swift; sourceTree = "<group>"; };
+		09AC553D2E5A116F009902FA /* TagSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelect.swift; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
 		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
 		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
@@ -148,7 +157,6 @@
 		09DAB89B24D8BF5E00A6635D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		09DAB89E24DB159100A6635D /* UserTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTabs.swift; sourceTree = "<group>"; };
 		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-		09DAB8A924DB54CF00A6635D /* TagsField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsField.swift; sourceTree = "<group>"; };
 		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		09DF794929B5F13900B287F5 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		09DF794C29B5FAD900B287F5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -161,7 +169,7 @@
 		09EA49E124E951C800B20619 /* TextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyle.swift; sourceTree = "<group>"; };
 		09EA49E324E9B2BB00B20619 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		09EB08CA24BEAB990021CC4A /* PinRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRow.swift; sourceTree = "<group>"; };
-		09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRowTags.swift; sourceTree = "<group>"; };
+		09EB08CC24BEAFA90021CC4A /* PinTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinTags.swift; sourceTree = "<group>"; };
 		09EB08CE24BEB31F0021CC4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		09EB08D324C0514A0021CC4A /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		09EB08D824C0A2690021CC4A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -195,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */,
 				094855D224D0E99F00C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,6 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */,
 				09AC547A2E566099009902FA /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,19 +305,20 @@
 		0991570724BC60460041938C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				09AC55262E58BD23009902FA /* ShareView.swift */,
-				09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */,
-				09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */,
-				09EB08CA24BEAB990021CC4A /* PinRow.swift */,
-				09EB08CC24BEAFA90021CC4A /* PinRowTags.swift */,
-				09EA169524BEA32B0028121D /* PinList.swift */,
-				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
-				09DAB8A924DB54CF00A6635D /* TagsField.swift */,
 				09752F6324C0D352003E1B24 /* LogIn.swift */,
+				09EA13A724D8B7F800B5B5C9 /* PinActionRow.swift */,
+				09EA13A424D8B5C900B5B5C9 /* PinEdit.swift */,
+				09EA169524BEA32B0028121D /* PinList.swift */,
+				09EB08CA24BEAB990021CC4A /* PinRow.swift */,
+				09EB08CC24BEAFA90021CC4A /* PinTags.swift */,
+				09752F6524C0DCBD003E1B24 /* Root.swift */,
+				09AC55262E58BD23009902FA /* ShareView.swift */,
+				09AC55282E58C91A009902FA /* Tag.swift */,
+				09AC553D2E5A116F009902FA /* TagSelect.swift */,
 				0944684624CDE16100CB9D9F /* UserPinList.swift */,
 				09DAB8A224DB207400A6635D /* UserSettings.swift */,
 				09DAB89E24DB159100A6635D /* UserTabs.swift */,
-				09752F6524C0DCBD003E1B24 /* Root.swift */,
+				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,12 +327,12 @@
 			isa = PBXGroup;
 			children = (
 				09EB08DA24C0CB380021CC4A /* Authorisation.swift */,
-				09EA169324BE9FF70028121D /* Pin.swift */,
-				097A054324C79075003609F0 /* PinTag.swift */,
-				097A054124C79056003609F0 /* PinLink.swift */,
-				09EB08DC24C0CB580021CC4A /* User.swift */,
-				094855D624D102C700C38309 /* ParsedPage.swift */,
 				0969583A252FB6B4009BCEAB /* Device.swift */,
+				094855D624D102C700C38309 /* ParsedPage.swift */,
+				09EA169324BE9FF70028121D /* Pin.swift */,
+				097A054124C79056003609F0 /* PinLink.swift */,
+				097A054324C79075003609F0 /* PinTag.swift */,
+				09EB08DC24C0CB580021CC4A /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -330,8 +341,9 @@
 			isa = PBXGroup;
 			children = (
 				093A99AD24D46FA600ADBB0A /* AsyncState.swift */,
-				09DEB76F24BE45ED001CE612 /* UserState.swift */,
 				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
+				09AC553A2E59DB7E009902FA /* TagsState.swift */,
+				09DEB76F24BE45ED001CE612 /* UserState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -395,6 +407,7 @@
 			name = piny;
 			packageProductDependencies = (
 				094855D124D0E99F00C38309 /* PromiseKit */,
+				09AC55402E5A13CF009902FA /* WrappingHStack */,
 			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
@@ -418,6 +431,7 @@
 			name = pinyShare;
 			packageProductDependencies = (
 				09AC54792E566099009902FA /* PromiseKit */,
+				09AC55422E5A13D6009902FA /* WrappingHStack */,
 			);
 			productName = pinyShare;
 			productReference = 09AC544C2E54D2DE009902FA /* pinyShare.appex */;
@@ -453,6 +467,7 @@
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
 				094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */,
+				09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
@@ -495,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				099156CF24BB99690041938C /* AppDelegate.swift in Sources */,
+				09AC553E2E5A116F009902FA /* TagSelect.swift in Sources */,
 				09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */,
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
 				0969583B252FB6B4009BCEAB /* Device.swift in Sources */,
@@ -510,14 +526,14 @@
 				09752F6424C0D352003E1B24 /* LogIn.swift in Sources */,
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
 				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
-				09EB08CD24BEAFA90021CC4A /* PinRowTags.swift in Sources */,
-				09DAB8AA24DB54CF00A6635D /* TagsField.swift in Sources */,
+				09EB08CD24BEAFA90021CC4A /* PinTags.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,
 				09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */,
 				09DEB77024BE45ED001CE612 /* UserState.swift in Sources */,
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */,
+				09AC55292E58C91A009902FA /* Tag.swift in Sources */,
 				097A054024C76F84003609F0 /* Persistable.swift in Sources */,
 				094855D724D102C700C38309 /* ParsedPage.swift in Sources */,
 				09DF794A29B5F13900B287F5 /* Input.swift in Sources */,
@@ -525,6 +541,7 @@
 				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
 				09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
+				09AC553B2E59DB84009902FA /* TagsState.swift in Sources */,
 				09E5861F29B72D3000D06AB6 /* Placeholder.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
@@ -563,7 +580,9 @@
 				09AC549E2E566349009902FA /* TextFieldStyle.swift in Sources */,
 				09AC549F2E566349009902FA /* Preview Assets.xcassets in Sources */,
 				09AC54A02E566349009902FA /* preview-pins.json in Sources */,
+				09AC552A2E58C91A009902FA /* Tag.swift in Sources */,
 				09AC54A12E566349009902FA /* preview-user.json in Sources */,
+				09AC553C2E59DB84009902FA /* TagsState.swift in Sources */,
 				09AC547F2E56622D009902FA /* AsyncState.swift in Sources */,
 				09AC54852E56624A009902FA /* PreviewContent.swift in Sources */,
 				09AC54812E566233009902FA /* UserState.swift in Sources */,
@@ -735,7 +754,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -762,7 +781,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -792,7 +811,7 @@
 				INFOPLIST_FILE = pinyShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = pinyShare;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 John Grishin. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -831,7 +850,7 @@
 				INFOPLIST_FILE = pinyShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = pinyShare;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 John Grishin. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -896,6 +915,14 @@
 				minimumVersion = 6.13.2;
 			};
 		};
+		09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -908,6 +935,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
 			productName = PromiseKit;
+		};
+		09AC55402E5A13CF009902FA /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
+		09AC55422E5A13D6009902FA /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 

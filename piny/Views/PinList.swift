@@ -19,7 +19,7 @@ struct PinList: View {
         PinActionRow(pin: pin, onDelete: {
           self.onDelete?([pin])
         })
-          .padding(.vertical, 8)
+          .padding(.vertical, 2)
       }
       .onDelete { offsets in
         if let first = offsets.first, let last = offsets.last {
