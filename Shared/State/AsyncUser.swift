@@ -6,36 +6,25 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import Foundation
 import PromiseKit
-import UIKit
-import Combine
+import SwiftUI
+import SwiftData
 
-final class UserState: AsyncState {
-  @Published var user: User?
-  @Published var isLoading: Bool = false
+@Observable
+class AsyncUser: Async {
+  @MainActor
+  init(_ initial: User? = nil, modelContext: ModelContext? = nil) {
+    super.init(modelContext: modelContext)
 
-  var isLoggedIn: Bool { user?.token != nil }
+    if let user = initial { self.modelContext.insert(user) }
+    let u = try? self.modelContext.fetch(FetchDescriptor<User>()).first
 
-  init(_ initial: User? = nil) {
-    if let user = initial {
-      self.user = user
-      Piny.api.token = user.token
-    } else {
-      let users = Piny.storage.fetch(User.self, limit: 1)
-
-      if users.count == 1 {
-        self.user = users[0]
-        Piny.api.token = users[0].token
-      }
-
-      Piny.log("Fetched from store users: \(users.count)")
-    }
+    Piny.api.token = u?.token
   }
 
-  private func fetchUser(name: String) -> Promise<User> {
+  private func fetchUser(name: String) -> Promise<UserDTO> {
     Piny.api.get(
-      User.self,
+      UserDTO.self,
       path: "/\(name)"
     )
   }
@@ -86,11 +75,10 @@ final class UserState: AsyncState {
       }.done { auth, user in
         Piny.log("User: \(user)")
 
-        self.user = user
-        self.user?.token = auth.token
+        let entity = User(from: user)
+        entity.token = auth.token
 
-        Piny.storage.remove(User.self)
-        Piny.storage.save(self.user!)
+        self.modelContext.insert(entity)
       }
     }
   }
@@ -102,11 +90,11 @@ final class UserState: AsyncState {
         path: "/logout"
       )
     }.done { _ in
-      self.user = nil
-
       Piny.api.token = nil
-      Piny.storage.remove(User.self)
-      Piny.storage.remove(Pin.self)
+
+      try? self.modelContext.delete(model: User.self)
+      try? self.modelContext.delete(model: Pin.self)
+      try? self.modelContext.delete(model: PinTag.self)
     }
   }
 }

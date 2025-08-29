@@ -7,22 +7,23 @@
 //
 
 import SwiftUI
+import PromiseKit
 
 struct LogIn: View {
-  @EnvironmentObject var userState: UserState
+  @Environment(AsyncUser.self) var asyncUser
   @State private var name: String = ""
   @State private var pass: String = ""
   @State private var email: String = ""
   @State private var shouldSignUp: Bool = false
   
   func handleLogin() {
-    self.userState.login(
+    self.asyncUser.login(
       name: name,
       pass: pass
     ).catch { error in
       if let error = error as? API.Error {
         switch error {
-          case .notOK( _, let statusCode, _): do {
+          case .notOK( _, let statusCode, _, _): do {
             if statusCode == 404 {
               self.shouldSignUp = true
             }
@@ -31,11 +32,13 @@ struct LogIn: View {
             Piny.log(error, .error)
         }
       }
+
+      return
     }
   }
 
   func handleSignUp() {
-    self.userState.signUp(
+    self.asyncUser.signUp(
       name: name,
       pass: pass,
       email: email
@@ -52,7 +55,7 @@ struct LogIn: View {
         VStack {
           VStack(spacing: 24) {
             VStack(spacing: 12) {
-              Image("Logo")
+              Image("assets.logo")
                 .renderingMode(.template)
                 .foregroundColor(.piny.foreground)
               Text("Welcome 👋")
@@ -69,7 +72,7 @@ struct LogIn: View {
             }
             Button(action: handleLogin) {
               Group {
-                if (userState.isLoading) {
+                if (asyncUser.isLoading) {
                   Image(systemName: "circle.dotted")
                 } else {
                   Text("Login")
@@ -77,7 +80,7 @@ struct LogIn: View {
               }.frame(maxWidth: .infinity)
             }
             .variant(.primary)
-            .disabled(userState.isLoading)
+            .disabled(asyncUser.isLoading)
             .alert(
               "Enter your email to create an account",
               isPresented: $shouldSignUp
@@ -104,6 +107,6 @@ struct LogIn: View {
 struct Login_Previews: PreviewProvider {
   static var previews: some View {
     LogIn()
-      .environmentObject(UserState())
+      .environment(AsyncUser())
   }
 }

@@ -7,38 +7,35 @@
 //
 
 import Foundation
-import CoreData
+import SwiftData
 
-struct User: Identifiable, Codable {
-  let id: UUID
-  let name: String
-  let email: String
+@Model
+class User: Identifiable, Equatable {
+  @Attribute(.unique) var id: UUID
+  var name: String
+  @Attribute(.unique) var email: String
   var token: String?
-}
 
-extension User: Persistable {
-  static func fromObject(_ object: DBUser) -> User {
-    User(
-      id: object.id,
-      name: object.name,
-      email: object.email,
-      token: object.token
+  init(id: UUID, name: String, email: String, token: String? = nil) {
+    self.id = id
+    self.name = name
+    self.email = email
+    self.token = token
+  }
+
+  convenience init(from user: UserDTO) {
+    self.init(
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      token: user.token,
     )
   }
-
-  func toObject(in context: NSManagedObjectContext) -> DBUser {
-    let entity = DBUser.create(in: context)
-    entity.id = id
-    entity.name = name
-    entity.email = email
-    entity.token = token
-    return entity
-  }
 }
 
-class DBUser: NSManagedObject {
-  @NSManaged var id: UUID
-  @NSManaged var name: String
-  @NSManaged var email: String
-  @NSManaged var token: String?
+struct UserDTO: Identifiable, Codable {
+  var id: UUID
+  var name: String
+  var email: String
+  var token: String?
 }

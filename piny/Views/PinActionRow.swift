@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 private enum Action {
   case edit
@@ -16,9 +17,9 @@ private enum Action {
 }
 
 struct PinActionRow: View {
-  @EnvironmentObject var pinsState: PinsState
   @State private var selected: Action = .none
   @State var pin: Pin
+  var tags: [PinTag]
 
   var onDelete: (() -> Void)? = nil
 
@@ -32,7 +33,7 @@ struct PinActionRow: View {
 
   var body: some View {
     Button(action: { toggle(.view) }) {
-      PinRow(pin: $pin)
+      PinRow(pin: pin, tags: tags)
         .contextMenu {
           Button(action: { toggle(.edit) }) {
             Label("Edit", systemImage: "pencil")
@@ -60,10 +61,11 @@ struct PinActionRow: View {
         case .share:
           ShareView(url: pin.link.url)
         case .edit:
-          PinEdit(pin: $pin.transaction(), onClose: {
-            toggle(.none)
-          })
-          .environmentObject(pinsState)
+          PinEdit(
+            pin: $pin.transaction(),
+            tags: tags,
+            onClose: { toggle(.none) }
+          )
         case .none:
           EmptyView()
       }
@@ -73,7 +75,6 @@ struct PinActionRow: View {
 
 struct PinAction_Previews: PreviewProvider {
   static var previews: some View {
-    PinActionRow(pin: PreviewContent.pins[0])
-      .environmentObject(PinsState(PreviewContent.pins))
+    PinActionRow(pin: PreviewContent.pins[0], tags: [])
   }
 }

@@ -81,7 +81,7 @@ struct API {
             let message = try? JSONDecoder().decode(API.Message.self, from: data!)
 
             DispatchQueue.main.async {
-              seal.reject(API.Error.notOK(path: path, statusCode: response.getStatusCode(), message: message))
+              seal.reject(API.Error.notOK(path: path, statusCode: response.getStatusCode(), method: method, message: message))
             }
           }
         }
@@ -156,7 +156,7 @@ struct API {
     case serializationFailed(data: Any?, underlyingError: Swift.Error)
     case parsingFailed(data: Any?, underlyingError: Swift.Error)
     case requestFailed(path: String, underlyingError: Swift.Error)
-    case notOK(path: String, statusCode: Int?, message: API.Message?)
+    case notOK(path: String, statusCode: Int?, method: String, message: API.Message?)
 
     var description: String {
       switch self {
@@ -166,8 +166,8 @@ struct API {
           return "API.Error: Can't fetch '\(path)'\n\(String(describing: underlyingError))"
         case .parsingFailed(let data, let underlyingError):
           return "API.Error: Can't parse result JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
-        case .notOK(let path, let statusCode, let message):
-          return "API.Error: Request \(path), status: '\(statusCode ?? 0)'\n\(String(describing: message))"
+        case .notOK(let path, let statusCode, let method, let message):
+          return "API.Error: Request \(path), method: '\(method)' status: '\(statusCode ?? 0)'\n\(String(describing: message))"
       }
     }
   }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import SwiftData
 import PromiseKit
 import UniformTypeIdentifiers
 import MobileCoreServices
@@ -39,8 +40,8 @@ class ShareViewController: UIViewController {
 
   func render(page: ParsedPage) {
     let rootView = QuickAdd(page: page, onComplete: complete)
-      .environmentObject(UserState())
-      .environmentObject(PinsState([]))
+      .environment(AsyncUser(modelContext: Piny.storage.container.mainContext))
+      .environment(AsyncPins(modelContext: Piny.storage.container.mainContext))
 
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }

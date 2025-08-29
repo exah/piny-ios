@@ -9,6 +9,7 @@
 import SwiftUI
 import WrappingHStack
 import PromiseKit
+import SwiftData
 
 fileprivate let CREATE_TAG: PinTag = PinTag(
   id: UUID(),
@@ -16,26 +17,25 @@ fileprivate let CREATE_TAG: PinTag = PinTag(
 )
 
 struct PinTags: View {
-  @EnvironmentObject var tagsState: TagsState
   @Binding var tags: [PinTag]
+
+  var displayList: [PinTag] { [CREATE_TAG] + tags }
+  var options: [PinTag]
 
   var body: some View {
     WrappingHStack(
-      [CREATE_TAG] + tags,
+      displayList,
       id: \.self,
       alignment: .leading,
       spacing: .constant(8),
       lineSpacing: 8
     ) { tag in
       if tag == CREATE_TAG {
-        TagSelect(
-          tags: $tags,
-          options: tagsState.tags
-        )
+        TagSelect(options: options, tags: $tags)
       } else {
         Menu {
           Button("Delete: \(tag.name)") {
-            tags.removeAll(where: { $0 == tag })
+            tags.removeAll(where: { $0.id == tag.id })
           }
         } label:  {
           Tag(value: tag)
@@ -47,6 +47,8 @@ struct PinTags: View {
 
 
 #Preview {
-  PinTags(tags: Binding.constant(PreviewContent.pins[0].tags))
-    .environmentObject(TagsState(PreviewContent.pins[0].tags))
+  let tags = PreviewContent.pins[0].tags
+  let options = PreviewContent.tags
+
+  PinTags(tags: Binding.constant(tags), options: options)
 }

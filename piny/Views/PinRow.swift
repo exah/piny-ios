@@ -10,14 +10,13 @@ import SwiftUI
 import PromiseKit
 
 struct PinRow: View {
-  @EnvironmentObject var pinsState: PinsState
-
-  @Binding var pin: Pin
-  @State var task: Task<Void, Never>?
+  @Environment(AsyncPins.self) var asyncPins
+  @Bindable var pin: Pin
+  var tags: [PinTag]
 
   func update(tags: [PinTag]) {
     firstly {
-      pinsState.edit(
+      asyncPins.edit(
         pin,
         tags: tags.map { $0.name }
       )
@@ -27,41 +26,33 @@ struct PinRow: View {
   }
 
   var body: some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 16) {
-        VStack(alignment: .leading, spacing: 8) {
-          if (pin.title != nil) {
-            Text(pin.title!)
-              .fontWeight(.semibold)
-              .lineLimit(1)
-          }
-          if (pin.description != nil) {
-            Text(pin.description!)
-              .lineLimit(2)
-          }
-          Text("\(pin.link.url)")
+    VStack(alignment: .leading, spacing: 16) {
+      VStack(alignment: .leading, spacing: 8) {
+        if (pin.title != nil) {
+          Text(pin.title!)
+            .fontWeight(.semibold)
             .lineLimit(1)
         }
-        PinTags(tags: $pin.tags)
-          .onChange(of: pin.tags) {
-            task?.cancel()
-            task = Task { @MainActor in
-              try? await Task.sleep(nanoseconds: 2 * 1000 * 1000_000)
-              Piny.log("saved")
-              update(tags: pin.tags)
-            }
-          }
+        if (pin.desc != nil) {
+          Text(pin.desc!)
+            .lineLimit(2)
+        }
+        Text("\(pin.link.url)")
+          .lineLimit(1)
       }
-      
-      Spacer()
+      PinTags(tags: $pin.tags, options: tags)
+        .onChange(of: pin.tags) {
+          update(tags: pin.tags)
+        }
     }
+    .padding(.vertical, 2)
   }
 }
 
 struct PinRow_Previews: PreviewProvider {
   static var previews: some View {
-    PinRow(pin: Binding.constant(PreviewContent.pins[2]))
+    PinRow(pin: PreviewContent.pins[2], tags: [])
       .previewLayout(.fixed(width: 300, height: 120))
-      .environmentObject(TagsState(PreviewContent.pins[0].tags))
+      .environment(AsyncTags(PreviewContent.tags))
   }
 }

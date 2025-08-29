@@ -7,14 +7,15 @@
 //
 
 import SwiftUI
+import SwiftData
 import Combine
 
 struct TagSelect: View {
+  var options: [PinTag]
+
   @Binding var tags: [PinTag]
   @State var creating: Bool = false
   @State var value: String = ""
-
-  let options: [PinTag]
 
   var body: some View {
     Menu {
@@ -24,23 +25,22 @@ struct TagSelect: View {
       }) {
         Label("New tag", systemImage: "plus")
       }
-      Section("Tags") {
-        ForEach(options, id: \.self) { option in
-          Button(action: {
-            if let index = tags.lastIndex(of: option) {
-              tags.remove(at: index)
-            } else {
-              tags.append(option)
-            }
-          }) {
-            Label(
-              option.name,
-              systemImage: tags.contains(option)
-              ? "checkmark.circle.fill"
-              : "circle"
-            )
+      ForEach(options, id: \.persistentModelID) { option in
+        Button(action: {
+          if let index = tags.firstIndex(of: option){
+            tags.remove(at: index)
+          } else {
+            tags.append(option)
           }
+        }) {
+          Label(
+            option.name,
+            systemImage: tags.contains(option)
+            ? "checkmark.circle.fill"
+            : "circle"
+          )
         }
+        .tag(option)
       }
     } label: {
       Button(action: {}) {}
@@ -54,26 +54,15 @@ struct TagSelect: View {
     .menuOrder(.fixed)
     .menuActionDismissBehavior(.disabled)
     .alert("New tag", isPresented: $creating) {
-      TextField("Enter name", text: $value)
-        .textInputAutocapitalization(.never)
-      Button(action: {
-        if let existing = options.first(where: {
-          $0.name == value
-        }) {
-          tags.append(existing)
-        } else {
-          tags.append(PinTag(id: UUID(), name: value))
-        }
-
-        creating.toggle()
-        value = ""
-      }) {
-        Text("Add")
-      }
+      CreateTagForm(
+        tags: $tags,
+        options: options,
+        onClose: { creating.toggle() }
+      )
     }
   }
 }
 
 #Preview {
-  TagSelect(tags: Binding.constant([]), options: [])
+  TagSelect(options: [], tags: Binding.constant([]))
 }

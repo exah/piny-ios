@@ -7,15 +7,21 @@
 //
 
 import Foundation
+import SwiftData
 import PromiseKit
 
-protocol AsyncState: ObservableObject {
-  var isLoading: Bool { get set }
+@Observable
+class Async {
+  @ObservationIgnored
+  let modelContext: ModelContext
+  var isLoading: Bool = false
 
-  func capture<T>(_ body: () -> Promise<T>) -> Promise<T>
-}
+  @MainActor
+  init(modelContext: ModelContext? = nil) {
+    let ctx = modelContext ?? Piny.storage.container.mainContext
+    self.modelContext = ctx
+  }
 
-extension AsyncState {
   func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
     self.isLoading = true
 

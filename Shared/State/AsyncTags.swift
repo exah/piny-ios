@@ -1,0 +1,39 @@
+//
+//  TagsState.swift
+//  piny
+//
+//  Created by J. Grishin on 23/08/2025.
+//  Copyright © 2025 John Grishin. All rights reserved.
+//
+
+
+import Foundation
+import PromiseKit
+import Combine
+import SwiftData
+import SwiftUI
+
+@Observable
+class AsyncTags: Async {
+  @MainActor
+  init(_ initial: [PinTag] = [], modelContext: ModelContext? = nil) {
+    super.init(modelContext: modelContext)
+    initial.forEach { self.modelContext.insert($0) }
+  }
+
+  func fetch() -> Promise<[PinTag]> {
+    capture {
+      Piny.api.get(
+        [PinTagDTO].self,
+        path: "/tags"
+      ).map { tags in
+        let existing = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+        return tags
+          .filter { tag in !existing.contains(where: { $0.id == tag.id }) }
+          .map { PinTag(from: $0) }
+      }.get { tags in
+        tags.forEach { self.modelContext.insert($0) }
+      }
+    }
+  }
+}
