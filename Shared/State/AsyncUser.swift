@@ -16,10 +16,15 @@ class AsyncUser: Async {
   init(_ initial: User? = nil, modelContext: ModelContext? = nil) {
     super.init(modelContext: modelContext)
 
-    if let user = initial { self.modelContext.insert(user) }
-    let u = try? self.modelContext.fetch(FetchDescriptor<User>()).first
-
-    Piny.api.token = u?.token
+    if let initialUser = initial { self.modelContext.insert(initialUser) }
+    if let existingUser = (try? self.modelContext.fetch(FetchDescriptor<User>()))?.first {
+      Piny.api.token = existingUser.token
+      self.refreshSession().catch { _ in
+        self.removeData()
+      }
+    } else {
+      Piny.api.token = nil
+    }
   }
 
   private func fetchUser(name: String) -> Promise<UserDTO> {
@@ -83,18 +88,42 @@ class AsyncUser: Async {
     }
   }
 
+  func refreshSession() -> Promise<Void> {
+    return capture {
+      Piny.api.post(
+        Authorisation.self,
+        path: "/refresh-session",
+        data: Optional<Data>.none
+      )
+      .done { auth in
+        Piny.log("Token: \(auth.token)")
+
+        let user = try self.modelContext.fetch(FetchDescriptor<User>()).first
+
+        Piny.api.token = auth.token
+        user?.token = auth.token
+      }
+    }
+  }
+
   func logout() -> Promise<Void> {
     capture {
-      Piny.api.get(
+      Piny.api.post(
         API.Message.self,
-        path: "/logout"
+        path: "/logout",
+        data: Optional<Data>.none
       )
     }.done { _ in
       Piny.api.token = nil
 
-      try? self.modelContext.delete(model: User.self)
-      try? self.modelContext.delete(model: Pin.self)
-      try? self.modelContext.delete(model: PinTag.self)
+      self.removeData()
     }
   }
+
+  func removeData() {
+    try? self.modelContext.delete(model: User.self)
+    try? self.modelContext.delete(model: Pin.self)
+    try? self.modelContext.delete(model: PinTag.self)
+  }
 }
+
