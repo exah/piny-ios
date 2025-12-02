@@ -12,8 +12,10 @@ import SwiftData
 struct UserSettings: View {
   @Environment(AsyncUser.self) var asyncUser
   @Query var users: [User]
+  @Query var sessions: [Session]
 
   var user: User? { users.first }
+  var session: Session? { sessions.first }
 
   func logout() {
     asyncUser.logout().catch { error in
@@ -37,7 +39,7 @@ struct UserSettings: View {
         HStack {
           Text("Token")
           Spacer()
-          Text(user?.token ?? "—")
+          Text(session?.token ?? "—")
         }
       }
       Section {

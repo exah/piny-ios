@@ -10,10 +10,9 @@ import SwiftUI
 import SwiftData
 
 struct Root: View {
-  @Environment(AsyncUser.self) var asyncUser
-  @Query var users: [User]
+  @Query var sessions: [Session]
 
-  var isLoggedIn: Bool { users.first?.token != nil }
+  var isLoggedIn: Bool { sessions.first?.token != nil }
 
   var body: some View {
     Group {
@@ -22,8 +21,6 @@ struct Root: View {
       } else {
         LogIn()
       }
-    }.onChange(of: users) {
-
     }
   }
 }
@@ -31,7 +28,5 @@ struct Root: View {
 struct Root_Previews: PreviewProvider {
   static var previews: some View {
     Root()
-      .environment(AsyncUser())
-      .environment(AsyncPins())
   }
 }

@@ -14,13 +14,11 @@ class User: Identifiable, Equatable {
   @Attribute(.unique) var id: UUID
   var name: String
   @Attribute(.unique) var email: String
-  var token: String?
 
-  init(id: UUID, name: String, email: String, token: String? = nil) {
+  init(id: UUID, name: String, email: String) {
     self.id = id
     self.name = name
     self.email = email
-    self.token = token
   }
 
   convenience init(from user: UserDTO) {
@@ -28,7 +26,6 @@ class User: Identifiable, Equatable {
       id: user.id,
       name: user.name,
       email: user.email,
-      token: user.token,
     )
   }
 }
@@ -37,5 +34,4 @@ struct UserDTO: Identifiable, Codable {
   var id: UUID
   var name: String
   var email: String
-  var token: String?
 }

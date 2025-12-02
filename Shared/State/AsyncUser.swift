@@ -13,17 +13,21 @@ import SwiftData
 @Observable
 class AsyncUser: Async {
   @MainActor
-  init(_ initial: User? = nil, modelContext: ModelContext? = nil) {
+  init(initialUser: User? = nil, initialSession: Session? = nil, modelContext: ModelContext? = nil) {
     super.init(modelContext: modelContext)
 
-    if let initialUser = initial { self.modelContext.insert(initialUser) }
-    if let existingUser = (try? self.modelContext.fetch(FetchDescriptor<User>()))?.first {
-      Piny.api.token = existingUser.token
-      self.refreshSession().catch { _ in
-        self.removeData()
-      }
-    } else {
+    if let initialUser = initialUser { self.modelContext.insert(initialUser) }
+    if let initialSession = initialSession { self.modelContext.insert(initialSession) }
+    let sessions = try? self.modelContext.fetch(FetchDescriptor<Session>())
+
+    guard let session = sessions?.last else {
       Piny.api.token = nil
+      return
+    }
+
+    Piny.api.token = session.token
+    refreshSession().catch { _ in
+      self.removeData()
     }
   }
 
@@ -50,15 +54,12 @@ class AsyncUser: Async {
   }
 
   func login(name: String, pass: String) -> Promise<Void> {
-    var device: Device? = nil
-
-    if let id = UIDevice.current.identifierForVendor {
-      let description = """
-      \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
+    var device = Device(
+      id: UIDevice.current.identifierForVendor!,
+      description: """
+        \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
       """
-
-      device = Device(id: id, description: description)
-    }
+    )
 
     return capture {
       Piny.api.post(
@@ -77,13 +78,14 @@ class AsyncUser: Async {
       }
       .then { auth in
         self.fetchUser(name: name).map { user in (auth, user) }
-      }.done { auth, user in
+      }.done { session, user in
         Piny.log("User: \(user)")
+        Piny.log("Session: \(session)")
 
-        let entity = User(from: user)
-        entity.token = auth.token
-
-        self.modelContext.insert(entity)
+        try? self.modelContext.delete(model: User.self)
+        try? self.modelContext.delete(model: Session.self)
+        self.modelContext.insert(User(from: user))
+        self.modelContext.insert(Session(from: session))
       }
     }
   }
@@ -97,11 +99,10 @@ class AsyncUser: Async {
       )
       .done { auth in
         Piny.log("Token: \(auth.token)")
-
-        let user = try self.modelContext.fetch(FetchDescriptor<User>()).first
-
         Piny.api.token = auth.token
-        user?.token = auth.token
+
+        try? self.modelContext.delete(model: Session.self)
+        self.modelContext.insert(Session(from: auth))
       }
     }
   }
@@ -122,6 +123,7 @@ class AsyncUser: Async {
 
   func removeData() {
     try? self.modelContext.delete(model: User.self)
+    try? self.modelContext.delete(model: Session.self)
     try? self.modelContext.delete(model: Pin.self)
     try? self.modelContext.delete(model: PinTag.self)
   }
