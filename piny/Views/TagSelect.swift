@@ -15,53 +15,84 @@ struct TagSelect: View {
 
   @Binding var tags: [PinTag]
   @State var creating: Bool = false
-  @State var value: String = ""
+  @State private var selectedIds: Set<UUID> = []
+  @State private var isPresented: Bool = false
+
+  private func commitChanges() {
+    let currentIds = Set(tags.map { $0.id })
+    let removedIds = currentIds.subtracting(selectedIds)
+    let addedIds = selectedIds.subtracting(currentIds)
+    var updatedTags = tags.filter { !removedIds.contains($0.id) }
+    let newTags = options.filter { addedIds.contains($0.id) }
+
+    updatedTags.append(contentsOf: newTags)
+    tags = updatedTags
+  }
 
   var body: some View {
-    Menu {
-      Button(action: {
-        creating.toggle()
-        Piny.log("Creating \(creating)")
-      }) {
-        Label("New tag", systemImage: "plus")
-      }
-      ForEach(options, id: \.persistentModelID) { option in
-        Button(action: {
-          if let index = tags.firstIndex(where: { $0.id == option.id }) {
-            tags.remove(at: index)
-          } else {
-            if !tags.contains(where: { $0.id == option.id }) {
-              tags.append(option)
+    Button(action: {
+      isPresented = true
+    }) {}
+      .variant(
+        .secondary,
+        size: .tag,
+        icon: Image(systemName: "plus"),
+        hug: true
+      )
+      .popover(isPresented: $isPresented) {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 0) {
+            Button(action: {
+              creating.toggle()
+              Piny.log("Creating \(creating)")
+            }) {
+              Label("New tag", systemImage: "plus")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+            .buttonStyle(.plain)
+
+            Divider()
+
+            ForEach(options, id: \.persistentModelID) { option in
+              Button(action: {
+                if selectedIds.contains(option.id) {
+                  selectedIds.remove(option.id)
+                } else {
+                  selectedIds.insert(option.id)
+                }
+              }) {
+                Label(
+                  option.name,
+                  systemImage: selectedIds.contains(option.id)
+                  ? "checkmark.circle.fill"
+                  : "circle"
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+              }
+              .buttonStyle(.plain)
             }
           }
-        }) {
-          Label(
-            option.name,
-            systemImage: tags.contains(where: { $0.id == option.id })
-            ? "checkmark.circle.fill"
-            : "circle"
-          )
         }
-        .tag(option)
+        .frame(width: 250, height: 400)
+        .presentationCompactAdaptation(.popover)
       }
-    } label: {
-      Button(action: {}) {}
-        .variant(
-          .secondary,
-          size: .tag,
-          icon: Image(systemName: "plus"),
-          hug: true
+      .onChange(of: isPresented) { oldValue, newValue in
+        if newValue {
+          selectedIds = Set(tags.map { $0.id })
+        } else {
+          commitChanges()
+        }
+      }
+      .alert("New tag", isPresented: $creating) {
+        CreateTagForm(
+          tags: $tags,
+          options: options,
+          onClose: { creating.toggle() }
         )
-    }
-    .menuOrder(.fixed)
-    .menuActionDismissBehavior(.disabled)
-    .alert("New tag", isPresented: $creating) {
-      CreateTagForm(
-        tags: $tags,
-        options: options,
-        onClose: { creating.toggle() }
-      )
-    }
+      }
   }
 }
 

@@ -92,17 +92,8 @@ class AsyncPins: Async {
         path: "/bookmarks/\(pin.id.uuidString.lowercased())"
       )
     }.get { result in
-      let tags = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
-      
-      pin.title = result.title
-      pin.desc = result.description
-      pin.privacy = result.privacy
-      pin.state = result.state
-      pin.tags = result.tags.map { tag in
-        let existing = tags.first(where: { $0.name == tag.name })
-        return existing ?? PinTag(from: tag)
-      }
-      pin.updatedAt = result.updatedAt
+      let allTags = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+      pin.update(from: result, existingTags: allTags)
     }
   }
 
