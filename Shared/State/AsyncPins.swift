@@ -27,15 +27,22 @@ class AsyncPins: Async {
         path: "/bookmarks"
       ).get { pins in
         Piny.log("Loaded pins: \(pins.count)")
-        let context = ModelContext(Piny.storage.container)
 
-        do {
-          try context.transaction {
-            try context.delete(model: Pin.self)
-            pins.forEach { context.insert(Pin(from: $0)) }
+        let existing = (try? self.modelContext.fetch(FetchDescriptor<Pin>())) ?? []
+        let allTags = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+
+        // Remove pins that no longer exist on server
+        let serverPinIds = Set(pins.map { $0.id })
+        existing.filter { !serverPinIds.contains($0.id) }.forEach { self.modelContext.delete($0) }
+
+        // Update or insert pins
+        for pinDTO in pins {
+          if let existingPin = existing.first(where: { $0.id == pinDTO.id }) {
+            existingPin.update(from: pinDTO, existingTags: allTags)
+          } else {
+            let pin = Pin(from: pinDTO)
+            self.modelContext.insert(pin)
           }
-        } catch let error {
-          Piny.log(error.localizedDescription, .error)
         }
       }
     }

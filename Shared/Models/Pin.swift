@@ -57,6 +57,22 @@ class Pin: Identifiable, Equatable {
       updatedAt: pin.updatedAt
     )
   }
+
+  func update(from dto: PinDTO, existingTags: [PinTag]) {
+    self.title = dto.title
+    self.desc = dto.description
+    self.privacy = dto.privacy
+    self.state = dto.state
+    self.link.url = dto.link.url
+    self.tags = dto.tags.compactMap { tagDTO in
+      existingTags.first(where: { $0.id == tagDTO.id }) ?? PinTag(from: tagDTO)
+    }
+    self.updatedAt = dto.updatedAt
+  }
+
+  static func == (lhs: Pin, rhs: Pin) -> Bool {
+    return lhs.id == rhs.id
+  }
 }
 
 

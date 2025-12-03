@@ -27,15 +27,17 @@ struct TagSelect: View {
       }
       ForEach(options, id: \.persistentModelID) { option in
         Button(action: {
-          if let index = tags.firstIndex(of: option){
+          if let index = tags.firstIndex(where: { $0.id == option.id }) {
             tags.remove(at: index)
           } else {
-            tags.append(option)
+            if !tags.contains(where: { $0.id == option.id }) {
+              tags.append(option)
+            }
           }
         }) {
           Label(
             option.name,
-            systemImage: tags.contains(option)
+            systemImage: tags.contains(where: { $0.id == option.id })
             ? "checkmark.circle.fill"
             : "circle"
           )

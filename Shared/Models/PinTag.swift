@@ -26,6 +26,14 @@ class PinTag: Identifiable, Equatable, Hashable {
       name: tag.name
     )
   }
+
+  static func == (lhs: PinTag, rhs: PinTag) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 }
 
 struct PinTagDTO: Hashable, Equatable, Codable, Identifiable {

@@ -52,6 +52,7 @@ struct PinActionRow: View {
           }
         }
     }
+    .buttonStyle(.plain)
     .foregroundStyle(Color.foreground)
     .sheet(isPresented: Binding(get: { selected != .none }, set: { _ in selected = .none })) {
       switch selected {

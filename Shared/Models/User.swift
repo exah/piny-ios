@@ -28,6 +28,10 @@ class User: Identifiable, Equatable {
       email: user.email,
     )
   }
+
+  static func == (lhs: User, rhs: User) -> Bool {
+    return lhs.id == rhs.id
+  }
 }
 
 struct UserDTO: Identifiable, Codable {

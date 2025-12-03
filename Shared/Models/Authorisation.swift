@@ -25,6 +25,10 @@ class Session: Identifiable, Equatable {
       expiresAt: auth.expiresAt
     )
   }
+
+  static func == (lhs: Session, rhs: Session) -> Bool {
+    return lhs.token == rhs.token
+  }
 }
 
 struct Authorisation: Codable {

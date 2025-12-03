@@ -25,6 +25,14 @@ class PinLink: Identifiable, Equatable, Hashable {
       url: link.url
     )
   }
+
+  static func == (lhs: PinLink, rhs: PinLink) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 }
 
 struct PinLinkDTO: Hashable, Codable, Identifiable {
