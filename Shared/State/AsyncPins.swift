@@ -6,9 +6,9 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
+import Combine
 import Foundation
 import PromiseKit
-import Combine
 import SwiftData
 import SwiftUI
 
@@ -28,21 +28,29 @@ class AsyncPins: Async {
       ).get { pins in
         Piny.log("Loaded pins: \(pins.count)")
 
-        let existing = (try? self.modelContext.fetch(FetchDescriptor<Pin>())) ?? []
-        let allTags = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+        do {
+          try self.modelContext.transaction {
+            let existing = try self.modelContext.fetch(FetchDescriptor<Pin>())
+            let allTags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
 
-        // Remove pins that no longer exist on server
-        let serverPinIds = Set(pins.map { $0.id })
-        existing.filter { !serverPinIds.contains($0.id) }.forEach { self.modelContext.delete($0) }
+            // Remove pins that no longer exist on server
+            let serverPinIds = Set(pins.map { $0.id })
+            existing.filter { !serverPinIds.contains($0.id) }.forEach {
+              self.modelContext.delete($0)
+            }
 
-        // Update or insert pins
-        for pinDTO in pins {
-          if let existingPin = existing.first(where: { $0.id == pinDTO.id }) {
-            existingPin.update(from: pinDTO, existingTags: allTags)
-          } else {
-            let pin = Pin(from: pinDTO)
-            self.modelContext.insert(pin)
+            // Update or insert pins
+            for pinDTO in pins {
+              if let existingPin = existing.first(where: { $0.id == pinDTO.id }) {
+                existingPin.update(from: pinDTO, existingTags: allTags)
+              } else {
+                let pin = Pin(from: pinDTO, existingTags: allTags)
+                self.modelContext.insert(pin)
+              }
+            }
           }
+        } catch {
+          Piny.log("Fetch transaction failed: \(error)", .error)
         }
       }
     }
@@ -92,8 +100,12 @@ class AsyncPins: Async {
         path: "/bookmarks/\(pin.id.uuidString.lowercased())"
       )
     }.get { result in
-      let allTags = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
-      pin.update(from: result, existingTags: allTags)
+      do {
+        let allTags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        pin.update(from: result, existingTags: allTags)
+      } catch {
+        Piny.log("Failed to fetch tags for update: \(error)", .error)
+      }
     }
   }
 

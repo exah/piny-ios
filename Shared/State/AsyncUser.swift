@@ -7,26 +7,27 @@
 //
 
 import PromiseKit
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @Observable
 class AsyncUser: Async {
   @MainActor
-  init(initialUser: User? = nil, initialSession: Session? = nil, modelContext: ModelContext? = nil) {
+  init(initialUser: User? = nil, initialSession: Session? = nil, modelContext: ModelContext? = nil)
+  {
     super.init(modelContext: modelContext)
 
     if let initialUser = initialUser { self.modelContext.insert(initialUser) }
     if let initialSession = initialSession { self.modelContext.insert(initialSession) }
-    let sessions = try? self.modelContext.fetch(FetchDescriptor<Session>())
 
-    guard let session = sessions?.last else {
+    guard let session = (try? self.modelContext.fetch(FetchDescriptor<Session>()))?.last else {
       Piny.api.token = nil
       return
     }
 
     Piny.api.token = session.token
-    refreshSession().catch { _ in
+    refreshSession().catch { error in
+      Piny.log("Session refresh failed: \(error)", .error)
       self.removeData()
     }
   }
@@ -43,7 +44,7 @@ class AsyncUser: Async {
       Piny.api.post(
         API.Message.self,
         path: "/signup",
-        data: [ "user": name, "pass": pass, "email": email ]
+        data: ["user": name, "pass": pass, "email": email]
       )
     }.then { _ in
       self.login(
@@ -54,7 +55,7 @@ class AsyncUser: Async {
   }
 
   func login(name: String, pass: String) -> Promise<Void> {
-    var device = Device(
+    let device = Device(
       id: UIDevice.current.identifierForVendor!,
       description: """
         \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
@@ -82,10 +83,16 @@ class AsyncUser: Async {
         Piny.log("User: \(user)")
         Piny.log("Session: \(session)")
 
-        try? self.modelContext.delete(model: User.self)
-        try? self.modelContext.delete(model: Session.self)
-        self.modelContext.insert(User(from: user))
-        self.modelContext.insert(Session(from: session))
+        do {
+          try self.modelContext.transaction {
+            try self.modelContext.delete(model: User.self)
+            try self.modelContext.delete(model: Session.self)
+            self.modelContext.insert(User(from: user))
+            self.modelContext.insert(Session(from: session))
+          }
+        } catch {
+          Piny.log("Failed to update user/session: \(error)", .error)
+        }
       }
     }
   }
@@ -101,8 +108,14 @@ class AsyncUser: Async {
         Piny.log("Token: \(auth.token)")
         Piny.api.token = auth.token
 
-        try? self.modelContext.delete(model: Session.self)
-        self.modelContext.insert(Session(from: auth))
+        do {
+          try self.modelContext.transaction {
+            try self.modelContext.delete(model: Session.self)
+            self.modelContext.insert(Session(from: auth))
+          }
+        } catch {
+          Piny.log("Failed to update session: \(error)", .error)
+        }
       }
     }
   }
@@ -122,10 +135,16 @@ class AsyncUser: Async {
   }
 
   func removeData() {
-    try? self.modelContext.delete(model: User.self)
-    try? self.modelContext.delete(model: Session.self)
-    try? self.modelContext.delete(model: Pin.self)
-    try? self.modelContext.delete(model: PinTag.self)
+    do {
+      try self.modelContext.transaction {
+        try self.modelContext.delete(model: User.self, includeSubclasses: true)
+        try self.modelContext.delete(model: Session.self, includeSubclasses: true)
+        try self.modelContext.delete(model: Pin.self, includeSubclasses: true)
+        try self.modelContext.delete(model: PinLink.self, includeSubclasses: true)
+        try self.modelContext.delete(model: PinTag.self, includeSubclasses: true)
+      }
+    } catch {
+      Piny.log("Failed to remove data: \(error)", .error)
+    }
   }
 }
-

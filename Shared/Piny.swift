@@ -16,7 +16,7 @@ struct Piny {
     PinLink.self,
     PinTag.self,
     User.self,
-    Session.self
+    Session.self,
   ])
 
   static var storage = Storage("piny", schema: schema)

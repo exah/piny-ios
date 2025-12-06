@@ -16,8 +16,9 @@ class Pin: Identifiable, Equatable {
   var desc: String?
   var privacy: PinPrivacy
   var state: PinState
-  @Relationship(.unique, deleteRule: .cascade)
+  @Relationship(deleteRule: .cascade)
   var link: PinLink
+  @Relationship(inverse: \PinTag.pins)
   var tags: [PinTag] = []
   var createdAt: Date
   var updatedAt: Date
@@ -44,7 +45,7 @@ class Pin: Identifiable, Equatable {
     self.updatedAt = updatedAt
   }
 
-  convenience init(from pin: PinDTO) {
+  convenience init(from pin: PinDTO, existingTags: [PinTag] = []) {
     self.init(
       id: pin.id,
       title: pin.title,
@@ -52,7 +53,9 @@ class Pin: Identifiable, Equatable {
       privacy: pin.privacy,
       state: pin.state,
       link: PinLink(from: pin.link),
-      tags: pin.tags.map { PinTag(from: $0) },
+      tags: pin.tags.compactMap { tagDTO in
+        existingTags.first(where: { $0.id == tagDTO.id }) ?? PinTag(from: tagDTO)
+      },
       createdAt: pin.createdAt,
       updatedAt: pin.updatedAt
     )
@@ -74,7 +77,6 @@ class Pin: Identifiable, Equatable {
     return lhs.id == rhs.id
   }
 }
-
 
 enum PinState: String, Codable {
   case active = "active"

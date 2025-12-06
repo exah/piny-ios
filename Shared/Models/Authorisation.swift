@@ -11,7 +11,8 @@ import SwiftData
 
 @Model
 class Session: Identifiable, Equatable {
-  var token: String
+  @Attribute(.unique) var id: UUID = UUID()
+  @Attribute(.unique) var token: String
   var expiresAt: Date
 
   init(token: String, expiresAt: Date) {
@@ -27,7 +28,7 @@ class Session: Identifiable, Equatable {
   }
 
   static func == (lhs: Session, rhs: Session) -> Bool {
-    return lhs.token == rhs.token
+    return lhs.id == rhs.id
   }
 }
 
