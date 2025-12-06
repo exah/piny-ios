@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import WrappingHStack
 import PromiseKit
 import SwiftData
 
@@ -23,22 +22,18 @@ struct PinTags: View {
   var options: [PinTag]
 
   var body: some View {
-    WrappingHStack(
-      displayList,
-      id: \.self,
-      alignment: .leading,
-      spacing: .constant(8),
-      lineSpacing: 8
-    ) { tag in
-      if tag == CREATE_TAG {
-        TagSelect(options: options, tags: $tags)
-      } else {
-        Menu {
-          Button("Delete: \(tag.name)") {
-            tags.removeAll(where: { $0.id == tag.id })
+    Flow(spacing: 8) {
+      ForEach(displayList, id: \.id) { tag in
+        if tag == CREATE_TAG {
+          TagSelect(options: options, tags: $tags)
+        } else {
+          Menu {
+            Button("Delete: \(tag.name)") {
+              tags.removeAll(where: { $0.id == tag.id })
+            }
+          } label:  {
+            Tag(value: tag)
           }
-        } label:  {
-          Tag(value: tag)
         }
       }
     }

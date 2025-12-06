@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0922991B2EE3B45B00810B2B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922991A2EE3B45700810B2B /* Flow.swift */; };
+		0922991C2EE3B45B00810B2B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922991A2EE3B45700810B2B /* Flow.swift */; };
 		093A99AE24D46FA600ADBB0A /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* Async.swift */; };
 		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
 		094855D224D0E99F00C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D124D0E99F00C38309 /* PromiseKit */; };
@@ -59,8 +61,6 @@
 		09AC553B2E59DB84009902FA /* AsyncTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* AsyncTags.swift */; };
 		09AC553C2E59DB84009902FA /* AsyncTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* AsyncTags.swift */; };
 		09AC553E2E5A116F009902FA /* TagSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553D2E5A116F009902FA /* TagSelect.swift */; };
-		09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55402E5A13CF009902FA /* WrappingHStack */; };
-		09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55422E5A13D6009902FA /* WrappingHStack */; };
 		09AC558F2E5E1A5F009902FA /* PinyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC558E2E5E1A5F009902FA /* PinyApp.swift */; };
 		09AC55942E5E65ED009902FA /* CreateTagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55932E5E65ED009902FA /* CreateTagForm.swift */; };
 		09AC55962E5F13B4009902FA /* preview-tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AC55952E5F13AE009902FA /* preview-tags.json */; };
@@ -116,6 +116,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0922991A2EE3B45700810B2B /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
 		093A99AD24D46FA600ADBB0A /* Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
 		0944687824CE003100CB9D9F /* piny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = piny.entitlements; sourceTree = "<group>"; };
@@ -198,7 +199,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */,
 				094855D224D0E99F00C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,7 +207,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */,
 				09AC547A2E566099009902FA /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +354,7 @@
 		09DF794829B5F12000B287F5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				0922991A2EE3B45700810B2B /* Flow.swift */,
 				09DF794929B5F13900B287F5 /* Input.swift */,
 				09E5861E29B72D3000D06AB6 /* Placeholder.swift */,
 			);
@@ -400,7 +400,6 @@
 			name = piny;
 			packageProductDependencies = (
 				094855D124D0E99F00C38309 /* PromiseKit */,
-				09AC55402E5A13CF009902FA /* WrappingHStack */,
 			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
@@ -424,7 +423,6 @@
 			name = pinyShare;
 			packageProductDependencies = (
 				09AC54792E566099009902FA /* PromiseKit */,
-				09AC55422E5A13D6009902FA /* WrappingHStack */,
 			);
 			productName = pinyShare;
 			productReference = 09AC544C2E54D2DE009902FA /* pinyShare.appex */;
@@ -460,7 +458,6 @@
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
 				094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */,
-				09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
@@ -523,6 +520,7 @@
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
 				09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */,
 				09DEB77024BE45ED001CE612 /* AsyncUser.swift in Sources */,
+				0922991B2EE3B45B00810B2B /* Flow.swift in Sources */,
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */,
 				09AC558F2E5E1A5F009902FA /* PinyApp.swift in Sources */,
@@ -565,6 +563,7 @@
 				09AC54982E566349009902FA /* PinLink.swift in Sources */,
 				09AC54992E566349009902FA /* User.swift in Sources */,
 				09AC549A2E566349009902FA /* ParsedPage.swift in Sources */,
+				0922991C2EE3B45B00810B2B /* Flow.swift in Sources */,
 				09AC549B2E566349009902FA /* Device.swift in Sources */,
 				09AC549C2E566349009902FA /* AsyncPins.swift in Sources */,
 				09AC549D2E566349009902FA /* ButtonStyle.swift in Sources */,
@@ -897,14 +896,6 @@
 				minimumVersion = 6.13.2;
 			};
 		};
-		09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dkk/WrappingHStack";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.11;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -917,16 +908,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
 			productName = PromiseKit;
-		};
-		09AC55402E5A13CF009902FA /* WrappingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
-			productName = WrappingHStack;
-		};
-		09AC55422E5A13D6009902FA /* WrappingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
-			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
