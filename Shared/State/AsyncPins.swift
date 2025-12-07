@@ -8,7 +8,6 @@
 
 import Combine
 import Foundation
-import PromiseKit
 import SwiftData
 import SwiftUI
 
@@ -20,52 +19,57 @@ class AsyncPins: Async {
     initial.forEach { self.modelContext.insert($0) }
   }
 
-  func fetch() -> Promise<[PinDTO]> {
-    capture {
-      Piny.api.get(
+  @MainActor
+  func fetch() async throws -> [PinDTO] {
+    try await capture {
+      let result = try await Piny.api.get(
         [PinDTO].self,
         path: "/bookmarks"
-      ).get { result in
-        Piny.log("Loaded pins: \(result.count)")
+      )
 
-        do {
-          try self.modelContext.transaction {
-            let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
-            let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+      Piny.log("Loaded pins: \(result.count)")
 
-            // Remove pins that no longer exist on server
-            let serverPinIds = Set(pins.map { $0.id })
-            pins.filter { !serverPinIds.contains($0.id) }.forEach {
-              self.modelContext.delete($0)
-            }
+      do {
+        try self.modelContext.transaction {
+          let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
+          let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
 
-            for item in result {
-              if let existing = pins.first(where: { $0.id == item.id }) {
-                existing.update(from: item, tags: tags)
-              } else {
-                let pin = Pin(from: item, tags: tags)
-                self.modelContext.insert(pin)
-              }
+          // Remove pins that no longer exist on server
+          let serverPinIds = Set(result.map { $0.id })
+          pins.filter { !serverPinIds.contains($0.id) }.forEach {
+            self.modelContext.delete($0)
+          }
+
+          for item in result {
+            if let existing = pins.first(where: { $0.id == item.id }) {
+              existing.update(from: item, tags: tags)
+            } else {
+              let pin = Pin(from: item, tags: tags)
+              self.modelContext.insert(pin)
             }
           }
-        } catch {
-          Piny.log("Fetch transaction failed: \(error)", .error)
         }
+      } catch {
+        Piny.log("Fetch transaction failed: \(error)", .error)
+        throw error
       }
+
+      return result
     }
   }
 
+  @MainActor
   func create(
     title: String? = nil,
     description: String? = nil,
     url: URL,
     privacy: PinPrivacy
-  ) -> Promise<API.Message> {
-    capture {
-      Piny.api.post(
+  ) async throws -> API.Message {
+    try await capture {
+      try await Piny.api.post(
         API.Message.self,
         path: "/bookmarks",
-        data: [
+        json: [
           "url": url.absoluteString,
           "privacy": privacy.rawValue,
           "title": title,
@@ -75,54 +79,58 @@ class AsyncPins: Async {
     }
   }
 
-  func get(
-    _ pin: Pin
-  ) -> Promise<PinDTO> {
-    capture {
-      Piny.api.get(
+  @MainActor
+  func get(_ pin: Pin) async throws -> PinDTO {
+    try await capture {
+      let result = try await Piny.api.get(
         PinDTO.self,
         path: "/bookmarks/\(pin.id.uuidString.lowercased())"
       )
-    }.get { result in
+
       do {
         let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
         pin.update(from: result, tags: tags)
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
+        throw error
       }
+
+      return result
     }
   }
 
+  @MainActor
   func edit(
     _ pin: Pin,
     title: String? = nil,
     description: String? = nil,
     privacy: PinPrivacy? = nil,
     tags: [String] = []
-  ) -> Promise<PinDTO> {
-    firstly {
-      Piny.api.patch(
-        API.Message.self,
-        path: "/bookmarks/\(pin.id.uuidString.lowercased())",
-        data: PinDTO.Payload(
-          title: title?.isEmpty == true ? nil : title,
-          description: description?.isEmpty == true ? nil : description,
-          privacy: privacy,
-          tags: tags
-        )
+  ) async throws -> PinDTO {
+    _ = try await Piny.api.patch(
+      API.Message.self,
+      path: "/bookmarks/\(pin.id.uuidString.lowercased())",
+      json: PinDTO.Payload(
+        title: title?.isEmpty == true ? nil : title,
+        description: description?.isEmpty == true ? nil : description,
+        privacy: privacy,
+        tags: tags
       )
-    }.then { _ in
-      self.get(pin)
-    }
+    )
+
+    return try await self.get(pin)
   }
 
-  func remove(_ pin: Pin) -> Promise<Void> {
+  @MainActor
+  func remove(_ pin: Pin) async throws {
     self.modelContext.delete(pin)
 
-    return Piny.api.delete(
-      API.Message.self,
-      path: "/bookmarks/\(pin.id.uuidString.lowercased())"
-    ).done { _ in }.recover { error in
+    do {
+      _ = try await Piny.api.delete(
+        API.Message.self,
+        path: "/bookmarks/\(pin.id.uuidString.lowercased())"
+      )
+    } catch {
       self.modelContext.insert(pin)
       throw error
     }

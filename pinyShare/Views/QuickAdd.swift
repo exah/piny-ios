@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 import MobileCoreServices
 
 enum QuickAddError: Error {
@@ -31,25 +30,21 @@ struct QuickAdd: View {
   }
 
   func handleAppear() {
-    firstly {
-      self.asyncPins.create(
-        title: page.title,
-        url: page.url,
-        privacy: .public
-      ).asVoid()
-    }
-    .done {
-      Piny.log("Shared: \(page.url) <3")
-    }
-    .catch { error in
-      self.isError = true
-
-      Piny.log(error, .error)
-    }
-    .finally {
-      DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
-        self.onComplete()
+    Task {
+      do {
+        _ = try await asyncPins.create(
+          title: page.title,
+          url: page.url,
+          privacy: .public
+        )
+        Piny.log("Shared: \(page.url) <3")
+      } catch {
+        isError = true
+        Piny.log(error, .error)
       }
+
+      try? await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+      onComplete()
     }
   }
 

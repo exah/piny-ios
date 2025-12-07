@@ -6,7 +6,6 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import PromiseKit
 import SwiftData
 import SwiftUI
 
@@ -26,35 +25,39 @@ class AsyncUser: Async {
     }
 
     Piny.api.token = session.token
-    refreshSession().catch { error in
-      Piny.log("Session refresh failed: \(error)", .error)
-      self.removeData()
+    Task {
+      do {
+        try await refreshSession()
+      } catch {
+        Piny.log("Session refresh failed: \(error)", .error)
+        self.removeData()
+      }
     }
   }
 
-  private func fetchUser(name: String) -> Promise<UserDTO> {
-    Piny.api.get(
+  @MainActor
+  private func fetchUser(name: String) async throws -> UserDTO {
+    try await Piny.api.get(
       UserDTO.self,
       path: "/\(name)"
     )
   }
 
-  func signUp(name: String, pass: String, email: String) -> Promise<Void> {
-    capture {
-      Piny.api.post(
+  @MainActor
+  func signUp(name: String, pass: String, email: String) async throws {
+    try await capture {
+      _ = try await Piny.api.post(
         API.Message.self,
         path: "/signup",
-        data: ["user": name, "pass": pass, "email": email]
+        json: ["user": name, "pass": pass, "email": email]
       )
-    }.then { _ in
-      self.login(
-        name: name,
-        pass: pass
-      )
+
+      try await self.login(name: name, pass: pass)
     }
   }
 
-  func login(name: String, pass: String) -> Promise<Void> {
+  @MainActor
+  func login(name: String, pass: String) async throws {
     let device = Device(
       id: UIDevice.current.identifierForVendor!,
       description: """
@@ -62,74 +65,73 @@ class AsyncUser: Async {
       """
     )
 
-    return capture {
-      Piny.api.post(
+    try await capture {
+      let auth = try await Piny.api.post(
         Authorisation.self,
         path: "/login",
-        data: Authorisation.Payload(
+        json: Authorisation.Payload(
           user: name,
           pass: pass,
           device: device
         )
       )
-      .get { auth in
-        Piny.log("Token: \(auth.token)")
 
-        Piny.api.token = auth.token
-      }
-      .then { auth in
-        self.fetchUser(name: name).map { user in (auth, user) }
-      }.done { session, user in
-        Piny.log("User: \(user)")
-        Piny.log("Session: \(session)")
+      Piny.log("Token: \(auth.token)")
+      Piny.api.token = auth.token
 
-        do {
-          try self.modelContext.transaction {
-            try self.modelContext.delete(model: User.self)
-            try self.modelContext.delete(model: Session.self)
-            self.modelContext.insert(User(from: user))
-            self.modelContext.insert(Session(from: session))
-          }
-        } catch {
-          Piny.log("Failed to update user/session: \(error)", .error)
+      let user = try await self.fetchUser(name: name)
+
+      Piny.log("User: \(user)")
+      Piny.log("Session: \(auth)")
+
+      do {
+        try self.modelContext.transaction {
+          try self.modelContext.delete(model: User.self)
+          try self.modelContext.delete(model: Session.self)
+          self.modelContext.insert(User(from: user))
+          self.modelContext.insert(Session(from: auth))
         }
+      } catch {
+        Piny.log("Failed to update user/session: \(error)", .error)
+        throw error
       }
     }
   }
 
-  func refreshSession() -> Promise<Void> {
-    return capture {
-      Piny.api.post(
+  @MainActor
+  func refreshSession() async throws {
+    try await capture {
+      let auth = try await Piny.api.post(
         Authorisation.self,
         path: "/refresh-session",
-        data: Optional<Data>.none
+        json: Optional<Data>.none
       )
-      .done { auth in
-        Piny.log("Token: \(auth.token)")
-        Piny.api.token = auth.token
 
-        do {
-          try self.modelContext.transaction {
-            try self.modelContext.delete(model: Session.self)
-            self.modelContext.insert(Session(from: auth))
-          }
-        } catch {
-          Piny.log("Failed to update session: \(error)", .error)
+      Piny.log("Token: \(auth.token)")
+      Piny.api.token = auth.token
+
+      do {
+        try self.modelContext.transaction {
+          try self.modelContext.delete(model: Session.self)
+          self.modelContext.insert(Session(from: auth))
         }
+      } catch {
+        Piny.log("Failed to update session: \(error)", .error)
+        throw error
       }
     }
   }
 
-  func logout() -> Promise<Void> {
-    capture {
-      Piny.api.post(
+  @MainActor
+  func logout() async throws {
+    try await capture {
+      _ = try await Piny.api.post(
         API.Message.self,
         path: "/logout",
-        data: Optional<Data>.none
+        json: Optional<Data>.none
       )
-    }.done { _ in
-      Piny.api.token = nil
 
+      Piny.api.token = nil
       self.removeData()
     }
   }

@@ -8,7 +8,6 @@
 
 
 import Foundation
-import PromiseKit
 import Combine
 import SwiftData
 import SwiftUI
@@ -21,19 +20,22 @@ class AsyncTags: Async {
     initial.forEach { self.modelContext.insert($0) }
   }
 
-  func fetch() -> Promise<[PinTag]> {
-    capture {
-      Piny.api.get(
+  @MainActor
+  func fetch() async throws -> [PinTag] {
+    try await capture {
+      let tagsDTO = try await Piny.api.get(
         [PinTagDTO].self,
         path: "/tags"
-      ).map { tags in
-        let existing = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
-        return tags
-          .filter { tag in !existing.contains(where: { $0.id == tag.id }) }
-          .map { PinTag(from: $0) }
-      }.get { tags in
-        tags.forEach { self.modelContext.insert($0) }
-      }
+      )
+
+      let existing = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+      let newTags = tagsDTO
+        .filter { tag in !existing.contains(where: { $0.id == tag.id }) }
+        .map { PinTag(from: $0) }
+
+      newTags.forEach { self.modelContext.insert($0) }
+
+      return newTags
     }
   }
 }

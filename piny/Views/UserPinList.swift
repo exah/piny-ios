@@ -8,7 +8,6 @@
 
 import SwiftUI
 import SwiftData
-import PromiseKit
 
 struct UserPinList: View {
   @Environment(AsyncPins.self) var asyncPins
@@ -17,19 +16,24 @@ struct UserPinList: View {
   @Query(sort: \PinTag.name, order: .forward) var tags: [PinTag]
 
   func load() {
-    firstly {
-      asyncPins.fetch()
-    }.then { _ in
-      asyncTags.fetch()
-    }.catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        _ = try await asyncPins.fetch()
+        _ = try await asyncTags.fetch()
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
   func remove(_ pins: [Pin]) {
     for pin in pins {
-      self.asyncPins.remove(pin).catch { error in
-        Piny.log(error, .error)
+      Task {
+        do {
+          try await asyncPins.remove(pin)
+        } catch {
+          Piny.log(error, .error)
+        }
       }
     }
   }

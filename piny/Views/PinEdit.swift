@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 private func ??<T>(
   _ a: Binding<Optional<T>>,
@@ -25,25 +24,26 @@ struct PinEdit: View {
   @State var showRemoveAlert: Bool = false
 
   var tags: [PinTag]
-  
+
   var onClose: (() -> Void)? = nil
   var hasChanges: Bool { $pin.hasChanges }
 
   func save() {
-    if (hasChanges) {
-      firstly {
-        asyncPins.edit(
-          pin,
-          title: pin.title,
-          description: pin.desc,
-          tags: pin.tags.map { $0.name }
-        )
-      }.done { pin in
-        $pin.commit()
-        onClose?()
-      }.catch { error in
-        $pin.rollback()
-        Piny.log(error, .error)
+    if hasChanges {
+      Task {
+        do {
+          _ = try await asyncPins.edit(
+            pin,
+            title: pin.title,
+            description: pin.desc,
+            tags: pin.tags.map { $0.name }
+          )
+          $pin.commit()
+          onClose?()
+        } catch {
+          $pin.rollback()
+          Piny.log(error, .error)
+        }
       }
     } else {
       onClose?()
@@ -52,8 +52,12 @@ struct PinEdit: View {
 
   func remove() {
     onClose?()
-    asyncPins.remove(pin).catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncPins.remove(pin)
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 struct LogIn: View {
   @Environment(AsyncUser.self) var asyncUser
@@ -15,35 +14,33 @@ struct LogIn: View {
   @State private var pass: String = ""
   @State private var email: String = ""
   @State private var shouldSignUp: Bool = false
-  
+
   func handleLogin() {
-    self.asyncUser.login(
-      name: name,
-      pass: pass
-    ).catch { error in
-      if let error = error as? API.Error {
+    Task {
+      do {
+        try await asyncUser.login(name: name, pass: pass)
+      } catch let error as API.Error {
         switch error {
-          case .notOK( _, let statusCode, _, _): do {
+          case .notOK(_, let statusCode, _, _):
             if statusCode == 404 {
-              self.shouldSignUp = true
+              shouldSignUp = true
             }
-          }
           default:
             Piny.log(error, .error)
         }
+      } catch {
+        Piny.log(error, .error)
       }
-
-      return
     }
   }
 
   func handleSignUp() {
-    self.asyncUser.signUp(
-      name: name,
-      pass: pass,
-      email: email
-    ).catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncUser.signUp(name: name, pass: pass, email: email)
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
@@ -104,9 +101,6 @@ struct LogIn: View {
   }
 }
 
-struct Login_Previews: PreviewProvider {
-  static var previews: some View {
-    LogIn()
-      .environment(AsyncUser())
-  }
+#Preview {
+  LogIn().environment(AsyncUser())
 }

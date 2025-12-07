@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 struct PinRow: View {
   @Environment(AsyncPins.self) var asyncPins
@@ -15,14 +14,20 @@ struct PinRow: View {
   var tags: [PinTag]
 
   func update(tags: [PinTag]) {
-    firstly {
-      asyncPins.edit(
-        pin,
-        tags: tags.map { $0.name }
-      )
-    }.catch { error in
-      Piny.log(error, .error)
-      asyncPins.get(pin).cauterize()
+    Task {
+      do {
+        _ = try await asyncPins.edit(
+          pin,
+          tags: tags.map { $0.name }
+        )
+      } catch {
+        Piny.log(error, .error)
+        do {
+          _ = try await asyncPins.get(pin)
+        } catch {
+          Piny.log("Failed to restore pin state: \(error)", .error)
+        }
+      }
     }
   }
 

@@ -11,7 +11,6 @@
 		0922991C2EE3B45B00810B2B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922991A2EE3B45700810B2B /* Flow.swift */; };
 		093A99AE24D46FA600ADBB0A /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* Async.swift */; };
 		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
-		094855D224D0E99F00C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D124D0E99F00C38309 /* PromiseKit */; };
 		094855D724D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		0969583B252FB6B4009BCEAB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969583A252FB6B4009BCEAB /* Device.swift */; };
 		0969B06024CF4F5B0013B066 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */; };
@@ -27,7 +26,6 @@
 		0998B88529B578AB0068DC17 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0998B88429B578AB0068DC17 /* Colors.xcassets */; };
 		09A223EA29B41C510047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
 		09AC54562E54D2DE009902FA /* pinyShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 09AC544C2E54D2DE009902FA /* pinyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		09AC547A2E566099009902FA /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC54792E566099009902FA /* PromiseKit */; };
 		09AC547F2E56622D009902FA /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* Async.swift */; };
 		09AC54812E566233009902FA /* AsyncUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* AsyncUser.swift */; };
 		09AC54832E566243009902FA /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
@@ -199,7 +197,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				094855D224D0E99F00C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +204,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC547A2E566099009902FA /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +395,6 @@
 			);
 			name = piny;
 			packageProductDependencies = (
-				094855D124D0E99F00C38309 /* PromiseKit */,
 			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
@@ -422,7 +417,6 @@
 			);
 			name = pinyShare;
 			packageProductDependencies = (
-				09AC54792E566099009902FA /* PromiseKit */,
 			);
 			productName = pinyShare;
 			productReference = 09AC544C2E54D2DE009902FA /* pinyShare.appex */;
@@ -457,7 +451,6 @@
 			);
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
-				094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */,
 			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
@@ -886,30 +879,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mxcl/PromiseKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.13.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		094855D124D0E99F00C38309 /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-		09AC54792E566099009902FA /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 099156C324BB99690041938C /* Project object */;
 }

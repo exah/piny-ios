@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftData
-import PromiseKit
 
 @Observable
 class Async {
@@ -22,11 +21,10 @@ class Async {
     self.modelContext = ctx
   }
 
-  func capture<T>(_ body: () -> Promise<T>) -> Promise<T> {
-    self.isLoading = true
-
-    return body().ensure {
-      self.isLoading = false
-    }
+  @MainActor
+  func capture<T>(_ body: () async throws -> T) async throws -> T {
+    isLoading = true
+    defer { isLoading = false }
+    return try await body()
   }
 }

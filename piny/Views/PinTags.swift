@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 import SwiftData
 
 fileprivate let CREATE_TAG: PinTag = PinTag(

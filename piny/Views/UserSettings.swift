@@ -18,8 +18,12 @@ struct UserSettings: View {
   var session: Session? { sessions.first }
 
   func logout() {
-    asyncUser.logout().catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncUser.logout()
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 

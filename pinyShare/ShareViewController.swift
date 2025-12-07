@@ -9,7 +9,6 @@
 import UIKit
 import SwiftUI
 import SwiftData
-import PromiseKit
 import UniformTypeIdentifiers
 import MobileCoreServices
 
@@ -23,13 +22,14 @@ class ShareViewController: UIViewController {
     clearView(view)
     modalPresentationStyle = .overCurrentContext
 
-    firstly {
-      self.getInput()
-    }.done { page in
-      self.render(page: page)
-    }.catch { error in
-      Piny.log(error, .error)
-      self.complete()
+    Task {
+      do {
+        let page = try await getInput()
+        render(page: page)
+      } catch {
+        Piny.log(error, .error)
+        complete()
+      }
     }
   }
 
@@ -68,66 +68,70 @@ class ShareViewController: UIViewController {
     extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
   }
 
-  func getInput() -> Promise<ParsedPage> {
+  func getInput() async throws -> ParsedPage {
     guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem] else {
-      return Promise(error: QuickAddError.invalidInput)
+      throw QuickAddError.invalidInput
     }
 
-    let promises = inputItems.compactMap { item in
-      return item.attachments?.map { provider in
-        firstly {
-          self.getPage(provider)
-        }.recover { _ in
-          self.getURL(provider)
-        }
-      }
-    }
+    let providers = inputItems.compactMap { $0.attachments }.joined()
 
-    return race(Array(promises.joined()))
-  }
-
-  private func loadItem(_ identifier: String, in provider: NSItemProvider) -> Promise<NSSecureCoding?> {
-    if provider.hasItemConformingToTypeIdentifier(identifier) {
-      return Promise { seal in
-        provider.loadItem(forTypeIdentifier: identifier) { item, error in
-          if let error = error {
-            return seal.reject(error)
-          } else {
-            return seal.fulfill(item)
+    return try await withThrowingTaskGroup(of: ParsedPage.self) { group in
+      for provider in providers {
+        group.addTask {
+          do {
+            return try await self.getPage(provider)
+          } catch {
+            return try await self.getURL(provider)
           }
         }
       }
-    }
 
-    return Promise(error: QuickAddError.noResult)
+      guard let result = try await group.next() else {
+        throw QuickAddError.noAttachments
+      }
+
+      group.cancelAll()
+      return result
+    }
   }
 
-  private func getPage(_ provider: NSItemProvider) -> Promise<ParsedPage> {
-    firstly {
-      loadItem(UTType.propertyList.identifier, in: provider)
-    }.map { item in
-      if
-        let dict = item as? NSDictionary,
-        let data = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
-        let pageURL = URL(string: data["url"]!)
-      {
-        return ParsedPage(title: data["title"], url: pageURL)
-      } else {
-        throw QuickAddError.invalidResult
+  private func loadItem(_ identifier: String, in provider: NSItemProvider) async throws -> NSSecureCoding? {
+    guard provider.hasItemConformingToTypeIdentifier(identifier) else {
+      throw QuickAddError.noResult
+    }
+
+    return try await withCheckedThrowingContinuation { continuation in
+      provider.loadItem(forTypeIdentifier: identifier) { item, error in
+        if let error = error {
+          continuation.resume(throwing: error)
+        } else {
+          continuation.resume(returning: item)
+        }
       }
     }
   }
 
+  private func getPage(_ provider: NSItemProvider) async throws -> ParsedPage {
+    let item = try await loadItem(UTType.propertyList.identifier, in: provider)
 
-  private func getURL(_ provider: NSItemProvider) -> Promise<ParsedPage> {
-    firstly {
-      loadItem(UTType.url.identifier, in: provider)
-    }.map { item in
-      if let url = item as? URL {
-        return ParsedPage(title: nil, url: url)
-      } else {
-        throw QuickAddError.invalidResult
-      }
+    if
+      let dict = item as? NSDictionary,
+      let data = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
+      let pageURL = URL(string: data["url"]!)
+    {
+      return ParsedPage(title: data["title"], url: pageURL)
+    } else {
+      throw QuickAddError.invalidResult
+    }
+  }
+
+  private func getURL(_ provider: NSItemProvider) async throws -> ParsedPage {
+    let item = try await loadItem(UTType.url.identifier, in: provider)
+
+    if let url = item as? URL {
+      return ParsedPage(title: nil, url: url)
+    } else {
+      throw QuickAddError.invalidResult
     }
   }
 
