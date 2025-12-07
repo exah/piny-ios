@@ -45,7 +45,7 @@ class Pin: Identifiable, Equatable {
     self.updatedAt = updatedAt
   }
 
-  convenience init(from pin: PinDTO, existingTags: [PinTag] = []) {
+  convenience init(from pin: PinDTO, tags: [PinTag]) {
     self.init(
       id: pin.id,
       title: pin.title,
@@ -53,24 +53,24 @@ class Pin: Identifiable, Equatable {
       privacy: pin.privacy,
       state: pin.state,
       link: PinLink(from: pin.link),
-      tags: pin.tags.compactMap { tagDTO in
-        existingTags.first(where: { $0.id == tagDTO.id }) ?? PinTag(from: tagDTO)
+      tags: pin.tags.map { tag in
+        tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
       },
       createdAt: pin.createdAt,
       updatedAt: pin.updatedAt
     )
   }
 
-  func update(from dto: PinDTO, existingTags: [PinTag]) {
-    self.title = dto.title
-    self.desc = dto.description
-    self.privacy = dto.privacy
-    self.state = dto.state
-    self.link.url = dto.link.url
-    self.tags = dto.tags.compactMap { tagDTO in
-      existingTags.first(where: { $0.id == tagDTO.id }) ?? PinTag(from: tagDTO)
+  func update(from pin: PinDTO, tags: [PinTag]) {
+    self.title = pin.title
+    self.desc = pin.description
+    self.privacy = pin.privacy
+    self.state = pin.state
+    self.link.url = pin.link.url
+    self.tags = pin.tags.map { tag in
+      tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
     }
-    self.updatedAt = dto.updatedAt
+    self.updatedAt = pin.updatedAt
   }
 
   static func == (lhs: Pin, rhs: Pin) -> Bool {

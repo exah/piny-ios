@@ -35,5 +35,5 @@ fileprivate func load<T: Decodable>(_ filename: String) -> T {
 struct PreviewContent {
   static let user: User = User(from: PREVIEW_USER)
   static let tags: [PinTag] = PREVIEW_TAGS.map { PinTag(from: $0) }
-  static let pins: [Pin] = PREVIEW_PINS.map { Pin(from: $0, existingTags: tags) }
+  static let pins: [Pin] = PREVIEW_PINS.map { Pin(from: $0, tags: tags) }
 }

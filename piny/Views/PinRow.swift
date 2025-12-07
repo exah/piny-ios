@@ -22,6 +22,7 @@ struct PinRow: View {
       )
     }.catch { error in
       Piny.log(error, .error)
+      asyncPins.get(pin).cauterize()
     }
   }
 

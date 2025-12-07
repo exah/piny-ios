@@ -25,26 +25,25 @@ class AsyncPins: Async {
       Piny.api.get(
         [PinDTO].self,
         path: "/bookmarks"
-      ).get { pins in
-        Piny.log("Loaded pins: \(pins.count)")
+      ).get { result in
+        Piny.log("Loaded pins: \(result.count)")
 
         do {
           try self.modelContext.transaction {
-            let existing = try self.modelContext.fetch(FetchDescriptor<Pin>())
-            let allTags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+            let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
+            let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
 
             // Remove pins that no longer exist on server
             let serverPinIds = Set(pins.map { $0.id })
-            existing.filter { !serverPinIds.contains($0.id) }.forEach {
+            pins.filter { !serverPinIds.contains($0.id) }.forEach {
               self.modelContext.delete($0)
             }
 
-            // Update or insert pins
-            for pinDTO in pins {
-              if let existingPin = existing.first(where: { $0.id == pinDTO.id }) {
-                existingPin.update(from: pinDTO, existingTags: allTags)
+            for item in result {
+              if let existing = pins.first(where: { $0.id == item.id }) {
+                existing.update(from: item, tags: tags)
               } else {
-                let pin = Pin(from: pinDTO, existingTags: allTags)
+                let pin = Pin(from: item, tags: tags)
                 self.modelContext.insert(pin)
               }
             }
@@ -76,6 +75,24 @@ class AsyncPins: Async {
     }
   }
 
+  func get(
+    _ pin: Pin
+  ) -> Promise<PinDTO> {
+    capture {
+      Piny.api.get(
+        PinDTO.self,
+        path: "/bookmarks/\(pin.id.uuidString.lowercased())"
+      )
+    }.get { result in
+      do {
+        let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        pin.update(from: result, tags: tags)
+      } catch {
+        Piny.log("Failed to fetch tags for update: \(error)", .error)
+      }
+    }
+  }
+
   func edit(
     _ pin: Pin,
     title: String? = nil,
@@ -95,17 +112,7 @@ class AsyncPins: Async {
         )
       )
     }.then { _ in
-      Piny.api.get(
-        PinDTO.self,
-        path: "/bookmarks/\(pin.id.uuidString.lowercased())"
-      )
-    }.get { result in
-      do {
-        let allTags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
-        pin.update(from: result, existingTags: allTags)
-      } catch {
-        Piny.log("Failed to fetch tags for update: \(error)", .error)
-      }
+      self.get(pin)
     }
   }
 
