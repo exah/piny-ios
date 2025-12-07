@@ -41,19 +41,22 @@ struct PinRow: View {
         Text("\(pin.link.url)")
           .lineLimit(1)
       }
-      PinTags(tags: $pin.tags, options: tags)
+      PinTags(tags: Binding(
+        get: { pin.orderedTags },
+        set: { newTags in
+          pin.tags = newTags
+          pin.tagOrder = newTags.map { $0.id }
+        }
+      ), options: tags)
         .onChange(of: pin.tags) {
-          update(tags: pin.tags)
+          update(tags: pin.orderedTags)
         }
     }
     .padding(.vertical, 2)
   }
 }
 
-struct PinRow_Previews: PreviewProvider {
-  static var previews: some View {
-    PinRow(pin: PreviewContent.pins[2], tags: [])
-      .previewLayout(.fixed(width: 300, height: 120))
-      .environment(AsyncTags(PreviewContent.tags))
-  }
+#Preview {
+  PinRow(pin: PreviewContent.pins[2], tags: PreviewContent.tags)
+    .environment(AsyncPins(PreviewContent.pins))
 }
