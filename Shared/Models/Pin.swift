@@ -7,86 +7,112 @@
 //
 
 import Foundation
-import CoreData
+import SwiftData
 
-struct Pin: Hashable, Codable, Identifiable, Equatable {
-  var id: UUID
+@Model
+class Pin: Identifiable, Equatable {
+  @Attribute(.unique) var id: UUID
   var title: String?
-  var description: String?
-  var state: Pin.State
-  var privacy: Pin.Privacy
+  var desc: String?
+  var privacy: PinPrivacy
+  var state: PinState
+  @Relationship(deleteRule: .cascade)
   var link: PinLink
-  var tags: [PinTag]
+  @Relationship(inverse: \PinTag.pins)
+  var tags: [PinTag] = []
+  var tagOrder: [UUID] = []
   var createdAt: Date
   var updatedAt: Date
 
-  enum State: String, Codable {
-    case active = "active"
-    case removed = "removed"
+  init(
+    id: UUID,
+    title: String? = nil,
+    desc: String? = nil,
+    privacy: PinPrivacy,
+    state: PinState,
+    link: PinLink,
+    tags: [PinTag],
+    createdAt: Date,
+    updatedAt: Date
+  ) {
+    self.id = id
+    self.title = title
+    self.desc = desc
+    self.privacy = privacy
+    self.state = state
+    self.link = link
+    self.tags = tags
+    self.tagOrder = tags.map { $0.id }
+    self.createdAt = createdAt
+    self.updatedAt = updatedAt
   }
 
-  enum Privacy: String, Codable {
-    case `public` = "public"
-    case `private` = "private"
+  convenience init(from pin: PinDTO, tags: [PinTag]) {
+    self.init(
+      id: pin.id,
+      title: pin.title,
+      desc: pin.description,
+      privacy: pin.privacy,
+      state: pin.state,
+      link: PinLink(from: pin.link),
+      tags: pin.tags.map { tag in
+        tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
+      },
+      createdAt: pin.createdAt,
+      updatedAt: pin.updatedAt
+    )
   }
+
+  func update(from pin: PinDTO, tags: [PinTag]) {
+    self.title = pin.title
+    self.desc = pin.description
+    self.privacy = pin.privacy
+    self.state = pin.state
+    self.link.url = pin.link.url
+    self.tags = pin.tags.map { tag in
+      tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
+    }
+    self.tagOrder = pin.tags.map { $0.id }
+    self.updatedAt = pin.updatedAt
+  }
+  
+  // Returns tags in the order received from server
+  var orderedTags: [PinTag] {
+    let tagDict = Dictionary(uniqueKeysWithValues: tags.map { ($0.id, $0) })
+    return tagOrder.compactMap { tagDict[$0] }
+  }
+
+  static func == (lhs: Pin, rhs: Pin) -> Bool {
+    return lhs.id == rhs.id
+  }
+}
+
+enum PinState: String, Codable {
+  case active = "active"
+  case removed = "removed"
+}
+
+enum PinPrivacy: String, Codable {
+  case `public` = "public"
+  case `private` = "private"
+}
+
+struct PinDTO: Hashable, Codable, Identifiable, Equatable {
+  var id: UUID
+  var title: String?
+  var description: String?
+  var state: PinState
+  var privacy: PinPrivacy
+  var link: PinLinkDTO
+  var tags: [PinTagDTO]
+  var createdAt: Date
+  var updatedAt: Date
 
   struct Payload: Codable {
     var title: String?
     var description: String?
-    var state: Pin.State?
-    var privacy: Pin.Privacy?
+    var state: PinState?
+    var privacy: PinPrivacy?
     var tags: [String]?
   }
-
-  func getId() -> String {
-    self.id.uuidString.lowercased()
-  }
-}
-
-extension Pin: Persistable {
-  static func fromObject(_ object: DBPin) -> Pin {
-    Pin(
-      id: object.id,
-      title: object.title,
-      description: object.desc,
-      state: Pin.State(rawValue: object.state)!,
-      privacy: Pin.Privacy(rawValue: object.privacy)!,
-      link: PinLink.fromObject(object.link),
-      tags: Array(_immutableCocoaArray: object.tags).map { tag in
-        PinTag.fromObject(tag)
-      },
-      createdAt: object.createdAt,
-      updatedAt: object.updatedAt
-    )
-  }
-
-  func toObject(in context: NSManagedObjectContext) -> DBPin {
-    let entity = DBPin.create(in: context)
-
-    entity.id = id
-    entity.title = title
-    entity.desc = description
-    entity.state = state.rawValue
-    entity.privacy = privacy.rawValue
-    entity.link = link.toObject(in: context)
-    entity.tags = NSOrderedSet(array: tags.map { tag in
-      tag.toObject(in: context)
-    })
-    entity.createdAt = createdAt
-    entity.updatedAt = updatedAt
-
-    return entity
-  }
-}
-
-class DBPin: NSManagedObject {
-  @NSManaged var id: UUID
-  @NSManaged var title: String?
-  @NSManaged var desc: String?
-  @NSManaged var privacy: String
-  @NSManaged var state: String
-  @NSManaged var link: DBPinLink
-  @NSManaged var tags: NSOrderedSet
-  @NSManaged var createdAt: Date
-  @NSManaged var updatedAt: Date
 }

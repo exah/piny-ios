@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct UserTabs: View {
+  @State var search: String = ""
+
   var body: some View {
     TabView {
       Tab("All", image: "icons.16.all") {
@@ -26,9 +28,17 @@ struct UserTabs: View {
         UserSettings()
           .navigationBarTitle("Settings")
       }
-
+      Tab(role: .search) {
+        NavigationStack {
+          VStack() {
+            // TODO: Add view of all tags
+          }
+          .navigationTitle("Search")
+        }
+      }
     }
     .tabViewStyle(.sidebarAdaptable)
+    .searchable(text: $search)
   }
 }
 

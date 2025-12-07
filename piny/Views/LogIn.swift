@@ -9,38 +9,38 @@
 import SwiftUI
 
 struct LogIn: View {
-  @EnvironmentObject var userState: UserState
+  @Environment(AsyncUser.self) var asyncUser
   @State private var name: String = ""
   @State private var pass: String = ""
   @State private var email: String = ""
   @State private var shouldSignUp: Bool = false
-  
+
   func handleLogin() {
-    self.userState.login(
-      name: name,
-      pass: pass
-    ).catch { error in
-      if let error = error as? API.Error {
+    Task {
+      do {
+        try await asyncUser.login(name: name, pass: pass)
+      } catch let error as API.Error {
         switch error {
-          case .notOK( _, let statusCode, _): do {
+          case .notOK(_, let statusCode, _, _):
             if statusCode == 404 {
-              self.shouldSignUp = true
+              shouldSignUp = true
             }
-          }
           default:
             Piny.log(error, .error)
         }
+      } catch {
+        Piny.log(error, .error)
       }
     }
   }
 
   func handleSignUp() {
-    self.userState.signUp(
-      name: name,
-      pass: pass,
-      email: email
-    ).catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncUser.signUp(name: name, pass: pass, email: email)
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
@@ -52,7 +52,7 @@ struct LogIn: View {
         VStack {
           VStack(spacing: 24) {
             VStack(spacing: 12) {
-              Image("Logo")
+              Image("assets.logo")
                 .renderingMode(.template)
                 .foregroundColor(.piny.foreground)
               Text("Welcome 👋")
@@ -69,7 +69,7 @@ struct LogIn: View {
             }
             Button(action: handleLogin) {
               Group {
-                if (userState.isLoading) {
+                if (asyncUser.isLoading) {
                   Image(systemName: "circle.dotted")
                 } else {
                   Text("Login")
@@ -77,7 +77,7 @@ struct LogIn: View {
               }.frame(maxWidth: .infinity)
             }
             .variant(.primary)
-            .disabled(userState.isLoading)
+            .disabled(asyncUser.isLoading)
             .alert(
               "Enter your email to create an account",
               isPresented: $shouldSignUp
@@ -101,9 +101,6 @@ struct LogIn: View {
   }
 }
 
-struct Login_Previews: PreviewProvider {
-  static var previews: some View {
-    LogIn()
-      .environmentObject(UserState())
-  }
+#Preview {
+  LogIn().environment(AsyncUser())
 }

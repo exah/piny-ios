@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 private func ??<T>(
   _ a: Binding<Optional<T>>,
@@ -20,27 +19,31 @@ private func ??<T>(
 }
 
 struct PinEdit: View {
-  @EnvironmentObject var pinsState: PinsState
+  @Environment(AsyncPins.self) var asyncPins
   @Transaction var pin: Pin
   @State var showRemoveAlert: Bool = false
 
+  var tags: [PinTag]
+
   var onClose: (() -> Void)? = nil
+  var hasChanges: Bool { $pin.hasChanges }
 
   func save() {
-    if ($pin.hasChanges) {
-      firstly {
-        pinsState.edit(
-          pin,
-          title: pin.title,
-          description: pin.description,
-          tags: pin.tags.map { $0.name }
-        )
-      }.done { pin in
-        $pin.commit()
-        onClose?()
-      }.catch { error in
-        $pin.rollback()
-        Piny.log(error, .error)
+    if hasChanges {
+      Task {
+        do {
+          try await asyncPins.edit(
+            pin,
+            title: pin.title,
+            description: pin.desc,
+            tags: pin.tags.map { $0.name }
+          )
+          $pin.commit()
+          onClose?()
+        } catch {
+          $pin.rollback()
+          Piny.log(error, .error)
+        }
       }
     } else {
       onClose?()
@@ -49,8 +52,12 @@ struct PinEdit: View {
 
   func remove() {
     onClose?()
-    pinsState.remove(pin).catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncPins.remove(pin)
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
@@ -60,9 +67,9 @@ struct PinEdit: View {
         VStack(spacing: 16) {
           Group {
             Input("Title", value: $pin.title ?? "")
-            Input("Description", value: $pin.description ?? "")
+            Input("Description", value: $pin.desc ?? "")
           }
-          PinTags(tags: $pin.tags)
+          PinTags(tags: $pin.tags, options: tags)
         }
         Spacer()
       }
@@ -71,7 +78,7 @@ struct PinEdit: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Button(action: save) {
-            Image(systemName: $pin.hasChanges ? "checkmark" : "xmark")
+            Image(systemName: hasChanges ? "checkmark" : "xmark")
           }
         }
         ToolbarItem(placement: .principal) {
@@ -106,8 +113,8 @@ struct PinEdit_Previews: PreviewProvider {
   @State static var pin = PreviewContent.pins[0]
 
   static var previews: some View {
-    PinEdit(pin: $pin.transaction())
-      .environmentObject(PinsState())
-      .environmentObject(TagsState())
+    PinEdit(pin: $pin.transaction(), tags: [])
+      .environment(AsyncPins())
+      .environment(AsyncTags())
   }
 }

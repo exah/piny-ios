@@ -7,13 +7,38 @@
 //
 
 import Foundation
+import SwiftData
+
+@Model
+class Session: Identifiable, Equatable {
+  @Attribute(.unique) var id: UUID = UUID()
+  @Attribute(.unique) var token: String
+  var expiresAt: Date
+
+  init(token: String, expiresAt: Date) {
+    self.token = token
+    self.expiresAt = expiresAt
+  }
+
+  convenience init(from auth: Authorisation) {
+    self.init(
+      token: auth.token,
+      expiresAt: auth.expiresAt
+    )
+  }
+
+  static func == (lhs: Session, rhs: Session) -> Bool {
+    return lhs.id == rhs.id
+  }
+}
 
 struct Authorisation: Codable {
   let token: String
+  let expiresAt: Date
 
   struct Payload: Codable {
     let user: String
     let pass: String
-    let device: Device?
+    let device: Device
   }
 }

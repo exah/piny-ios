@@ -7,34 +7,42 @@
 //
 
 import SwiftUI
-import PromiseKit
+import SwiftData
 
 struct UserPinList: View {
-  @EnvironmentObject var pinsState: PinsState
-  @EnvironmentObject var tagsState: TagsState
+  @Environment(AsyncPins.self) var asyncPins
+  @Environment(AsyncTags.self) var asyncTags
+  @Query(sort: \Pin.createdAt, order: .reverse) var pins: [Pin]
+  @Query(sort: \PinTag.name, order: .forward) var tags: [PinTag]
 
   func load() {
-    firstly {
-      when(fulfilled:
-        pinsState.fetch(),
-        tagsState.fetch()
-      )
-    }.catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncPins.fetch()
+        try await asyncTags.fetch()
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
   func remove(_ pins: [Pin]) {
     for pin in pins {
-      self.pinsState.remove(pin).catch { error in
-        Piny.log(error, .error)
+      Task {
+        do {
+          try await asyncPins.remove(pin)
+        } catch {
+          Piny.log(error, .error)
+        }
       }
     }
   }
 
   var body: some View {
     PinList(
-      pins: pinsState.pins,
+      pins: pins,
+      tags: tags,
+      onRefresh: load,
       onDelete: remove
     )
       .onAppear(perform: load)
@@ -47,7 +55,7 @@ struct UserPinList: View {
 struct UserPinList_Previews: PreviewProvider {
   static var previews: some View {
     UserPinList()
-      .environmentObject(PinsState(PreviewContent.pins))
-      .environmentObject(TagsState([]))
+      .environment(AsyncPins(PreviewContent.pins))
+      .environment(AsyncTags(PreviewContent.tags))
   }
 }

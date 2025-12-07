@@ -7,35 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* AsyncState.swift */; };
+		0922991B2EE3B45B00810B2B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922991A2EE3B45700810B2B /* Flow.swift */; };
+		0922991C2EE3B45B00810B2B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922991A2EE3B45700810B2B /* Flow.swift */; };
+		093A99AE24D46FA600ADBB0A /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* Async.swift */; };
 		0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0944684624CDE16100CB9D9F /* UserPinList.swift */; };
-		094855D224D0E99F00C38309 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 094855D124D0E99F00C38309 /* PromiseKit */; };
 		094855D724D102C700C38309 /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		0969583B252FB6B4009BCEAB /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969583A252FB6B4009BCEAB /* Device.swift */; };
 		0969B06024CF4F5B0013B066 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */; };
 		09752F6424C0D352003E1B24 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6324C0D352003E1B24 /* LogIn.swift */; };
 		09752F6624C0DCBD003E1B24 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752F6524C0DCBD003E1B24 /* Root.swift */; };
 		09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
-		097A054024C76F84003609F0 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		097A054224C79056003609F0 /* PinLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054124C79056003609F0 /* PinLink.swift */; };
 		097A054424C79075003609F0 /* PinTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A054324C79075003609F0 /* PinTag.swift */; };
 		097D48A824D6C61400C926A3 /* PreviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48A724D6C61400C926A3 /* PreviewContent.swift */; };
 		097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48AA24D6C7E300C926A3 /* JSON.swift */; };
-		099156CF24BB99690041938C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156CE24BB99690041938C /* AppDelegate.swift */; };
-		099156D124BB99690041938C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099156D024BB99690041938C /* SceneDelegate.swift */; };
-		099156D424BB99690041938C /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
 		099156D824BB996B0041938C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099156D724BB996B0041938C /* Assets.xcassets */; };
 		099156DB24BB996B0041938C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099156DA24BB996B0041938C /* Preview Assets.xcassets */; };
-		099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099156DC24BB996B0041938C /* LaunchScreen.storyboard */; };
 		0998B88529B578AB0068DC17 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0998B88429B578AB0068DC17 /* Colors.xcassets */; };
 		09A223EA29B41C510047375B /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A223E929B41C510047375B /* Typography.swift */; };
 		09AC54562E54D2DE009902FA /* pinyShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 09AC544C2E54D2DE009902FA /* pinyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		09AC547A2E566099009902FA /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC54792E566099009902FA /* PromiseKit */; };
-		09AC547F2E56622D009902FA /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* AsyncState.swift */; };
-		09AC54812E566233009902FA /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
+		09AC547F2E56622D009902FA /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A99AD24D46FA600ADBB0A /* Async.swift */; };
+		09AC54812E566233009902FA /* AsyncUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* AsyncUser.swift */; };
 		09AC54832E566243009902FA /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
 		09AC54852E56624A009902FA /* PreviewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48A724D6C61400C926A3 /* PreviewContent.swift */; };
-		09AC54892E566258009902FA /* piny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 099156D224BB99690041938C /* piny.xcdatamodeld */; };
 		09AC548B2E566349009902FA /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
 		09AC548C2E566349009902FA /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5861E29B72D3000D06AB6 /* Placeholder.swift */; };
 		09AC548D2E566349009902FA /* Colors.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 0998B88429B578AB0068DC17 /* Colors.xcassets */; };
@@ -44,7 +38,6 @@
 		09AC54902E566349009902FA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08D824C0A2690021CC4A /* API.swift */; };
 		09AC54912E566349009902FA /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097D48AA24D6C7E300C926A3 /* JSON.swift */; };
 		09AC54922E566349009902FA /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09752FAA24C2FE89003E1B24 /* Storage.swift */; };
-		09AC54932E566349009902FA /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A053F24C76F84003609F0 /* Persistable.swift */; };
 		09AC54942E566349009902FA /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
 		09AC54952E566349009902FA /* Authorisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DA24C0CB380021CC4A /* Authorisation.swift */; };
 		09AC54962E566349009902FA /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA169324BE9FF70028121D /* Pin.swift */; };
@@ -53,7 +46,7 @@
 		09AC54992E566349009902FA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EB08DC24C0CB580021CC4A /* User.swift */; };
 		09AC549A2E566349009902FA /* ParsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094855D624D102C700C38309 /* ParsedPage.swift */; };
 		09AC549B2E566349009902FA /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969583A252FB6B4009BCEAB /* Device.swift */; };
-		09AC549C2E566349009902FA /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
+		09AC549C2E566349009902FA /* AsyncPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* AsyncPins.swift */; };
 		09AC549D2E566349009902FA /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0969B05F24CF4F5B0013B066 /* ButtonStyle.swift */; };
 		09AC549E2E566349009902FA /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EA49E124E951C800B20619 /* TextFieldStyle.swift */; };
 		09AC549F2E566349009902FA /* Preview Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 099156DA24BB996B0041938C /* Preview Assets.xcassets */; };
@@ -63,19 +56,21 @@
 		09AC55272E58BD25009902FA /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55262E58BD23009902FA /* ShareView.swift */; };
 		09AC55292E58C91A009902FA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55282E58C91A009902FA /* Tag.swift */; };
 		09AC552A2E58C91A009902FA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55282E58C91A009902FA /* Tag.swift */; };
-		09AC553B2E59DB84009902FA /* TagsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* TagsState.swift */; };
-		09AC553C2E59DB84009902FA /* TagsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* TagsState.swift */; };
+		09AC553B2E59DB84009902FA /* AsyncTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* AsyncTags.swift */; };
+		09AC553C2E59DB84009902FA /* AsyncTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553A2E59DB7E009902FA /* AsyncTags.swift */; };
 		09AC553E2E5A116F009902FA /* TagSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC553D2E5A116F009902FA /* TagSelect.swift */; };
-		09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55402E5A13CF009902FA /* WrappingHStack */; };
-		09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 09AC55422E5A13D6009902FA /* WrappingHStack */; };
+		09AC558F2E5E1A5F009902FA /* PinyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC558E2E5E1A5F009902FA /* PinyApp.swift */; };
+		09AC55942E5E65ED009902FA /* CreateTagForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC55932E5E65ED009902FA /* CreateTagForm.swift */; };
+		09AC55962E5F13B4009902FA /* preview-tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AC55952E5F13AE009902FA /* preview-tags.json */; };
+		09AC55972E5F13B4009902FA /* preview-tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AC55952E5F13AE009902FA /* preview-tags.json */; };
 		09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */; };
-		09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */; };
+		09AFB4C624CDDB3600E6D9E3 /* AsyncPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AFB4C524CDDB3600E6D9E3 /* AsyncPins.swift */; };
 		09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */ = {isa = PBXBuildFile; fileRef = 09AFB4C724CDDC8700E6D9E3 /* preview-user.json */; };
 		09BE837124F81A9700A21581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09BE837424F81A9700A21581 /* Localizable.strings */; };
 		09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89B24D8BF5E00A6635D /* Transaction.swift */; };
 		09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB89E24DB159100A6635D /* UserTabs.swift */; };
 		09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DAB8A224DB207400A6635D /* UserSettings.swift */; };
-		09DEB77024BE45ED001CE612 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* UserState.swift */; };
+		09DEB77024BE45ED001CE612 /* AsyncUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEB76F24BE45ED001CE612 /* AsyncUser.swift */; };
 		09DF794A29B5F13900B287F5 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794929B5F13900B287F5 /* Input.swift */; };
 		09DF794D29B5FAD900B287F5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DF794C29B5FAD900B287F5 /* Colors.swift */; };
 		09E5861F29B72D3000D06AB6 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5861E29B72D3000D06AB6 /* Placeholder.swift */; };
@@ -119,8 +114,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		091DE00225193720005E5E05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		093A99AD24D46FA600ADBB0A /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
+		0922991A2EE3B45700810B2B /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
+		093A99AD24D46FA600ADBB0A /* Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		0944684624CDE16100CB9D9F /* UserPinList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPinList.swift; sourceTree = "<group>"; };
 		0944687824CE003100CB9D9F /* piny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = piny.entitlements; sourceTree = "<group>"; };
 		094855D624D102C700C38309 /* ParsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedPage.swift; sourceTree = "<group>"; };
@@ -130,15 +125,11 @@
 		09752F6524C0DCBD003E1B24 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		09752FA624C22A6C003E1B24 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		09752FAA24C2FE89003E1B24 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		097A053F24C76F84003609F0 /* Persistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		097A054124C79056003609F0 /* PinLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinLink.swift; sourceTree = "<group>"; };
 		097A054324C79075003609F0 /* PinTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinTag.swift; sourceTree = "<group>"; };
 		097D48A724D6C61400C926A3 /* PreviewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewContent.swift; sourceTree = "<group>"; };
 		097D48AA24D6C7E300C926A3 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		099156CB24BB99690041938C /* piny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = piny.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		099156CE24BB99690041938C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		099156D024BB99690041938C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		099156D324BB99690041938C /* piny.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = piny.xcdatamodel; sourceTree = "<group>"; };
 		099156D724BB996B0041938C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		099156DA24BB996B0041938C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		099156DF24BB996B0041938C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -148,16 +139,19 @@
 		09AC54602E54D319009902FA /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		09AC55262E58BD23009902FA /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		09AC55282E58C91A009902FA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		09AC553A2E59DB7E009902FA /* TagsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsState.swift; sourceTree = "<group>"; };
+		09AC553A2E59DB7E009902FA /* AsyncTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncTags.swift; sourceTree = "<group>"; };
 		09AC553D2E5A116F009902FA /* TagSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelect.swift; sourceTree = "<group>"; };
+		09AC558E2E5E1A5F009902FA /* PinyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinyApp.swift; sourceTree = "<group>"; };
+		09AC55932E5E65ED009902FA /* CreateTagForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTagForm.swift; sourceTree = "<group>"; };
+		09AC55952E5F13AE009902FA /* preview-tags.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-tags.json"; sourceTree = "<group>"; };
 		09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piny.swift; sourceTree = "<group>"; };
-		09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsState.swift; sourceTree = "<group>"; };
+		09AFB4C524CDDB3600E6D9E3 /* AsyncPins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPins.swift; sourceTree = "<group>"; };
 		09AFB4C724CDDC8700E6D9E3 /* preview-user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "preview-user.json"; sourceTree = "<group>"; };
 		09BE837324F81A9700A21581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		09DAB89B24D8BF5E00A6635D /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		09DAB89E24DB159100A6635D /* UserTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTabs.swift; sourceTree = "<group>"; };
 		09DAB8A224DB207400A6635D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-		09DEB76F24BE45ED001CE612 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
+		09DEB76F24BE45ED001CE612 /* AsyncUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncUser.swift; sourceTree = "<group>"; };
 		09DF794929B5F13900B287F5 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		09DF794C29B5FAD900B287F5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		09E5861E29B72D3000D06AB6 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
@@ -203,8 +197,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC55412E5A13CF009902FA /* WrappingHStack in Frameworks */,
-				094855D224D0E99F00C38309 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,8 +204,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC55432E5A13D6009902FA /* WrappingHStack in Frameworks */,
-				09AC547A2E566099009902FA /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +223,6 @@
 				09AFB4C324CDB7FB00E6D9E3 /* Piny.swift */,
 				097D48A724D6C61400C926A3 /* PreviewContent.swift */,
 				09BE837424F81A9700A21581 /* Localizable.strings */,
-				099156D224BB99690041938C /* piny.xcdatamodeld */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -283,10 +272,8 @@
 				0944687824CE003100CB9D9F /* piny.entitlements */,
 				09EB08D224C051380021CC4A /* Controllers */,
 				0991570724BC60460041938C /* Views */,
-				099156CE24BB99690041938C /* AppDelegate.swift */,
-				099156D024BB99690041938C /* SceneDelegate.swift */,
 				099156D724BB996B0041938C /* Assets.xcassets */,
-				099156DC24BB996B0041938C /* LaunchScreen.storyboard */,
+				09AC558E2E5E1A5F009902FA /* PinyApp.swift */,
 				099156DF24BB996B0041938C /* Info.plist */,
 			);
 			path = piny;
@@ -297,6 +284,7 @@
 			children = (
 				099156DA24BB996B0041938C /* Preview Assets.xcassets */,
 				09EA169124BE9F090028121D /* preview-pins.json */,
+				09AC55952E5F13AE009902FA /* preview-tags.json */,
 				09AFB4C724CDDC8700E6D9E3 /* preview-user.json */,
 			);
 			path = "Preview Content";
@@ -319,6 +307,7 @@
 				09DAB8A224DB207400A6635D /* UserSettings.swift */,
 				09DAB89E24DB159100A6635D /* UserTabs.swift */,
 				09EB08CE24BEB31F0021CC4A /* WebView.swift */,
+				09AC55932E5E65ED009902FA /* CreateTagForm.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -340,10 +329,10 @@
 		09DEB76E24BE45D9001CE612 /* State */ = {
 			isa = PBXGroup;
 			children = (
-				093A99AD24D46FA600ADBB0A /* AsyncState.swift */,
-				09AFB4C524CDDB3600E6D9E3 /* PinsState.swift */,
-				09AC553A2E59DB7E009902FA /* TagsState.swift */,
-				09DEB76F24BE45ED001CE612 /* UserState.swift */,
+				093A99AD24D46FA600ADBB0A /* Async.swift */,
+				09AFB4C524CDDB3600E6D9E3 /* AsyncPins.swift */,
+				09AC553A2E59DB7E009902FA /* AsyncTags.swift */,
+				09DEB76F24BE45ED001CE612 /* AsyncUser.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -361,6 +350,7 @@
 		09DF794829B5F12000B287F5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				0922991A2EE3B45700810B2B /* Flow.swift */,
 				09DF794929B5F13900B287F5 /* Input.swift */,
 				09E5861E29B72D3000D06AB6 /* Placeholder.swift */,
 			);
@@ -381,7 +371,6 @@
 				09EB08D824C0A2690021CC4A /* API.swift */,
 				097D48AA24D6C7E300C926A3 /* JSON.swift */,
 				09752FAA24C2FE89003E1B24 /* Storage.swift */,
-				097A053F24C76F84003609F0 /* Persistable.swift */,
 				09DAB89B24D8BF5E00A6635D /* Transaction.swift */,
 			);
 			path = Helpers;
@@ -406,8 +395,6 @@
 			);
 			name = piny;
 			packageProductDependencies = (
-				094855D124D0E99F00C38309 /* PromiseKit */,
-				09AC55402E5A13CF009902FA /* WrappingHStack */,
 			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
@@ -430,8 +417,6 @@
 			);
 			name = pinyShare;
 			packageProductDependencies = (
-				09AC54792E566099009902FA /* PromiseKit */,
-				09AC55422E5A13D6009902FA /* WrappingHStack */,
 			);
 			productName = pinyShare;
 			productReference = 09AC544C2E54D2DE009902FA /* pinyShare.appex */;
@@ -466,8 +451,6 @@
 			);
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
-				094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */,
-				09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
@@ -484,13 +467,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				099156DE24BB996B0041938C /* LaunchScreen.storyboard in Resources */,
 				09BE837124F81A9700A21581 /* Localizable.strings in Resources */,
 				09EA169224BE9F090028121D /* preview-pins.json in Resources */,
 				099156DB24BB996B0041938C /* Preview Assets.xcassets in Resources */,
 				0998B88529B578AB0068DC17 /* Colors.xcassets in Resources */,
 				099156D824BB996B0041938C /* Assets.xcassets in Resources */,
 				09AFB4C824CDDC8700E6D9E3 /* preview-user.json in Resources */,
+				09AC55962E5F13B4009902FA /* preview-tags.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09AC54C12E566620009902FA /* Localizable.strings in Resources */,
+				09AC55972E5F13B4009902FA /* preview-tags.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,7 +493,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				099156CF24BB99690041938C /* AppDelegate.swift in Sources */,
 				09AC553E2E5A116F009902FA /* TagSelect.swift in Sources */,
 				09EA13A824D8B7F800B5B5C9 /* PinActionRow.swift in Sources */,
 				09EB08D424C0514A0021CC4A /* WebViewController.swift in Sources */,
@@ -518,7 +501,6 @@
 				0969B06024CF4F5B0013B066 /* ButtonStyle.swift in Sources */,
 				09EB08CF24BEB31F0021CC4A /* WebView.swift in Sources */,
 				09EB08D924C0A2690021CC4A /* API.swift in Sources */,
-				099156D124BB99690041938C /* SceneDelegate.swift in Sources */,
 				09AC55272E58BD25009902FA /* ShareView.swift in Sources */,
 				09EA49E224E951C800B20619 /* TextFieldStyle.swift in Sources */,
 				097A054424C79075003609F0 /* PinTag.swift in Sources */,
@@ -527,27 +509,28 @@
 				09EB08DD24C0CB580021CC4A /* User.swift in Sources */,
 				09AFB4C424CDB7FB00E6D9E3 /* Piny.swift in Sources */,
 				09EB08CD24BEAFA90021CC4A /* PinTags.swift in Sources */,
+				09AC55942E5E65ED009902FA /* CreateTagForm.swift in Sources */,
 				09752F6624C0DCBD003E1B24 /* Root.swift in Sources */,
-				099156D424BB99690041938C /* piny.xcdatamodeld in Sources */,
 				09DAB89C24D8BF5E00A6635D /* Transaction.swift in Sources */,
-				09DEB77024BE45ED001CE612 /* UserState.swift in Sources */,
+				09DEB77024BE45ED001CE612 /* AsyncUser.swift in Sources */,
+				0922991B2EE3B45B00810B2B /* Flow.swift in Sources */,
 				09EA169624BEA32B0028121D /* PinList.swift in Sources */,
 				09EA13A524D8B5C900B5B5C9 /* PinEdit.swift in Sources */,
+				09AC558F2E5E1A5F009902FA /* PinyApp.swift in Sources */,
 				09AC55292E58C91A009902FA /* Tag.swift in Sources */,
-				097A054024C76F84003609F0 /* Persistable.swift in Sources */,
 				094855D724D102C700C38309 /* ParsedPage.swift in Sources */,
 				09DF794A29B5F13900B287F5 /* Input.swift in Sources */,
 				09EB08CB24BEAB990021CC4A /* PinRow.swift in Sources */,
-				09AFB4C624CDDB3600E6D9E3 /* PinsState.swift in Sources */,
+				09AFB4C624CDDB3600E6D9E3 /* AsyncPins.swift in Sources */,
 				09DAB89F24DB159100A6635D /* UserTabs.swift in Sources */,
 				09EA169424BE9FF70028121D /* Pin.swift in Sources */,
-				09AC553B2E59DB84009902FA /* TagsState.swift in Sources */,
+				09AC553B2E59DB84009902FA /* AsyncTags.swift in Sources */,
 				09E5861F29B72D3000D06AB6 /* Placeholder.swift in Sources */,
 				09752FAE24C2FE89003E1B24 /* Storage.swift in Sources */,
 				0944684724CDE16100CB9D9F /* UserPinList.swift in Sources */,
 				097D48AB24D6C7E300C926A3 /* JSON.swift in Sources */,
 				09DF794D29B5FAD900B287F5 /* Colors.swift in Sources */,
-				093A99AE24D46FA600ADBB0A /* AsyncState.swift in Sources */,
+				093A99AE24D46FA600ADBB0A /* Async.swift in Sources */,
 				09EB08DB24C0CB380021CC4A /* Authorisation.swift in Sources */,
 				09DAB8A324DB207400A6635D /* UserSettings.swift in Sources */,
 				09A223EA29B41C510047375B /* Typography.swift in Sources */,
@@ -566,7 +549,6 @@
 				09AC54902E566349009902FA /* API.swift in Sources */,
 				09AC54912E566349009902FA /* JSON.swift in Sources */,
 				09AC54922E566349009902FA /* Storage.swift in Sources */,
-				09AC54932E566349009902FA /* Persistable.swift in Sources */,
 				09AC54942E566349009902FA /* Transaction.swift in Sources */,
 				09AC54952E566349009902FA /* Authorisation.swift in Sources */,
 				09AC54962E566349009902FA /* Pin.swift in Sources */,
@@ -574,20 +556,20 @@
 				09AC54982E566349009902FA /* PinLink.swift in Sources */,
 				09AC54992E566349009902FA /* User.swift in Sources */,
 				09AC549A2E566349009902FA /* ParsedPage.swift in Sources */,
+				0922991C2EE3B45B00810B2B /* Flow.swift in Sources */,
 				09AC549B2E566349009902FA /* Device.swift in Sources */,
-				09AC549C2E566349009902FA /* PinsState.swift in Sources */,
+				09AC549C2E566349009902FA /* AsyncPins.swift in Sources */,
 				09AC549D2E566349009902FA /* ButtonStyle.swift in Sources */,
 				09AC549E2E566349009902FA /* TextFieldStyle.swift in Sources */,
 				09AC549F2E566349009902FA /* Preview Assets.xcassets in Sources */,
 				09AC54A02E566349009902FA /* preview-pins.json in Sources */,
 				09AC552A2E58C91A009902FA /* Tag.swift in Sources */,
 				09AC54A12E566349009902FA /* preview-user.json in Sources */,
-				09AC553C2E59DB84009902FA /* TagsState.swift in Sources */,
-				09AC547F2E56622D009902FA /* AsyncState.swift in Sources */,
+				09AC553C2E59DB84009902FA /* AsyncTags.swift in Sources */,
+				09AC547F2E56622D009902FA /* Async.swift in Sources */,
 				09AC54852E56624A009902FA /* PreviewContent.swift in Sources */,
-				09AC54812E566233009902FA /* UserState.swift in Sources */,
+				09AC54812E566233009902FA /* AsyncUser.swift in Sources */,
 				09AC54832E566243009902FA /* Piny.swift in Sources */,
-				09AC54892E566258009902FA /* piny.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,14 +584,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		099156DC24BB996B0041938C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				091DE00225193720005E5E05 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		09BE837424F81A9700A21581 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -905,61 +879,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mxcl/PromiseKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.13.2;
-			};
-		};
-		09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dkk/WrappingHStack";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.11;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		094855D124D0E99F00C38309 /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-		09AC54792E566099009902FA /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 094855D024D0E99F00C38309 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-		09AC55402E5A13CF009902FA /* WrappingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
-			productName = WrappingHStack;
-		};
-		09AC55422E5A13D6009902FA /* WrappingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09AC553F2E5A136B009902FA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
-			productName = WrappingHStack;
-		};
-/* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		099156D224BB99690041938C /* piny.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				099156D324BB99690041938C /* piny.xcdatamodel */,
-			);
-			currentVersion = 099156D324BB99690041938C /* piny.xcdatamodel */;
-			path = piny.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 099156C324BB99690041938C /* Project object */;
 }

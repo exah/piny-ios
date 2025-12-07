@@ -7,30 +7,35 @@
 //
 
 import Foundation
-import CoreData
+import SwiftData
 
-struct PinLink: Hashable, Codable, Identifiable {
-  var id: UUID
-  var url: URL
-}
+@Model
+class PinLink: Identifiable, Equatable, Hashable {
+  @Attribute(.unique) var id: UUID
+  @Attribute(.unique) var url: URL
 
-extension PinLink: Persistable {
-  static func fromObject(_ object: DBPinLink) -> PinLink {
-    PinLink(
-      id: object.id,
-      url: object.url
+  init(id: UUID, url: URL) {
+    self.id = id
+    self.url = url
+  }
+
+  convenience init(from link: PinLinkDTO) {
+    self.init(
+      id: link.id,
+      url: link.url
     )
   }
 
-  func toObject(in context: NSManagedObjectContext) -> DBPinLink {
-    let entity = DBPinLink.create(in: context)
-    entity.id = id
-    entity.url = url
-    return entity
+  static func == (lhs: PinLink, rhs: PinLink) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
   }
 }
 
-class DBPinLink: NSManagedObject {
-  @NSManaged var id: UUID
-  @NSManaged var url: URL
+struct PinLinkDTO: Hashable, Codable, Identifiable {
+  var id: UUID
+  var url: URL
 }

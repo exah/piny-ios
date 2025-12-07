@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 import MobileCoreServices
 
 enum QuickAddError: Error {
@@ -19,37 +18,33 @@ enum QuickAddError: Error {
 }
 
 struct QuickAdd: View {
-  @EnvironmentObject var userState: UserState
-  @EnvironmentObject var pinsState: PinsState
+  @Environment(AsyncUser.self) var asyncUser
+  @Environment(AsyncPins.self) var asyncPins
   @State var isError: Bool = false
 
   let page: ParsedPage
   let onComplete: () -> Void
   let timeout: Double = 2
   var isSuccess: Bool {
-    !self.pinsState.isLoading && !isError
+    !self.asyncPins.isLoading && !isError
   }
 
   func handleAppear() {
-    firstly {
-      self.pinsState.create(
-        title: page.title,
-        url: page.url,
-        privacy: .public
-      ).asVoid()
-    }
-    .done {
-      Piny.log("Shared: \(page.url) <3")
-    }
-    .catch { error in
-      self.isError = true
-
-      Piny.log(error, .error)
-    }
-    .finally {
-      DispatchQueue.main.asyncAfter(deadline: .now() + self.timeout) {
-        self.onComplete()
+    Task {
+      do {
+        try await asyncPins.create(
+          title: page.title,
+          url: page.url,
+          privacy: .public
+        )
+        Piny.log("Shared: \(page.url) <3")
+      } catch {
+        isError = true
+        Piny.log(error, .error)
       }
+
+      try? await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+      onComplete()
     }
   }
 
@@ -58,7 +53,7 @@ struct QuickAdd: View {
       Group {
         Image(
           systemName:
-            self.pinsState.isLoading
+            self.asyncPins.isLoading
           ? "circle.dotted"
           : isError
           ? "xmark.circle.fill"
@@ -75,7 +70,7 @@ struct QuickAdd: View {
       }
       .frame(width: 24, height: 24)
       Text(
-        self.pinsState.isLoading
+        self.asyncPins.isLoading
         ? "Adding..."
         : isError
         ? "Failed to add"
@@ -88,7 +83,7 @@ struct QuickAdd: View {
         : .piny.foreground
       )
       Spacer()
-      if !self.pinsState.isLoading && !isError {
+      if !self.asyncPins.isLoading && !isError {
         Button(action: onComplete) {}
           .variant(.primary, size: .small, icon: Image(systemName: "checkmark"))
       }
@@ -106,6 +101,6 @@ struct QuickAdd: View {
 
 #Preview(traits: .sizeThatFitsLayout) {
   QuickAdd(page: ParsedPage(title: "Example", url: URL(string: "http://example.com")!), onComplete: {})
-    .environmentObject(UserState())
-    .environmentObject(PinsState([]))
+    .environment(AsyncUser())
+    .environment(AsyncPins())
 }

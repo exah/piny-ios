@@ -7,61 +7,61 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 struct PinRow: View {
-  @EnvironmentObject var pinsState: PinsState
-
-  @Binding var pin: Pin
-  @State var task: Task<Void, Never>?
+  @Environment(AsyncPins.self) var asyncPins
+  @Bindable var pin: Pin
+  var tags: [PinTag]
 
   func update(tags: [PinTag]) {
-    firstly {
-      pinsState.edit(
-        pin,
-        tags: tags.map { $0.name }
-      )
-    }.catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncPins.edit(
+          pin,
+          tags: tags.map { $0.name }
+        )
+      } catch {
+        Piny.log(error, .error)
+        do {
+          try await asyncPins.get(pin)
+        } catch {
+          Piny.log("Failed to restore pin state: \(error)", .error)
+        }
+      }
     }
   }
 
   var body: some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 16) {
-        VStack(alignment: .leading, spacing: 8) {
-          if (pin.title != nil) {
-            Text(pin.title!)
-              .fontWeight(.semibold)
-              .lineLimit(1)
-          }
-          if (pin.description != nil) {
-            Text(pin.description!)
-              .lineLimit(2)
-          }
-          Text("\(pin.link.url)")
+    VStack(alignment: .leading, spacing: 16) {
+      VStack(alignment: .leading, spacing: 8) {
+        if (pin.title != nil) {
+          Text(pin.title!)
+            .fontWeight(.semibold)
             .lineLimit(1)
         }
-        PinTags(tags: $pin.tags)
-          .onChange(of: pin.tags) {
-            task?.cancel()
-            task = Task { @MainActor in
-              try? await Task.sleep(nanoseconds: 2 * 1000 * 1000_000)
-              Piny.log("saved")
-              update(tags: pin.tags)
-            }
-          }
+        if (pin.desc != nil) {
+          Text(pin.desc!)
+            .lineLimit(2)
+        }
+        Text("\(pin.link.url)")
+          .lineLimit(1)
       }
-      
-      Spacer()
+      PinTags(tags: Binding(
+        get: { pin.orderedTags },
+        set: { newTags in
+          pin.tags = newTags
+          pin.tagOrder = newTags.map { $0.id }
+        }
+      ), options: tags)
+        .onChange(of: pin.tags) {
+          update(tags: pin.orderedTags)
+        }
     }
+    .padding(.vertical, 2)
   }
 }
 
-struct PinRow_Previews: PreviewProvider {
-  static var previews: some View {
-    PinRow(pin: Binding.constant(PreviewContent.pins[2]))
-      .previewLayout(.fixed(width: 300, height: 120))
-      .environmentObject(TagsState(PreviewContent.pins[0].tags))
-  }
+#Preview {
+  PinRow(pin: PreviewContent.pins[2], tags: PreviewContent.tags)
+    .environment(AsyncPins(PreviewContent.pins))
 }

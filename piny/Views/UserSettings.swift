@@ -7,13 +7,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct UserSettings: View {
-  @EnvironmentObject var userState: UserState
+  @Environment(AsyncUser.self) var asyncUser
+  @Query var users: [User]
+  @Query var sessions: [Session]
+
+  var user: User? { users.first }
+  var session: Session? { sessions.first }
 
   func logout() {
-    userState.logout().catch { error in
-      Piny.log(error, .error)
+    Task {
+      do {
+        try await asyncUser.logout()
+      } catch {
+        Piny.log(error, .error)
+      }
     }
   }
 
@@ -23,12 +33,17 @@ struct UserSettings: View {
         HStack {
           Text("Name")
           Spacer()
-          Text(self.userState.user?.name ?? "—")
+          Text(user?.name ?? "—")
         }
         HStack {
           Text("Email")
           Spacer()
-          Text(self.userState.user?.email ?? "—")
+          Text(user?.email ?? "—")
+        }
+        HStack {
+          Text("Token")
+          Spacer()
+          Text(session?.token ?? "—")
         }
       }
       Section {

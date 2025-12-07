@@ -7,13 +7,19 @@
 //
 
 import Foundation
+import SwiftData
 
 struct Piny {
   static var api = API(baseURL: "https://dev.piny.link")
-  static var storage = Storage("piny", groupURL: groupURL)
+  static let schema = Schema([
+    Pin.self,
+    PinLink.self,
+    PinTag.self,
+    User.self,
+    Session.self,
+  ])
 
-  static let groupID = "group.com.exah.piny"
-  static let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID)
+  static var storage = Storage("piny", schema: schema)
 
   static func log<T>(_ input: T, _ level: LogLevel = LogLevel.info) {
     print("🌲 [\(level)] \(Date()): \(input)")

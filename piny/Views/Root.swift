@@ -7,13 +7,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Root: View {
-  @EnvironmentObject var userState: UserState
-  
+  @Query var sessions: [Session]
+
+  var isLoggedIn: Bool { sessions.first?.token != nil }
+
   var body: some View {
     Group {
-      if userState.isLoggedIn {
+      if isLoggedIn {
         UserTabs()
       } else {
         LogIn()
@@ -25,7 +28,5 @@ struct Root: View {
 struct Root_Previews: PreviewProvider {
   static var previews: some View {
     Root()
-      .environmentObject(UserState())
-      .environmentObject(PinsState())
   }
 }

@@ -7,30 +7,36 @@
 //
 
 import Foundation
-import CoreData
+import SwiftData
 
-struct PinTag: Hashable, Codable, Identifiable {
-  var id: UUID
-  var name: String
-}
+@Model
+class PinTag: Identifiable, Equatable, Hashable {
+  @Attribute(.unique) var id: UUID
+  @Attribute(.unique) var name: String
+  var pins: [Pin]? = []
 
-extension PinTag: Persistable {
-  static func fromObject(_ object: DBPinTag) -> PinTag {
-    PinTag(
-      id: object.id,
-      name: object.name
+  init(id: UUID, name: String) {
+    self.id = id
+    self.name = name
+  }
+
+  convenience init(from tag: PinTagDTO) {
+    self.init(
+      id: tag.id,
+      name: tag.name
     )
   }
 
-  func toObject(in context: NSManagedObjectContext) -> DBPinTag {
-    let entity = DBPinTag.create(in: context)
-    entity.id = id
-    entity.name = name
-    return entity
+  static func == (lhs: PinTag, rhs: PinTag) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
   }
 }
 
-class DBPinTag: NSManagedObject {
-  @NSManaged var id: UUID
-  @NSManaged var name: String
+struct PinTagDTO: Hashable, Equatable, Codable, Identifiable {
+  var id: UUID
+  var name: String
 }

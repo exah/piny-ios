@@ -7,19 +7,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PinList: View {
-  var pins: [Pin] = []
+  var pins: [Pin]
+  var tags: [PinTag]
   var onEdit: ((_ pin: Pin) -> Void)? = nil
+  var onRefresh: (() async -> Void)? = nil
   var onDelete: ((_ pins: [Pin]) -> Void)? = nil
 
   var body: some View {
     List {
-      ForEach(pins) { pin in
-        PinActionRow(pin: pin, onDelete: {
+      ForEach(pins, id: \.persistentModelID) { pin in
+        PinActionRow(pin: pin, tags: tags, onDelete: {
           self.onDelete?([pin])
         })
-          .padding(.vertical, 2)
       }
       .onDelete { offsets in
         if let first = offsets.first, let last = offsets.last {
@@ -27,11 +29,14 @@ struct PinList: View {
         }
       }
     }
+    .refreshable {
+      await onRefresh?()
+    }
   }
 }
 
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
-    PinList(pins: PreviewContent.pins)
+    PinList(pins: PreviewContent.pins, tags: PreviewContent.tags)
   }
 }
