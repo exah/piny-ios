@@ -20,6 +20,7 @@ class AsyncPins: Async {
   }
 
   @MainActor
+  @discardableResult
   func fetch() async throws -> [PinDTO] {
     try await capture {
       let result = try await Piny.api.get(
@@ -59,6 +60,7 @@ class AsyncPins: Async {
   }
 
   @MainActor
+  @discardableResult
   func create(
     title: String? = nil,
     description: String? = nil,
@@ -80,6 +82,7 @@ class AsyncPins: Async {
   }
 
   @MainActor
+  @discardableResult
   func get(_ pin: Pin) async throws -> PinDTO {
     try await capture {
       let result = try await Piny.api.get(
@@ -100,6 +103,7 @@ class AsyncPins: Async {
   }
 
   @MainActor
+  @discardableResult
   func edit(
     _ pin: Pin,
     title: String? = nil,
@@ -107,7 +111,7 @@ class AsyncPins: Async {
     privacy: PinPrivacy? = nil,
     tags: [String] = []
   ) async throws -> PinDTO {
-    _ = try await Piny.api.patch(
+    try await Piny.api.patch(
       API.Message.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())",
       json: PinDTO.Payload(
@@ -126,7 +130,7 @@ class AsyncPins: Async {
     self.modelContext.delete(pin)
 
     do {
-      _ = try await Piny.api.delete(
+      try await Piny.api.delete(
         API.Message.self,
         path: "/bookmarks/\(pin.id.uuidString.lowercased())"
       )

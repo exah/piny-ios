@@ -18,8 +18,8 @@ struct UserPinList: View {
   func load() {
     Task {
       do {
-        _ = try await asyncPins.fetch()
-        _ = try await asyncTags.fetch()
+        try await asyncPins.fetch()
+        try await asyncTags.fetch()
       } catch {
         Piny.log(error, .error)
       }

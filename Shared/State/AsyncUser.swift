@@ -46,7 +46,7 @@ class AsyncUser: Async {
   @MainActor
   func signUp(name: String, pass: String, email: String) async throws {
     try await capture {
-      _ = try await Piny.api.post(
+      try await Piny.api.post(
         API.Message.self,
         path: "/signup",
         json: ["user": name, "pass": pass, "email": email]
@@ -125,7 +125,7 @@ class AsyncUser: Async {
   @MainActor
   func logout() async throws {
     try await capture {
-      _ = try await Piny.api.post(
+      try await Piny.api.post(
         API.Message.self,
         path: "/logout",
         json: Optional<Data>.none

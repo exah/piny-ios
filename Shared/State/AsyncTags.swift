@@ -21,6 +21,7 @@ class AsyncTags: Async {
   }
 
   @MainActor
+  @discardableResult
   func fetch() async throws -> [PinTag] {
     try await capture {
       let tagsDTO = try await Piny.api.get(

@@ -32,7 +32,7 @@ struct PinEdit: View {
     if hasChanges {
       Task {
         do {
-          _ = try await asyncPins.edit(
+          try await asyncPins.edit(
             pin,
             title: pin.title,
             description: pin.desc,

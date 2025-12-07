@@ -16,14 +16,14 @@ struct PinRow: View {
   func update(tags: [PinTag]) {
     Task {
       do {
-        _ = try await asyncPins.edit(
+        try await asyncPins.edit(
           pin,
           tags: tags.map { $0.name }
         )
       } catch {
         Piny.log(error, .error)
         do {
-          _ = try await asyncPins.get(pin)
+          try await asyncPins.get(pin)
         } catch {
           Piny.log("Failed to restore pin state: \(error)", .error)
         }

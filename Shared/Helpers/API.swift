@@ -91,6 +91,7 @@ struct API {
   }
 
   @MainActor
+  @discardableResult
   func post<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
     path: String,
@@ -105,6 +106,7 @@ struct API {
   }
 
   @MainActor
+  @discardableResult
   func patch<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
     path: String,
@@ -119,6 +121,7 @@ struct API {
   }
 
   @MainActor
+  @discardableResult
   func delete<Output: Decodable>(
     _ type: Output.Type,
     path: String

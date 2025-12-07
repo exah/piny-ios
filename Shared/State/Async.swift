@@ -22,9 +22,14 @@ class Async {
   }
 
   @MainActor
+  @discardableResult
   func capture<T>(_ body: () async throws -> T) async throws -> T {
     isLoading = true
-    defer { isLoading = false }
-    return try await body()
+    return try await withTaskCancellationHandler {
+      defer { isLoading = false }
+      return try await body()
+    } onCancel: {
+      isLoading = false
+    }
   }
 }

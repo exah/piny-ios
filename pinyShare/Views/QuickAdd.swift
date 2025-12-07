@@ -32,7 +32,7 @@ struct QuickAdd: View {
   func handleAppear() {
     Task {
       do {
-        _ = try await asyncPins.create(
+        try await asyncPins.create(
           title: page.title,
           url: page.url,
           privacy: .public
