@@ -92,4 +92,14 @@ iOSInjectionProject/
 # Editor configuration
 .vscode/
 .swift-format
+
+# VSCode settings
+*.vscode
+buildServer.json
+
+# macOS
+.DS_Store
+
+# Agents
+AGENTS.md
 CLAUDE.md
