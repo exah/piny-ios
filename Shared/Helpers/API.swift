@@ -8,10 +8,10 @@
 
 import Foundation
 
-private struct Empty: Encodable {}
+struct Empty: Codable {}
 
-private extension URLResponse {
-  func getStatusCode() -> Int? {
+extension URLResponse {
+  fileprivate func getStatusCode() -> Int? {
     if let response = self as? HTTPURLResponse {
       return response.statusCode
     }
@@ -19,7 +19,7 @@ private extension URLResponse {
     return nil
   }
 
-  func isOK() -> Bool {
+  fileprivate func isOK() -> Bool {
     return (200...299).contains(getStatusCode() ?? 0)
   }
 }
@@ -37,8 +37,11 @@ struct API {
     path: String,
     json: Input
   ) async throws -> Output {
+    let requestId = UUID()
     var request = URLRequest(url: URL(string: baseURL + path)!)
+
     request.httpMethod = method
+    request.addValue(requestId.uuidString, forHTTPHeaderField: "X-Request-ID")
 
     if !(json is Empty) {
       do {
@@ -46,7 +49,7 @@ struct API {
         request.httpBody = json
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
       } catch {
-        throw API.Error.serializationFailed(data: json, underlyingError: error)
+        throw ResponseError.unknown("Serialization failed: \(error.localizedDescription)")
       }
     }
 
@@ -58,22 +61,21 @@ struct API {
     do {
       (responseData, response) = try await session.data(for: request)
     } catch {
-      throw API.Error.requestFailed(path: path, underlyingError: error)
+      throw ResponseError.networkError(error)
     }
 
     guard let httpResponse = response as? HTTPURLResponse else {
-      throw API.Error.requestFailed(path: path, underlyingError: NSError(domain: "API", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response"]))
+      throw ResponseError.unknown("Invalid response")
     }
 
-    if httpResponse.isOK() {
-      do {
-        return try JSON().decode(Output.self, from: responseData)
-      } catch {
-        throw API.Error.parsingFailed(data: responseData, underlyingError: error)
-      }
-    } else {
-      let message = try? JSONDecoder().decode(API.Message.self, from: responseData)
-      throw API.Error.notOK(path: path, statusCode: httpResponse.statusCode, method: method, message: message)
+    if !httpResponse.isOK() {
+      throw ResponseError.get(data: responseData, response: httpResponse)
+    }
+
+    do {
+      return try JSON().decode(Output.self, from: responseData)
+    } catch {
+      throw ResponseError.decodingError(error)
     }
   }
 
@@ -132,32 +134,5 @@ struct API {
       path: path,
       json: Empty()
     )
-  }
-
-  enum Error: Swift.Error, CustomStringConvertible {
-    case serializationFailed(data: Any?, underlyingError: Swift.Error)
-    case parsingFailed(data: Any?, underlyingError: Swift.Error)
-    case requestFailed(path: String, underlyingError: Swift.Error)
-    case notOK(path: String, statusCode: Int?, method: String, message: API.Message?)
-
-    var description: String {
-      switch self {
-        case .serializationFailed(let data, let underlyingError):
-          return "API.Error: Can't serialize Input JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
-        case .requestFailed(let path, let underlyingError):
-          return "API.Error: Can't fetch '\(path)'\n\(String(describing: underlyingError))"
-        case .parsingFailed(let data, let underlyingError):
-          return "API.Error: Can't parse result JSON, data: \(String(describing: data))\n\(String(describing: underlyingError))"
-        case .notOK(let path, let statusCode, let method, let message):
-          return "API.Error: Request \(path), method: '\(method)' status: '\(statusCode ?? 0)'\n\(String(describing: message))"
-      }
-    }
-  }
-
-  struct Message: Decodable, CustomStringConvertible {
-    let message: String
-    var description: String {
-      return message
-    }
   }
 }

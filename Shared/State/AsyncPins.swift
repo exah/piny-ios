@@ -66,10 +66,10 @@ class AsyncPins: Async {
     description: String? = nil,
     url: URL,
     privacy: PinPrivacy
-  ) async throws -> API.Message {
+  ) async throws -> PinyMessageResponse {
     try await capture {
       try await Piny.api.post(
-        API.Message.self,
+        PinyMessageResponse.self,
         path: "/bookmarks",
         json: [
           "url": url.absoluteString,
@@ -112,7 +112,7 @@ class AsyncPins: Async {
     tags: [String] = []
   ) async throws -> PinDTO {
     try await Piny.api.patch(
-      API.Message.self,
+      PinyMessageResponse.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())",
       json: PinDTO.Payload(
         title: title?.isEmpty == true ? nil : title,
@@ -131,7 +131,7 @@ class AsyncPins: Async {
 
     do {
       try await Piny.api.delete(
-        API.Message.self,
+        PinyMessageResponse.self,
         path: "/bookmarks/\(pin.id.uuidString.lowercased())"
       )
     } catch {

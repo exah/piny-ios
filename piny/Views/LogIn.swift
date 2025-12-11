@@ -19,15 +19,8 @@ struct LogIn: View {
     Task {
       do {
         try await asyncUser.login(name: name, pass: pass)
-      } catch let error as API.Error {
-        switch error {
-          case .notOK(_, let statusCode, _, _):
-            if statusCode == 404 {
-              shouldSignUp = true
-            }
-          default:
-            Piny.log(error, .error)
-        }
+      } catch ResponseError.notFound {
+        shouldSignUp = true
       } catch {
         Piny.log(error, .error)
       }
@@ -42,6 +35,11 @@ struct LogIn: View {
         Piny.log(error, .error)
       }
     }
+  }
+
+  func handleCancelSignUp() {
+    email = ""
+    shouldSignUp.toggle()
   }
 
   var body: some View {
@@ -69,7 +67,7 @@ struct LogIn: View {
             }
             Button(action: handleLogin) {
               Group {
-                if (asyncUser.isLoading) {
+                if asyncUser.isLoading {
                   Image(systemName: "circle.dotted")
                 } else {
                   Text("Login")
@@ -84,10 +82,7 @@ struct LogIn: View {
             ) {
               TextField("Email", text: $email)
               Button("Create account", action: handleSignUp)
-              Button("Cancel", role: .cancel, action: {
-                email = ""
-                shouldSignUp.toggle()
-              })
+              Button("Cancel", role: .cancel, action: handleCancelSignUp)
             }
           }
           .padding(32)
