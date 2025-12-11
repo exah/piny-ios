@@ -1,0 +1,248 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "👋 Welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👋 Welcome"
+          }
+        }
+      }
+    },
+    "Add" : {
+
+    },
+    "Added to Piny" : {
+
+    },
+    "Adding..." : {
+
+    },
+    "All" : {
+
+    },
+    "Are you sure?" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "Copy" : {
+
+    },
+    "Create account" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete: %@" : {
+
+    },
+    "Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        }
+      }
+    },
+    "Edit" : {
+
+    },
+    "Edit bookmark" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit bookmark"
+          }
+        }
+      }
+    },
+    "Email" : {
+
+    },
+    "Enter name" : {
+
+    },
+    "Enter your email to create an account" : {
+
+    },
+    "Failed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "Failed to add" : {
+
+    },
+    "Loading..." : {
+      "comment" : "States",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "Log In / Sign Up" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log In / Sign Up"
+          }
+        }
+      }
+    },
+    "Log Out" : {
+
+    },
+    "Login" : {
+
+    },
+    "Name" : {
+
+    },
+    "New tag" : {
+
+    },
+    "No" : {
+
+    },
+    "Open in browser" : {
+
+    },
+    "Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        }
+      }
+    },
+    "Piny" : {
+      "comment" : "Messages",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piny"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "comment" : "Actions",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "Search" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Share" : {
+
+    },
+    "Tags..." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags..."
+          }
+        }
+      }
+    },
+    "Title" : {
+      "comment" : "Fields",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "Token" : {
+
+    },
+    "User" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User"
+          }
+        }
+      }
+    },
+    "Welcome 👋" : {
+
+    },
+    "Yes" : {
+
+    }
+  },
+  "version" : "1.1"
+}
