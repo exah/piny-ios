@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "lineLength": 100,
+  "indentation": { "spaces": 2 },
+  "maximumBlankLines": 1,
+  "respectsExistingLineBreaks": true,
+  "lineBreakBeforeControlFlowKeywords": false,
+  "lineBreakBeforeEachArgument": true,
+  "lineBreakBetweenDeclarationAttributes": true,
+  "lineBreakAroundMultilineExpressionChainComponents": true,
+  "indentSwitchCaseLabels": true,
+  "prioritizeKeepingFunctionOutputTogether": true,
+  "multilineTrailingCommaBehavior": "alwaysUsed"
+}

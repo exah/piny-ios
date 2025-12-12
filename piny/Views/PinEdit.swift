@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-private func ??<T>(
-  _ a: Binding<Optional<T>>,
+private func ?? <T>(
+  _ a: Binding<T?>,
   _ b: T
 ) -> Binding<T> {
   Binding(
@@ -19,9 +19,12 @@ private func ??<T>(
 }
 
 struct PinEdit: View {
-  @Environment(AsyncPins.self) var asyncPins
-  @Transaction var pin: Pin
-  @State var showRemoveAlert: Bool = false
+  @Environment(AsyncPins.self)
+  var asyncPins
+  @Transaction
+  var pin: Pin
+  @State
+  var showRemoveAlert: Bool = false
 
   var tags: [PinTag]
 
@@ -95,11 +98,15 @@ struct PinEdit: View {
             }
             Button(action: { showRemoveAlert = true }) {
               Image(systemName: "trash")
-            }.alert(isPresented: $showRemoveAlert) {
+            }
+            .alert(isPresented: $showRemoveAlert) {
               Alert(
                 title: Text("Are you sure?"),
                 primaryButton: .destructive(Text("Yes"), action: remove),
-                secondaryButton: .cancel(Text("No"), action: { showRemoveAlert = false })
+                secondaryButton: .cancel(
+                  Text("No"),
+                  action: { showRemoveAlert = false }
+                )
               )
             }
           }
@@ -110,7 +117,8 @@ struct PinEdit: View {
 }
 
 struct PinEdit_Previews: PreviewProvider {
-  @State static var pin = PreviewContent.pins[0]
+  @State
+  static var pin = PreviewContent.pins[0]
 
   static var previews: some View {
     PinEdit(pin: $pin.transaction(), tags: [])

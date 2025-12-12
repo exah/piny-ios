@@ -37,9 +37,10 @@ class AsyncPins: Async {
 
           // Remove pins that no longer exist on server
           let serverPinIds = Set(result.map { $0.id })
-          pins.filter { !serverPinIds.contains($0.id) }.forEach {
-            self.modelContext.delete($0)
-          }
+          pins.filter { !serverPinIds.contains($0.id) }
+            .forEach {
+              self.modelContext.delete($0)
+            }
 
           for item in result {
             if let existing = pins.first(where: { $0.id == item.id }) {

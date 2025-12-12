@@ -6,17 +6,21 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-import SwiftUI
-import SwiftData
 import Combine
+import SwiftData
+import SwiftUI
 
 struct TagSelect: View {
   var options: [PinTag]
 
-  @Binding var tags: [PinTag]
-  @State var creating: Bool = false
-  @State private var selectedIds: Set<UUID> = []
-  @State private var isPresented: Bool = false
+  @Binding
+  var tags: [PinTag]
+  @State
+  var creating: Bool = false
+  @State
+  private var selectedIds: Set<UUID> = []
+  @State
+  private var isPresented: Bool = false
 
   private func commitChanges() {
     let currentIds = Set(tags.map { $0.id })
@@ -33,66 +37,66 @@ struct TagSelect: View {
     Button(action: {
       isPresented = true
     }) {}
-      .variant(
-        .secondary,
-        size: .tag,
-        icon: Image(systemName: "plus"),
-        hug: true
-      )
-      .popover(isPresented: $isPresented) {
-        ScrollView {
-          VStack(alignment: .leading, spacing: 0) {
+    .variant(
+      .secondary,
+      size: .tag,
+      icon: Image(systemName: "plus"),
+      hug: true
+    )
+    .popover(isPresented: $isPresented) {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+          Button(action: {
+            creating.toggle()
+            Piny.log("Creating \(creating)")
+          }) {
+            Label("New tag", systemImage: "plus")
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .padding(.horizontal, 16)
+              .padding(.vertical, 12)
+          }
+          .buttonStyle(.plain)
+
+          Divider()
+
+          ForEach(options, id: \.persistentModelID) { option in
             Button(action: {
-              creating.toggle()
-              Piny.log("Creating \(creating)")
+              if selectedIds.contains(option.id) {
+                selectedIds.remove(option.id)
+              } else {
+                selectedIds.insert(option.id)
+              }
             }) {
-              Label("New tag", systemImage: "plus")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-            }
-            .buttonStyle(.plain)
-
-            Divider()
-
-            ForEach(options, id: \.persistentModelID) { option in
-              Button(action: {
-                if selectedIds.contains(option.id) {
-                  selectedIds.remove(option.id)
-                } else {
-                  selectedIds.insert(option.id)
-                }
-              }) {
-                Label(
-                  option.name,
-                  systemImage: selectedIds.contains(option.id)
+              Label(
+                option.name,
+                systemImage: selectedIds.contains(option.id)
                   ? "checkmark.circle.fill"
                   : "circle"
-                )
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-              }
-              .buttonStyle(.plain)
+              )
+              .padding(.horizontal, 16)
+              .padding(.vertical, 12)
             }
+            .buttonStyle(.plain)
           }
         }
-        .frame(width: 250, height: 400)
-        .presentationCompactAdaptation(.popover)
       }
-      .onChange(of: isPresented) { oldValue, newValue in
-        if newValue {
-          selectedIds = Set(tags.map { $0.id })
-        } else {
-          commitChanges()
-        }
+      .frame(width: 250, height: 400)
+      .presentationCompactAdaptation(.popover)
+    }
+    .onChange(of: isPresented) { oldValue, newValue in
+      if newValue {
+        selectedIds = Set(tags.map { $0.id })
+      } else {
+        commitChanges()
       }
-      .alert("New tag", isPresented: $creating) {
-        CreateTagForm(
-          tags: $tags,
-          options: options,
-          onClose: { creating.toggle() }
-        )
-      }
+    }
+    .alert("New tag", isPresented: $creating) {
+      CreateTagForm(
+        tags: $tags,
+        options: options,
+        onClose: { creating.toggle() }
+      )
+    }
   }
 }
 

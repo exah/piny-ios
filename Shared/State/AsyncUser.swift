@@ -12,14 +12,22 @@ import SwiftUI
 @Observable
 class AsyncUser: Async {
   @MainActor
-  init(initialUser: User? = nil, initialSession: Session? = nil, modelContext: ModelContext? = nil)
-  {
+  init(
+    initialUser: User? = nil,
+    initialSession: Session? = nil,
+    modelContext: ModelContext? = nil
+  ) {
     super.init(modelContext: modelContext)
 
     if let initialUser = initialUser { self.modelContext.insert(initialUser) }
-    if let initialSession = initialSession { self.modelContext.insert(initialSession) }
+    if let initialSession = initialSession {
+      self.modelContext.insert(initialSession)
+    }
 
-    guard let session = (try? self.modelContext.fetch(FetchDescriptor<Session>()))?.last else {
+    guard
+      let session = (try? self.modelContext.fetch(FetchDescriptor<Session>()))?
+        .last
+    else {
       Piny.api.token = nil
       return
     }
@@ -61,8 +69,8 @@ class AsyncUser: Async {
     let device = Device(
       id: UIDevice.current.identifierForVendor!,
       description: """
-        \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
-      """
+          \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
+        """
     )
 
     try await capture {
@@ -140,10 +148,19 @@ class AsyncUser: Async {
     do {
       try self.modelContext.transaction {
         try self.modelContext.delete(model: User.self, includeSubclasses: true)
-        try self.modelContext.delete(model: Session.self, includeSubclasses: true)
+        try self.modelContext.delete(
+          model: Session.self,
+          includeSubclasses: true
+        )
         try self.modelContext.delete(model: Pin.self, includeSubclasses: true)
-        try self.modelContext.delete(model: PinLink.self, includeSubclasses: true)
-        try self.modelContext.delete(model: PinTag.self, includeSubclasses: true)
+        try self.modelContext.delete(
+          model: PinLink.self,
+          includeSubclasses: true
+        )
+        try self.modelContext.delete(
+          model: PinTag.self,
+          includeSubclasses: true
+        )
       }
     } catch {
       Piny.log("Failed to remove data: \(error)", .error)

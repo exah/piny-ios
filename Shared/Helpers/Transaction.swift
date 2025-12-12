@@ -11,8 +11,10 @@ import SwiftUI
 @propertyWrapper
 @dynamicMemberLookup
 struct Transaction<Value>: DynamicProperty {
-  @State private var derived: Value
-  @Binding private var source: Value
+  @State
+  private var derived: Value
+  @Binding
+  private var source: Value
 
   fileprivate init(source: Binding<Value>) {
     self._source = source

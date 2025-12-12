@@ -6,8 +6,8 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct PinyApp: App {

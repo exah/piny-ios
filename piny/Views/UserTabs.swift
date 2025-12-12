@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct UserTabs: View {
-  @State var search: String = ""
+  @State
+  var search: String = ""
 
   var body: some View {
     TabView {
@@ -30,7 +31,7 @@ struct UserTabs: View {
       }
       Tab(role: .search) {
         NavigationStack {
-          VStack() {
+          VStack {
             // TODO: Add view of all tags
           }
           .navigationTitle("Search")

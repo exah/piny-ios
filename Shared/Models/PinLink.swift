@@ -11,8 +11,10 @@ import SwiftData
 
 @Model
 class PinLink: Identifiable, Equatable, Hashable {
-  @Attribute(.unique) var id: UUID
-  @Attribute(.unique) var url: URL
+  @Attribute(.unique)
+  var id: UUID
+  @Attribute(.unique)
+  var url: URL
 
   init(id: UUID, url: URL) {
     self.id = id

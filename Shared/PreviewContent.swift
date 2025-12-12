@@ -8,14 +8,15 @@
 
 import Foundation
 
-fileprivate let PREVIEW_USER: UserDTO = load("preview-user.json")
-fileprivate let PREVIEW_PINS: [PinDTO] = load("preview-pins.json")
-fileprivate let PREVIEW_TAGS: [PinTagDTO] = load("preview-tags.json")
+private let PREVIEW_USER: UserDTO = load("preview-user.json")
+private let PREVIEW_PINS: [PinDTO] = load("preview-pins.json")
+private let PREVIEW_TAGS: [PinTagDTO] = load("preview-tags.json")
 
-fileprivate func load<T: Decodable>(_ filename: String) -> T {
+private func load<T: Decodable>(_ filename: String) -> T {
   let data: Data
 
-  guard let file = Bundle.main.url(forResource: filename, withExtension: nil) else {
+  guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
+  else {
     fatalError("Couldn't find \(filename) in main bundle.")
   }
 

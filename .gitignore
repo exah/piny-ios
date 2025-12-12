@@ -91,7 +91,6 @@ iOSInjectionProject/
 
 # Editor configuration
 .vscode/
-.swift-format
 
 # VSCode settings
 *.vscode

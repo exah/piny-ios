@@ -25,11 +25,12 @@ struct JSON {
     encoder.dateEncodingStrategy = .formatted(formatter)
   }
 
-  func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable {
+  func decode<T>(_ type: T.Type, from data: Data) throws -> T
+  where T: Decodable {
     try decoder.decode(T.self, from: data)
   }
 
-  func encode<T>(_ value: T) throws -> Data where T : Encodable {
+  func encode<T>(_ value: T) throws -> Data where T: Encodable {
     try encoder.encode(value)
   }
 }

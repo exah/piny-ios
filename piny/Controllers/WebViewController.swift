@@ -6,8 +6,8 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 final class WebViewController: UIViewController {
   private var url: URL?
@@ -17,12 +17,12 @@ final class WebViewController: UIViewController {
     self.url = url
     super.init(nibName: nil, bundle: nil)
   }
-  
+
   required init?(coder: NSCoder) {
     self.url = nil
     super.init(coder: coder)
   }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     update(url: url!)
@@ -49,7 +49,7 @@ final class WebViewController: UIViewController {
     controller = nextController
     url = nextUrl
   }
-  
+
   func destroy() {
     guard let prevController = controller else {
       return

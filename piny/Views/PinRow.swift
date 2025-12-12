@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct PinRow: View {
-  @Environment(AsyncPins.self) var asyncPins
-  @Bindable var pin: Pin
+  @Environment(AsyncPins.self)
+  var asyncPins
+  @Bindable
+  var pin: Pin
   var tags: [PinTag]
 
   func update(tags: [PinTag]) {
@@ -34,28 +36,31 @@ struct PinRow: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       VStack(alignment: .leading, spacing: 8) {
-        if (pin.title != nil) {
+        if pin.title != nil {
           Text(pin.title!)
             .fontWeight(.semibold)
             .lineLimit(1)
         }
-        if (pin.desc != nil) {
+        if pin.desc != nil {
           Text(pin.desc!)
             .lineLimit(2)
         }
         Text("\(pin.link.url)")
           .lineLimit(1)
       }
-      PinTags(tags: Binding(
-        get: { pin.orderedTags },
-        set: { newTags in
-          pin.tags = newTags
-          pin.tagOrder = newTags.map { $0.id }
-        }
-      ), options: tags)
-        .onChange(of: pin.tags) {
-          update(tags: pin.orderedTags)
-        }
+      PinTags(
+        tags: Binding(
+          get: { pin.orderedTags },
+          set: { newTags in
+            pin.tags = newTags
+            pin.tagOrder = newTags.map { $0.id }
+          }
+        ),
+        options: tags
+      )
+      .onChange(of: pin.tags) {
+        update(tags: pin.orderedTags)
+      }
     }
     .padding(.vertical, 2)
   }

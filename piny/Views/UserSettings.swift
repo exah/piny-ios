@@ -6,13 +6,16 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct UserSettings: View {
-  @Environment(AsyncUser.self) var asyncUser
-  @Query var users: [User]
-  @Query var sessions: [Session]
+  @Environment(AsyncUser.self)
+  var asyncUser
+  @Query
+  var users: [User]
+  @Query
+  var sessions: [Session]
 
   var user: User? { users.first }
   var session: Session? { sessions.first }

@@ -47,9 +47,14 @@ struct API {
       do {
         let json = try JSON().encode(json)
         request.httpBody = json
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.addValue(
+          "application/json; charset=utf-8",
+          forHTTPHeaderField: "Content-Type"
+        )
       } catch {
-        throw ResponseError.unknown("Serialization failed: \(error.localizedDescription)")
+        throw ResponseError.unknown(
+          "Serialization failed: \(error.localizedDescription)"
+        )
       }
     }
 

@@ -6,9 +6,8 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-
-import Foundation
 import Combine
+import Foundation
 import SwiftData
 import SwiftUI
 
@@ -29,8 +28,10 @@ class AsyncTags: Async {
         path: "/tags"
       )
 
-      let existing = (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
-      let newTags = tagsDTO
+      let existing =
+        (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+      let newTags =
+        tagsDTO
         .filter { tag in !existing.contains(where: { $0.id == tag.id }) }
         .map { PinTag(from: $0) }
 

@@ -6,14 +6,14 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import UIKit
-import SwiftUI
-import SwiftData
-import UniformTypeIdentifiers
 import MobileCoreServices
+import SwiftData
+import SwiftUI
+import UIKit
+import UniformTypeIdentifiers
 
-fileprivate let HEIGHT: CGFloat = 58
-fileprivate let WIDTH: CGFloat = 320
+private let HEIGHT: CGFloat = 58
+private let WIDTH: CGFloat = 320
 
 class ShareViewController: UIViewController {
   override func viewDidLoad() {
@@ -54,10 +54,18 @@ class ShareViewController: UIViewController {
       host.view.translatesAutoresizingMaskIntoConstraints = false
 
       NSLayoutConstraint.activate([
-        host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-        host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-        host.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        host.view.heightAnchor.constraint(equalToConstant: HEIGHT)
+        host.view.leadingAnchor.constraint(
+          equalTo: view.leadingAnchor,
+          constant: 12
+        ),
+        host.view.trailingAnchor.constraint(
+          equalTo: view.trailingAnchor,
+          constant: -12
+        ),
+        host.view.bottomAnchor.constraint(
+          equalTo: view.safeAreaLayoutGuide.bottomAnchor
+        ),
+        host.view.heightAnchor.constraint(equalToConstant: HEIGHT),
       ])
 
       host.didMove(toParent: self)
@@ -65,11 +73,13 @@ class ShareViewController: UIViewController {
   }
 
   func complete() {
-    extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+    extensionContext?
+      .completeRequest(returningItems: [], completionHandler: nil)
   }
 
   func getInput() async throws -> ParsedPage {
-    guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+    guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem]
+    else {
       throw QuickAddError.invalidInput
     }
 
@@ -95,7 +105,10 @@ class ShareViewController: UIViewController {
     }
   }
 
-  private func loadItem(_ identifier: String, in provider: NSItemProvider) async throws -> NSSecureCoding? {
+  private func loadItem(
+    _ identifier: String,
+    in provider: NSItemProvider
+  ) async throws -> NSSecureCoding? {
     guard provider.hasItemConformingToTypeIdentifier(identifier) else {
       throw QuickAddError.noResult
     }
@@ -114,9 +127,9 @@ class ShareViewController: UIViewController {
   private func getPage(_ provider: NSItemProvider) async throws -> ParsedPage {
     let item = try await loadItem(UTType.propertyList.identifier, in: provider)
 
-    if
-      let dict = item as? NSDictionary,
-      let data = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? [String: String],
+    if let dict = item as? NSDictionary,
+      let data = dict[NSExtensionJavaScriptPreprocessingResultsKey]
+        as? [String: String],
       let pageURL = URL(string: data["url"]!)
     {
       return ParsedPage(title: data["title"], url: pageURL)

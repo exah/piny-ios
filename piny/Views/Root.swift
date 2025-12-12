@@ -6,11 +6,12 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct Root: View {
-  @Query var sessions: [Session]
+  @Query
+  var sessions: [Session]
 
   var isLoggedIn: Bool { sessions.first?.token != nil }
 

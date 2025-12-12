@@ -9,11 +9,16 @@
 import SwiftUI
 
 struct LogIn: View {
-  @Environment(AsyncUser.self) var asyncUser
-  @State private var name: String = ""
-  @State private var pass: String = ""
-  @State private var email: String = ""
-  @State private var shouldSignUp: Bool = false
+  @Environment(AsyncUser.self)
+  var asyncUser
+  @State
+  private var name: String = ""
+  @State
+  private var pass: String = ""
+  @State
+  private var email: String = ""
+  @State
+  private var shouldSignUp: Bool = false
 
   func handleLogin() {
     Task {
@@ -72,7 +77,8 @@ struct LogIn: View {
                 } else {
                   Text("Login")
                 }
-              }.frame(maxWidth: .infinity)
+              }
+              .frame(maxWidth: .infinity)
             }
             .variant(.primary)
             .disabled(asyncUser.isLoading)

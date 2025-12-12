@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct CreateTagForm: View {
-  @State var value: String = ""
-  @Binding var tags: [PinTag]
+  @State
+  var value: String = ""
+  @Binding
+  var tags: [PinTag]
 
   var options: [PinTag]
   let onClose: () -> Void
@@ -41,5 +43,3 @@ struct CreateTagForm: View {
 #Preview {
   CreateTagForm(tags: Binding.constant([]), options: [], onClose: {})
 }
-
-

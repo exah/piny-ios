@@ -56,7 +56,8 @@ struct Flow: Layout {
       sizes: sizes,
       spacing: spacing,
       containerWidth: containerWidth
-    ).size
+    )
+    .size
   }
 
   func placeSubviews(
@@ -71,13 +72,16 @@ struct Flow: Layout {
         sizes: sizes,
         spacing: spacing,
         containerWidth: bounds.width
-      ).offsets
+      )
+      .offsets
     for (offset, subview) in zip(offsets, subviews) {
       subview.place(
         at: .init(
           x: offset.x + bounds.minX,
-          y: offset.y + bounds.minY),
-        proposal: .unspecified)
+          y: offset.y + bounds.minY
+        ),
+        proposal: .unspecified
+      )
     }
   }
 }

@@ -11,7 +11,8 @@ import SwiftData
 
 @Model
 class Pin: Identifiable, Equatable {
-  @Attribute(.unique) var id: UUID
+  @Attribute(.unique)
+  var id: UUID
   var title: String?
   var desc: String?
   var privacy: PinPrivacy
@@ -75,7 +76,7 @@ class Pin: Identifiable, Equatable {
     self.tagOrder = pin.tags.map { $0.id }
     self.updatedAt = pin.updatedAt
   }
-  
+
   // Returns tags in the order received from server
   var orderedTags: [PinTag] {
     let tagDict = Dictionary(uniqueKeysWithValues: tags.map { ($0.id, $0) })

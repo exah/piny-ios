@@ -16,7 +16,10 @@ final class Storage {
     let configuration = ModelConfiguration(name, schema: schema)
 
     do {
-      container = try ModelContainer(for: schema, configurations: [configuration])
+      container = try ModelContainer(
+        for: schema,
+        configurations: [configuration]
+      )
     } catch let error {
       fatalError(error.localizedDescription)
     }

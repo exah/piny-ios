@@ -6,17 +6,22 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 struct WebView: UIViewControllerRepresentable {
   var url: URL
 
-  func makeUIViewController(context: UIViewControllerRepresentableContext<WebView>) -> WebViewController {
+  func makeUIViewController(
+    context: UIViewControllerRepresentableContext<WebView>
+  ) -> WebViewController {
     return WebViewController(url: url)
   }
 
-  func updateUIViewController(_ safariViewController: WebViewController, context: UIViewControllerRepresentableContext<WebView>) {
+  func updateUIViewController(
+    _ safariViewController: WebViewController,
+    context: UIViewControllerRepresentableContext<WebView>
+  ) {
     safariViewController.update(url: url)
   }
 }

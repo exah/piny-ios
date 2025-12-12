@@ -17,9 +17,10 @@ struct Input: View {
   let type: InputType
   let variant: TextFieldColor
   let size: TextFieldSize
-  
-  @Binding var value: String
-  
+
+  @Binding
+  var value: String
+
   init(
     _ placeholder: String = "",
     type: InputType = .text,
@@ -33,18 +34,18 @@ struct Input: View {
     self.variant = variant
     self.size = size
   }
-  
+
   var body: some View {
     switch type {
-    case .text:
-      TextField(text: $value) { label }
-        .variant(variant)
-    case .password:
-      SecureField(text: $value) { label }
-        .variant(variant)
+      case .text:
+        TextField(text: $value) { label }
+          .variant(variant)
+      case .password:
+        SecureField(text: $value) { label }
+          .variant(variant)
     }
   }
-  
+
   var label: some View {
     Placeholder(placeholder)
   }
@@ -59,27 +60,48 @@ struct Input_Previews: PreviewProvider {
         Input("Placeholder", type: .password, value: .constant("Value"))
       }
       .padding(.horizontal, 16)
-      
+
       HStack(spacing: 12) {
         Input("Placeholder", value: .constant(""), variant: .dark)
         Input("Placeholder", value: .constant("Value"), variant: .dark)
-        Input("Placeholder", type: .password, value: .constant("Value"), variant: .dark)
+        Input(
+          "Placeholder",
+          type: .password,
+          value: .constant("Value"),
+          variant: .dark
+        )
       }
       .padding(10)
       .background(.black)
       .cornerRadius(20)
-      
+
       HStack(spacing: 12) {
         Input("Placeholder", value: .constant(""), size: .small)
         Input("Placeholder", value: .constant("Value"), size: .small)
-        Input("Placeholder", type: .password, value: .constant("Value"), size: .small)
+        Input(
+          "Placeholder",
+          type: .password,
+          value: .constant("Value"),
+          size: .small
+        )
       }
       .padding(.horizontal, 16)
-      
+
       HStack(spacing: 10) {
         Input("Placeholder", value: .constant(""), variant: .dark, size: .small)
-        Input("Placeholder", value: .constant("Value"), variant: .dark, size: .small)
-        Input("Placeholder", type: .password, value: .constant("Value"), variant: .dark, size: .small)
+        Input(
+          "Placeholder",
+          value: .constant("Value"),
+          variant: .dark,
+          size: .small
+        )
+        Input(
+          "Placeholder",
+          type: .password,
+          value: .constant("Value"),
+          variant: .dark,
+          size: .small
+        )
       }
       .padding(10)
       .background(.black)

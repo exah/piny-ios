@@ -6,14 +6,18 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct UserPinList: View {
-  @Environment(AsyncPins.self) var asyncPins
-  @Environment(AsyncTags.self) var asyncTags
-  @Query(sort: \Pin.createdAt, order: .reverse) var pins: [Pin]
-  @Query(sort: \PinTag.name, order: .forward) var tags: [PinTag]
+  @Environment(AsyncPins.self)
+  var asyncPins
+  @Environment(AsyncTags.self)
+  var asyncTags
+  @Query(sort: \Pin.createdAt, order: .reverse)
+  var pins: [Pin]
+  @Query(sort: \PinTag.name, order: .forward)
+  var tags: [PinTag]
 
   func load() {
     Task {
@@ -45,10 +49,14 @@ struct UserPinList: View {
       onRefresh: load,
       onDelete: remove
     )
-      .onAppear(perform: load)
-      .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-        self.load()
-      }
+    .onAppear(perform: load)
+    .onReceive(
+      NotificationCenter.default.publisher(
+        for: UIApplication.willEnterForegroundNotification
+      )
+    ) { _ in
+      self.load()
+    }
   }
 }
 

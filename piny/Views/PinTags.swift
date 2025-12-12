@@ -6,16 +6,17 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
-fileprivate let CREATE_TAG: PinTag = PinTag(
+private let CREATE_TAG: PinTag = PinTag(
   id: UUID(),
   name: "create"
 )
 
 struct PinTags: View {
-  @Binding var tags: [PinTag]
+  @Binding
+  var tags: [PinTag]
 
   var displayList: [PinTag] { [CREATE_TAG] + tags }
   var options: [PinTag]
@@ -30,7 +31,7 @@ struct PinTags: View {
             Button("Delete: \(tag.name)") {
               tags.removeAll(where: { $0.id == tag.id })
             }
-          } label:  {
+          } label: {
             Tag(value: tag)
           }
         }
@@ -38,7 +39,6 @@ struct PinTags: View {
     }
   }
 }
-
 
 #Preview {
   let tags = PreviewContent.pins[0].tags

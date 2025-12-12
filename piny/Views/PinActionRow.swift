@@ -6,8 +6,8 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 private enum Action {
   case edit
@@ -17,8 +17,10 @@ private enum Action {
 }
 
 struct PinActionRow: View {
-  @State private var selected: Action = .none
-  @State var pin: Pin
+  @State
+  private var selected: Action = .none
+  @State
+  var pin: Pin
   var tags: [PinTag]
 
   var onDelete: (() -> Void)? = nil
@@ -54,7 +56,12 @@ struct PinActionRow: View {
     }
     .buttonStyle(.plain)
     .foregroundStyle(Color.foreground)
-    .sheet(isPresented: Binding(get: { selected != .none }, set: { _ in selected = .none })) {
+    .sheet(
+      isPresented: Binding(
+        get: { selected != .none },
+        set: { _ in selected = .none }
+      )
+    ) {
       switch selected {
         case .view:
           WebView(url: pin.link.url)

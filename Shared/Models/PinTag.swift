@@ -11,8 +11,10 @@ import SwiftData
 
 @Model
 class PinTag: Identifiable, Equatable, Hashable {
-  @Attribute(.unique) var id: UUID
-  @Attribute(.unique) var name: String
+  @Attribute(.unique)
+  var id: UUID
+  @Attribute(.unique)
+  var name: String
   var pins: [Pin]? = []
 
   init(id: UUID, name: String) {

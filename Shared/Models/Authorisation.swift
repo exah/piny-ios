@@ -11,8 +11,10 @@ import SwiftData
 
 @Model
 class Session: Identifiable, Equatable {
-  @Attribute(.unique) var id: UUID = UUID()
-  @Attribute(.unique) var token: String
+  @Attribute(.unique)
+  var id: UUID = UUID()
+  @Attribute(.unique)
+  var token: String
   var expiresAt: Date
 
   init(token: String, expiresAt: Date) {

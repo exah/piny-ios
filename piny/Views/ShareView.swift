@@ -6,17 +6,25 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 struct ShareView: UIViewControllerRepresentable {
   var url: URL
 
-  func makeUIViewController(context: UIViewControllerRepresentableContext<ShareView>) -> UIActivityViewController {
-    return UIActivityViewController(activityItems: [url], applicationActivities: nil)
+  func makeUIViewController(
+    context: UIViewControllerRepresentableContext<ShareView>
+  ) -> UIActivityViewController {
+    return UIActivityViewController(
+      activityItems: [url],
+      applicationActivities: nil
+    )
   }
 
-  func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+  func updateUIViewController(
+    _ uiViewController: UIActivityViewController,
+    context: Context
+  ) {
     // Ignore
   }
 }

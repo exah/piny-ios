@@ -6,8 +6,8 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct PinList: View {
   var pins: [Pin]
@@ -19,9 +19,13 @@ struct PinList: View {
   var body: some View {
     List {
       ForEach(pins, id: \.persistentModelID) { pin in
-        PinActionRow(pin: pin, tags: tags, onDelete: {
-          self.onDelete?([pin])
-        })
+        PinActionRow(
+          pin: pin,
+          tags: tags,
+          onDelete: {
+            self.onDelete?([pin])
+          }
+        )
       }
       .onDelete { offsets in
         if let first = offsets.first, let last = offsets.last {

@@ -11,9 +11,11 @@ import SwiftData
 
 @Model
 class User: Identifiable, Equatable {
-  @Attribute(.unique) var id: UUID
+  @Attribute(.unique)
+  var id: UUID
   var name: String
-  @Attribute(.unique) var email: String
+  @Attribute(.unique)
+  var email: String
 
   init(id: UUID, name: String, email: String) {
     self.id = id

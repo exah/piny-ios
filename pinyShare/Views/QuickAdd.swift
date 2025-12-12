@@ -6,8 +6,8 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import SwiftUI
 import MobileCoreServices
+import SwiftUI
 
 enum QuickAddError: Error {
   case invalidInput
@@ -18,9 +18,12 @@ enum QuickAddError: Error {
 }
 
 struct QuickAdd: View {
-  @Environment(AsyncUser.self) var asyncUser
-  @Environment(AsyncPins.self) var asyncPins
-  @State var isError: Bool = false
+  @Environment(AsyncUser.self)
+  var asyncUser
+  @Environment(AsyncPins.self)
+  var asyncPins
+  @State
+  var isError: Bool = false
 
   let page: ParsedPage
   let onComplete: () -> Void
@@ -54,33 +57,33 @@ struct QuickAdd: View {
         Image(
           systemName:
             self.asyncPins.isLoading
-          ? "circle.dotted"
-          : isError
-          ? "xmark.circle.fill"
-          : "globe"
+            ? "circle.dotted"
+            : isError
+              ? "xmark.circle.fill"
+              : "globe"
         )
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(
           isError
-          ? .piny.red
-          : .piny.foreground
+            ? .piny.red
+            : .piny.foreground
         )
         .frame(width: 16, height: 16)
       }
       .frame(width: 24, height: 24)
       Text(
         self.asyncPins.isLoading
-        ? "Adding..."
-        : isError
-        ? "Failed to add"
-        : "Added to Piny"
+          ? "Adding..."
+          : isError
+            ? "Failed to add"
+            : "Added to Piny"
       )
       .variant(.h2)
       .foregroundColor(
         isError
-        ? .piny.red
-        : .piny.foreground
+          ? .piny.red
+          : .piny.foreground
       )
       Spacer()
       if !self.asyncPins.isLoading && !isError {
@@ -91,8 +94,8 @@ struct QuickAdd: View {
     .padding(12)
     .background(
       isError
-      ? Color.piny.red10
-      : Color.piny.level48
+        ? Color.piny.red10
+        : Color.piny.level48
     )
     .cornerRadius(40)
     .onAppear(perform: self.handleAppear)
@@ -100,7 +103,10 @@ struct QuickAdd: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-  QuickAdd(page: ParsedPage(title: "Example", url: URL(string: "http://example.com")!), onComplete: {})
-    .environment(AsyncUser())
-    .environment(AsyncPins())
+  QuickAdd(
+    page: ParsedPage(title: "Example", url: URL(string: "http://example.com")!),
+    onComplete: {}
+  )
+  .environment(AsyncUser())
+  .environment(AsyncPins())
 }
