@@ -11,6 +11,7 @@ import SwiftUI
 
 enum QuickAddError: Error {
   case invalidInput
+  case pageParseFailed
   case invalidResult
   case invalidURL
   case noAttachments

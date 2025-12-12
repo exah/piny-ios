@@ -90,8 +90,10 @@ class ShareViewController: UIViewController {
         group.addTask {
           do {
             return try await self.getPage(provider)
-          } catch {
+          } catch QuickAddError.pageParseFailed {
             return try await self.getURL(provider)
+          } catch {
+            throw error
           }
         }
       }
@@ -134,7 +136,7 @@ class ShareViewController: UIViewController {
     {
       return ParsedPage(title: data["title"], url: pageURL)
     } else {
-      throw QuickAddError.invalidResult
+      throw QuickAddError.pageParseFailed
     }
   }
 
