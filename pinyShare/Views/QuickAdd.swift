@@ -23,15 +23,10 @@ struct QuickAdd: View {
   var asyncUser
   @Environment(AsyncPins.self)
   var asyncPins
-  @State
-  var isError: Bool = false
 
   let page: ParsedPage
   let onComplete: () -> Void
   let timeout: Double = 2
-  var isSuccess: Bool {
-    !self.asyncPins.isLoading && !isError
-  }
 
   func handleAppear() {
     Task {
@@ -43,7 +38,6 @@ struct QuickAdd: View {
         )
         Piny.log("Shared: \(page.url) <3")
       } catch {
-        isError = true
         Piny.log(error, .error)
       }
 
@@ -57,16 +51,16 @@ struct QuickAdd: View {
       Group {
         Image(
           systemName:
-            self.asyncPins.isLoading
+            asyncPins.result.create.isLoading
             ? "circle.dotted"
-            : isError
+            : asyncPins.result.create.isError
               ? "xmark.circle.fill"
               : "globe"
         )
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(
-          isError
+          asyncPins.result.create.isError
             ? .piny.red
             : .piny.foreground
         )
@@ -74,27 +68,27 @@ struct QuickAdd: View {
       }
       .frame(width: 24, height: 24)
       Text(
-        self.asyncPins.isLoading
+        asyncPins.result.create.isLoading
           ? "Adding..."
-          : isError
+          : asyncPins.result.create.isError
             ? "Failed to add"
             : "Added to Piny"
       )
       .variant(.h2)
       .foregroundColor(
-        isError
+        asyncPins.result.create.isError
           ? .piny.red
           : .piny.foreground
       )
       Spacer()
-      if !self.asyncPins.isLoading && !isError {
+      if asyncPins.result.create.isSuccess {
         Button(action: onComplete) {}
           .variant(.primary, size: .small, icon: Image(systemName: "checkmark"))
       }
     }
     .padding(12)
     .background(
-      isError
+      asyncPins.result.create.isError
         ? Color.piny.red10
         : Color.piny.level48
     )

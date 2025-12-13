@@ -9,8 +9,18 @@
 import SwiftData
 import SwiftUI
 
+struct AsyncUserResult {
+  let fetchUser = AsyncResult<UserDTO>()
+  let signUp = AsyncResult<Authorization>()
+  let login = AsyncResult<Authorization>()
+  let refreshSession = AsyncResult<Authorization>()
+  let logout = AsyncResult<PinyMessageResponse>()
+}
+
 @Observable
 class AsyncUser: Async {
+  let result = AsyncUserResult()
+
   @MainActor
   init(
     initialUser: User? = nil,
@@ -45,27 +55,31 @@ class AsyncUser: Async {
 
   @MainActor
   private func fetchUser(name: String) async throws -> UserDTO {
-    try await Piny.api.get(
-      UserDTO.self,
-      path: "/\(name)"
-    )
+    try await result.fetchUser.capture {
+      try await Piny.api.get(
+        UserDTO.self,
+        path: "/\(name)"
+      )
+    }
   }
 
   @MainActor
-  func signUp(name: String, pass: String, email: String) async throws {
-    try await capture {
+  @discardableResult
+  func signUp(name: String, pass: String, email: String) async throws -> Authorization {
+    try await result.signUp.capture {
       try await Piny.api.post(
         PinyMessageResponse.self,
         path: "/signup",
         json: ["user": name, "pass": pass, "email": email]
       )
 
-      try await self.login(name: name, pass: pass)
+      return try await self.login(name: name, pass: pass)
     }
   }
 
   @MainActor
-  func login(name: String, pass: String) async throws {
+  @discardableResult
+  func login(name: String, pass: String) async throws -> Authorization {
     let device = Device(
       id: UIDevice.current.identifierForVendor!,
       description: """
@@ -73,11 +87,11 @@ class AsyncUser: Async {
         """
     )
 
-    try await capture {
+    return try await result.login.capture {
       let auth = try await Piny.api.post(
-        Authorisation.self,
+        Authorization.self,
         path: "/login",
-        json: Authorisation.Payload(
+        json: Authorization.Payload(
           user: name,
           pass: pass,
           device: device
@@ -103,14 +117,17 @@ class AsyncUser: Async {
         Piny.log("Failed to update user/session: \(error)", .error)
         throw error
       }
+
+      return auth
     }
   }
 
   @MainActor
-  func refreshSession() async throws {
-    try await capture {
+  @discardableResult
+  func refreshSession() async throws -> Authorization {
+    try await result.refreshSession.capture {
       let auth = try await Piny.api.post(
-        Authorisation.self,
+        Authorization.self,
         path: "/refresh-session",
         json: Optional<Data>.none
       )
@@ -127,13 +144,16 @@ class AsyncUser: Async {
         Piny.log("Failed to update session: \(error)", .error)
         throw error
       }
+
+      return auth
     }
   }
 
   @MainActor
-  func logout() async throws {
-    try await capture {
-      try await Piny.api.post(
+  @discardableResult
+  func logout() async throws -> PinyMessageResponse {
+    try await result.logout.capture {
+      let result = try await Piny.api.post(
         PinyMessageResponse.self,
         path: "/logout",
         json: Optional<Data>.none
@@ -141,6 +161,7 @@ class AsyncUser: Async {
 
       Piny.api.token = nil
       self.removeData()
+      return result
     }
   }
 

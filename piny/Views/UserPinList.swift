@@ -12,10 +12,13 @@ import SwiftUI
 struct UserPinList: View {
   @Environment(AsyncPins.self)
   var asyncPins
+
   @Environment(AsyncTags.self)
   var asyncTags
+
   @Query(sort: \Pin.createdAt, order: .reverse)
   var pins: [Pin]
+
   @Query(sort: \PinTag.name, order: .forward)
   var tags: [PinTag]
 

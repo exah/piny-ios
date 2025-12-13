@@ -11,12 +11,16 @@ import SwiftUI
 struct LogIn: View {
   @Environment(AsyncUser.self)
   var asyncUser
+
   @State
   private var name: String = ""
+
   @State
   private var pass: String = ""
+
   @State
   private var email: String = ""
+
   @State
   private var shouldSignUp: Bool = false
 
@@ -72,7 +76,7 @@ struct LogIn: View {
             }
             Button(action: handleLogin) {
               Group {
-                if asyncUser.isLoading {
+                if asyncUser.result.login.isLoading {
                   Image(systemName: "circle.dotted")
                 } else {
                   Text("Login")
@@ -81,7 +85,7 @@ struct LogIn: View {
               .frame(maxWidth: .infinity)
             }
             .variant(.primary)
-            .disabled(asyncUser.isLoading)
+            .disabled(asyncUser.result.login.isLoading)
             .alert(
               "Enter your email to create an account",
               isPresented: $shouldSignUp

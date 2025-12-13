@@ -11,8 +11,18 @@ import Foundation
 import SwiftData
 import SwiftUI
 
+struct AsyncPinsResult {
+  let fetch = AsyncResult<[PinDTO]>()
+  let get = AsyncResult<PinDTO>()
+  let create = AsyncResult<PinyMessageResponse>()
+  let edit = AsyncResult<PinDTO>()
+  let remove = AsyncResult<PinyMessageResponse>()
+}
+
 @Observable
 class AsyncPins: Async {
+  let result = AsyncPinsResult()
+
   @MainActor
   init(_ initial: [Pin] = [], modelContext: ModelContext? = nil) {
     super.init(modelContext: modelContext)
@@ -22,13 +32,8 @@ class AsyncPins: Async {
   @MainActor
   @discardableResult
   func fetch() async throws -> [PinDTO] {
-    try await capture {
-      let result = try await Piny.api.get(
-        [PinDTO].self,
-        path: "/bookmarks"
-      )
-
-      Piny.log("Loaded pins: \(result.count)")
+    try await result.fetch.capture {
+      let result = try await PinsRequests.fetch()
 
       do {
         try self.modelContext.transaction {
@@ -68,16 +73,12 @@ class AsyncPins: Async {
     url: URL,
     privacy: PinPrivacy
   ) async throws -> PinyMessageResponse {
-    try await capture {
-      try await Piny.api.post(
-        PinyMessageResponse.self,
-        path: "/bookmarks",
-        json: [
-          "url": url.absoluteString,
-          "privacy": privacy.rawValue,
-          "title": title,
-          "description": description,
-        ]
+    try await result.create.capture {
+      try await PinsRequests.create(
+        title: title,
+        description: description,
+        url: url,
+        privacy: privacy
       )
     }
   }
@@ -85,11 +86,8 @@ class AsyncPins: Async {
   @MainActor
   @discardableResult
   func get(_ pin: Pin) async throws -> PinDTO {
-    try await capture {
-      let result = try await Piny.api.get(
-        PinDTO.self,
-        path: "/bookmarks/\(pin.id.uuidString.lowercased())"
-      )
+    try await result.get.capture {
+      let result = try await PinsRequests.get(pin)
 
       do {
         let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
@@ -112,32 +110,40 @@ class AsyncPins: Async {
     privacy: PinPrivacy? = nil,
     tags: [String] = []
   ) async throws -> PinDTO {
-    try await Piny.api.patch(
-      PinyMessageResponse.self,
-      path: "/bookmarks/\(pin.id.uuidString.lowercased())",
-      json: PinDTO.Payload(
-        title: title?.isEmpty == true ? nil : title,
-        description: description?.isEmpty == true ? nil : description,
+    try await result.edit.capture {
+      let result = try await PinsRequests.edit(
+        pin,
+        title: title,
+        description: description,
         privacy: privacy,
-        tags: tags
+        tags: tags,
       )
-    )
 
-    return try await self.get(pin)
+      do {
+        let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        pin.update(from: result, tags: tags)
+      } catch {
+        Piny.log("Failed to fetch tags for update: \(error)", .error)
+        throw error
+      }
+
+      return result
+    }
   }
 
   @MainActor
-  func remove(_ pin: Pin) async throws {
-    self.modelContext.delete(pin)
+  @discardableResult
+  func remove(_ pin: Pin) async throws -> PinyMessageResponse {
+    try await result.remove.capture {
+      self.modelContext.delete(pin)
 
-    do {
-      try await Piny.api.delete(
-        PinyMessageResponse.self,
-        path: "/bookmarks/\(pin.id.uuidString.lowercased())"
-      )
-    } catch {
-      self.modelContext.insert(pin)
-      throw error
+      do {
+        return try await PinsRequests.remove(pin)
+      } catch {
+        self.modelContext.insert(pin)
+        throw error
+      }
     }
   }
+
 }

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%@" : {
 
     },
@@ -27,7 +30,7 @@
     "All" : {
 
     },
-    "Are you sure?" : {
+    "Are you sure you want to delete this pin?" : {
 
     },
     "Cancel" : {
@@ -139,9 +142,6 @@
     "New tag" : {
 
     },
-    "No" : {
-
-    },
     "Open in browser" : {
 
     },
@@ -167,6 +167,9 @@
           }
         }
       }
+    },
+    "Private" : {
+
     },
     "Reset" : {
       "extractionState" : "manual",
@@ -200,6 +203,9 @@
     "Share" : {
 
     },
+    "Tags" : {
+
+    },
     "Tags..." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -226,6 +232,9 @@
     "Token" : {
 
     },
+    "URL" : {
+
+    },
     "User" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -238,9 +247,6 @@
       }
     },
     "Welcome 👋" : {
-
-    },
-    "Yes" : {
 
     }
   },

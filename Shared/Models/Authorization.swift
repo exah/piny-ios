@@ -1,5 +1,5 @@
 //
-//  Authorisation.swift
+//  Authorization.swift
 //  piny
 //
 //  Created by John Grishin on 16/07/2020.
@@ -22,7 +22,7 @@ class Session: Identifiable, Equatable {
     self.expiresAt = expiresAt
   }
 
-  convenience init(from auth: Authorisation) {
+  convenience init(from auth: Authorization) {
     self.init(
       token: auth.token,
       expiresAt: auth.expiresAt
@@ -34,7 +34,7 @@ class Session: Identifiable, Equatable {
   }
 }
 
-struct Authorisation: Codable {
+struct Authorization: Codable {
   let token: String
   let expiresAt: Date
 

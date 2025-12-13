@@ -11,8 +11,14 @@ import Foundation
 import SwiftData
 import SwiftUI
 
+struct AsyncTagsResult {
+  let fetch = AsyncResult<[PinTag]>()
+}
+
 @Observable
 class AsyncTags: Async {
+  let result = AsyncTagsResult()
+
   @MainActor
   init(_ initial: [PinTag] = [], modelContext: ModelContext? = nil) {
     super.init(modelContext: modelContext)
@@ -22,7 +28,7 @@ class AsyncTags: Async {
   @MainActor
   @discardableResult
   func fetch() async throws -> [PinTag] {
-    try await capture {
+    try await result.fetch.capture {
       let tagsDTO = try await Piny.api.get(
         [PinTagDTO].self,
         path: "/tags"

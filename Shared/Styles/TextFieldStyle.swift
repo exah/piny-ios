@@ -15,6 +15,8 @@ enum TextFieldColor {
 
 enum TextFieldSize {
   case medium
+  case tags
+  case textEditor
   case small
 }
 
@@ -47,17 +49,31 @@ struct TextFieldModifier: ViewModifier {
   private var padding: (x: Double, y: Double) {
     switch size {
       case .medium: return (16, 8)
+      case .tags: return (8, 8)
+      case .textEditor: return (12, 2)
       case .small: return (8, 2)
+    }
+  }
+
+  private var height: Double {
+    switch size {
+      case .medium: return 40
+      case .tags: return 40
+      case .textEditor: return 40
+      case .small: return 20
     }
   }
 
   @ViewBuilder
   func base(_ content: Content) -> some View {
-    HStack {
-      content.padding(.horizontal, 4)
+    HStack(alignment: .center) {
+      content
+        .padding(.horizontal, 4)
+        .frame(minHeight: 24)
     }
     .padding(.horizontal, padding.x)
     .padding(.vertical, padding.y)
+    .frame(minHeight: height)
     .foregroundColor(colors.fg)
     .background(colors.bg)
     .cornerRadius(radius)
@@ -96,6 +112,7 @@ protocol TextFieldVariant {}
 
 extension TextField: TextFieldVariant {}
 extension SecureField: TextFieldVariant {}
+extension TextEditor: TextFieldVariant {}
 
 extension View where Self: TextFieldVariant {
   func variant(

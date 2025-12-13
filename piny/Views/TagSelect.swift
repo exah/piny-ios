@@ -11,27 +11,17 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
-  var options: [PinTag]
-
-  @Binding
+  @State
   var tags: [PinTag]
+
   @State
   var creating: Bool = false
-  @State
-  private var selectedIds: Set<UUID> = []
+
   @State
   private var isPresented: Bool = false
 
-  private func commitChanges() {
-    let currentIds = Set(tags.map { $0.id })
-    let removedIds = currentIds.subtracting(selectedIds)
-    let addedIds = selectedIds.subtracting(currentIds)
-    var updatedTags = tags.filter { !removedIds.contains($0.id) }
-    let newTags = options.filter { addedIds.contains($0.id) }
-
-    updatedTags.append(contentsOf: newTags)
-    tags = updatedTags
-  }
+  var options: [PinTag]
+  var onChange: (([PinTag]) -> Void)? = nil
 
   var body: some View {
     Button(action: {
@@ -59,17 +49,17 @@ struct TagSelect: View {
 
           Divider()
 
-          ForEach(options, id: \.persistentModelID) { option in
+          ForEach(options, id: \.id) { option in
             Button(action: {
-              if selectedIds.contains(option.id) {
-                selectedIds.remove(option.id)
+              if let index = tags.firstIndex(of: option) {
+                tags.remove(at: index)
               } else {
-                selectedIds.insert(option.id)
+                tags.append(option)
               }
             }) {
               Label(
                 option.name,
-                systemImage: selectedIds.contains(option.id)
+                systemImage: tags.contains(option)
                   ? "checkmark.circle.fill"
                   : "circle"
               )
@@ -83,11 +73,9 @@ struct TagSelect: View {
       .frame(width: 250, height: 400)
       .presentationCompactAdaptation(.popover)
     }
-    .onChange(of: isPresented) { oldValue, newValue in
-      if newValue {
-        selectedIds = Set(tags.map { $0.id })
-      } else {
-        commitChanges()
+    .onChange(of: isPresented) {
+      if !isPresented {
+        self.onChange?(tags)
       }
     }
     .alert("New tag", isPresented: $creating) {
@@ -101,5 +89,5 @@ struct TagSelect: View {
 }
 
 #Preview {
-  TagSelect(options: [], tags: Binding.constant([]))
+  TagSelect(tags: [], options: [])
 }

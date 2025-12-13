@@ -41,14 +41,14 @@ struct PinRow: View {
             .fontWeight(.semibold)
             .lineLimit(1)
         }
-        if pin.desc != nil {
-          Text(pin.desc!)
+        if let description = pin.desc, !description.isEmpty {
+          Text(description)
             .lineLimit(2)
         }
         Text("\(pin.link.url)")
           .lineLimit(1)
       }
-      PinTags(
+      PinTagsCloud(
         tags: Binding(
           get: { pin.orderedTags },
           set: { newTags in
