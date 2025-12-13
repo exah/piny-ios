@@ -19,7 +19,7 @@ private enum Action {
 struct PinActionRow: View {
   @State
   private var selected: Action = .none
-  @State
+
   var pin: Pin
   var tags: [PinTag]
 
@@ -69,9 +69,13 @@ struct PinActionRow: View {
         case .share:
           ShareView(url: pin.link.url)
         case .edit:
-          PinEdit(
-            pin: $pin.transaction(),
-            tags: tags,
+          PinEditForm(
+            pin: pin,
+            title: pin.title ?? "",
+            description: pin.desc ?? "",
+            tags: pin.tags,
+            options: tags,
+            privacy: pin.privacy,
             onClose: { toggle(.none) }
           )
         case .none:
@@ -81,8 +85,9 @@ struct PinActionRow: View {
   }
 }
 
-struct PinAction_Previews: PreviewProvider {
-  static var previews: some View {
-    PinActionRow(pin: PreviewContent.pins[0], tags: [])
-  }
+#Preview {
+  PinActionRow(
+    pin: PreviewContent.pins[0],
+    tags: []
+  )
 }

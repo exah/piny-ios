@@ -6,31 +6,31 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
+import SwiftData
 import SwiftUI
 
 struct CreateTagForm: View {
   @State
   var value: String = ""
-  @Binding
-  var tags: [PinTag]
 
   var options: [PinTag]
-  let onClose: () -> Void
+  var modelContext: ModelContext
+  let onCreate: (_ tag: PinTag) -> Void
 
   var body: some View {
     Group {
       TextField("Enter name", text: $value)
         .textInputAutocapitalization(.never)
       Button(action: {
-        if let existing = options.first(where: {
-          $0.name == value
-        }) {
-          tags.append(existing)
+        let tag: PinTag
+        if let existing = options.first(where: { $0.name == value }) {
+          tag = existing
         } else {
-          tags.append(PinTag(id: UUID(), name: value))
+          tag = PinTag(id: UUID(), name: value)
+          modelContext.insert(tag)
         }
 
-        onClose()
+        onCreate(tag)
         value = ""
       }) {
         Text("Add")
@@ -41,5 +41,5 @@ struct CreateTagForm: View {
 }
 
 #Preview {
-  CreateTagForm(tags: Binding.constant([]), options: [], onClose: {})
+  CreateTagForm(options: [], modelContext: Piny.storage.container.mainContext, onCreate: { _ in })
 }

@@ -11,6 +11,9 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
+  @Environment(\.modelContext)
+  private var modelContext
+
   @State
   var tags: [PinTag]
 
@@ -21,7 +24,7 @@ struct TagSelect: View {
   private var isPresented: Bool = false
 
   var options: [PinTag]
-  var onChange: (([PinTag]) -> Void)? = nil
+  var onChange: ([PinTag]) -> Void
 
   var body: some View {
     Button(action: {
@@ -74,20 +77,25 @@ struct TagSelect: View {
       .presentationCompactAdaptation(.popover)
     }
     .onChange(of: isPresented) {
-      if !isPresented {
-        self.onChange?(tags)
+      if !isPresented && !creating {
+        self.onChange(tags)
       }
     }
     .alert("New tag", isPresented: $creating) {
       CreateTagForm(
-        tags: $tags,
         options: options,
-        onClose: { creating.toggle() }
+        modelContext: modelContext,
+        onCreate: { newTag in
+          creating.toggle()
+          tags.append(newTag)
+
+          self.onChange(tags)
+        }
       )
     }
   }
 }
 
 #Preview {
-  TagSelect(tags: [], options: [])
+  TagSelect(tags: [], options: [], onChange: { _ in })
 }
