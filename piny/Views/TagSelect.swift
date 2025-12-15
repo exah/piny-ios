@@ -11,9 +11,6 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
-  @Environment(\.modelContext)
-  private var modelContext
-
   @State
   var tags: [PinTag]
 
@@ -84,7 +81,6 @@ struct TagSelect: View {
     .alert("New tag", isPresented: $creating) {
       CreateTagForm(
         options: options,
-        modelContext: modelContext,
         onCreate: { newTag in
           creating.toggle()
           tags.append(newTag)

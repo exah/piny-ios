@@ -10,11 +10,13 @@ import SwiftData
 import SwiftUI
 
 struct CreateTagForm: View {
+  @Environment(\.modelContext)
+  private var modelContext
+
   @State
   var value: String = ""
 
   var options: [PinTag]
-  var modelContext: ModelContext
   let onCreate: (_ tag: PinTag) -> Void
 
   var body: some View {
@@ -41,5 +43,5 @@ struct CreateTagForm: View {
 }
 
 #Preview {
-  CreateTagForm(options: [], modelContext: Piny.storage.container.mainContext, onCreate: { _ in })
+  CreateTagForm(options: [], onCreate: { _ in })
 }
