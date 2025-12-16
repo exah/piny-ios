@@ -49,19 +49,21 @@ struct PinsRequests {
 
   static func edit(
     _ pin: Pin,
-    title: String?,
-    description: String?,
-    privacy: PinPrivacy?,
+    url: URL,
+    title: String,
+    description: String,
+    privacy: PinPrivacy,
     tags: [String]
   ) async throws -> PinDTO {
     try await Piny.api.patch(
       PinyMessageResponse.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())",
       json: PinDTO.Payload(
-        title: pin.title == title && title != nil ? nil : title,
-        description: pin.desc == description && description != nil ? nil : description,
-        privacy: pin.privacy == privacy && privacy != nil ? nil : privacy,
-        tags: Set(pin.tags.map { $0.name }) == Set(tags) ? nil : tags
+        url: url,
+        title: title,
+        description: description,
+        privacy: privacy,
+        tags: tags
       )
     )
 

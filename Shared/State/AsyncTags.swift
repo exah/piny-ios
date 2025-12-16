@@ -16,14 +16,16 @@ struct AsyncTagsResult {
 }
 
 @Observable
-class AsyncTags: Async {
+class AsyncTags {
   let result = AsyncTagsResult()
   let tagsActor = TagsActor(modelContainer: .shared)
 
   @MainActor
-  init(_ initial: [PinTag] = [], modelContext: ModelContext? = nil) {
-    super.init(modelContext: modelContext)
-    initial.forEach { self.modelContext.insert($0) }
+  init(_ initial: [PinTag] = []) {
+    Task {
+      await tagsActor.insert(tags: initial)
+      result.fetch.status = .success(initial)
+    }
   }
 
   @MainActor
@@ -44,7 +46,7 @@ class AsyncTags: Async {
       await withThrowingTaskGroup(of: Void.self) { group in
         for tag in newTags {
           group.addTask {
-            try await self.tagsActor.create(tag.name)
+            try await self.tagsActor.create(tag.name, id: tag.id)
           }
         }
       }

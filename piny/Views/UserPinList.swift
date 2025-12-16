@@ -62,10 +62,8 @@ struct UserPinList: View {
   }
 }
 
-struct UserPinList_Previews: PreviewProvider {
-  static var previews: some View {
-    UserPinList()
-      .environment(AsyncPins(PreviewContent.pins))
-      .environment(AsyncTags(PreviewContent.tags))
-  }
+#Preview {
+  UserPinList()
+    .environment(AsyncPins(PreviewContent.pins))
+    .environment(AsyncTags(PreviewContent.tags))
 }

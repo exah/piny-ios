@@ -17,7 +17,7 @@ struct PinEditForm: View {
   var title: String = ""
 
   @State
-  var description: String? = ""
+  var description: String = ""
 
   @State
   var tags: [PinTag] = []
@@ -35,6 +35,7 @@ struct PinEditForm: View {
       do {
         try await asyncPins.edit(
           pin,
+          url: pin.link.url,
           title: title,
           description: description,
           privacy: privacy,
@@ -87,14 +88,9 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            TextEditor(
-              text: Binding(
-                get: { description ?? "" },
-                set: { description = $0 }
-              )
-            )
-            .variant(.primary, size: .textEditor)
-            .scrollContentBackground(.hidden)
+            TextEditor(text: $description)
+              .variant(.primary, size: .textEditor)
+              .scrollContentBackground(.hidden)
           }
 
           VStack(alignment: .leading, spacing: 0) {

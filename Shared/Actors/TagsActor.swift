@@ -33,4 +33,8 @@ public actor TagsActor {
 
     return tag
   }
+
+  func insert(tags: [PinTag]) {
+    tags.forEach { modelContext.insert($0) }
+  }
 }

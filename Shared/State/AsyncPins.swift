@@ -106,16 +106,18 @@ class AsyncPins: Async {
   @discardableResult
   func edit(
     _ pin: Pin,
-    title: String? = nil,
-    description: String? = nil,
-    privacy: PinPrivacy? = nil,
-    tags: [String] = []
+    url: URL,
+    title: String,
+    description: String,
+    privacy: PinPrivacy,
+    tags: [String]
   ) async throws -> PinDTO {
     try await result.edit.capture {
       let result: PinDTO
       do {
         result = try await PinsRequests.edit(
           pin,
+          url: url,
           title: title,
           description: description,
           privacy: privacy,

@@ -69,8 +69,8 @@ struct PinActionRow: View {
         case .edit:
           PinEditForm(
             pin: pin,
-            title: pin.title ?? "",
-            description: pin.desc ?? "",
+            title: pin.title,
+            description: pin.desc,
             tags: pin.tags,
             privacy: pin.privacy,
             onClose: { toggle(.none) }

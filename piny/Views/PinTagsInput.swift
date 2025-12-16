@@ -27,13 +27,7 @@ struct PinTagsInput: View {
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
-      TagSelect(
-        tags: tags,
-        onChange: { newTags in
-          self.tags.removeAll()
-          self.tags.append(contentsOf: newTags)
-        }
-      )
+      TagSelect(tags: $tags)
     }
     .frame(maxWidth: .infinity)
     .textFieldVariant(.primary, size: .tags)

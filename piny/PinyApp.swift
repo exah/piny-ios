@@ -18,6 +18,6 @@ struct PinyApp: App {
     .modelContainer(Piny.storage.container)
     .environment(AsyncUser(modelContext: Piny.storage.container.mainContext))
     .environment(AsyncPins(modelContext: Piny.storage.container.mainContext))
-    .environment(AsyncTags(modelContext: Piny.storage.container.mainContext))
+    .environment(AsyncTags())
   }
 }

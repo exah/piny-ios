@@ -15,42 +15,54 @@ struct PinRow: View {
   @Bindable
   var pin: Pin
 
-  func update(tags: [PinTag]) {
-    Task {
-      do {
-        try await asyncPins.edit(
-          pin,
-          tags: tags.map { $0.name }
-        )
-      } catch {
-        Piny.log(error, .error)
-        do {
-          try await asyncPins.get(pin)
-        } catch {
-          Piny.log("Failed to restore pin state: \(error)", .error)
-        }
-      }
+  func updateTags() async {
+    do {
+      try await asyncPins.edit(
+        pin,
+        url: pin.link.url,
+        title: pin.title,
+        description: pin.desc,
+        privacy: pin.privacy,
+        tags: pin.tags.map { $0.name }
+      )
+    } catch {
+      Piny.log("Failed to update: \(error)", .error)
     }
+  }
+
+  @State
+  var task: Task<Void, Error>? = nil
+  func handleTagsChange() {
+    task?.cancel()
+    task = Task {
+      try await Task.sleep(for: .milliseconds(400))
+      await updateTags()
+      task = nil
+    }
+  }
+
+  private var tagsSet: Set<String> {
+    Set(pin.tags.map { $0.name })
   }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       VStack(alignment: .leading, spacing: 8) {
-        if pin.title != nil {
-          Text(pin.title!)
+        if !pin.title.isEmpty {
+          Text(pin.title)
             .fontWeight(.semibold)
             .lineLimit(1)
         }
-        if let description = pin.desc, !description.isEmpty {
-          Text(description)
+        if !pin.desc.isEmpty {
+          Text(pin.desc)
             .lineLimit(2)
         }
         Text("\(pin.link.url)")
           .lineLimit(1)
       }
       PinTagsCloud(tags: $pin.tags)
-        .onChange(of: pin.tags) {
-          update(tags: pin.tags)
+        .onChange(of: tagsSet) { old, new in
+          handleTagsChange()
         }
     }
     .padding(.vertical, 2)

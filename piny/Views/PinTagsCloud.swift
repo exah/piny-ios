@@ -15,13 +15,7 @@ struct PinTagsCloud: View {
 
   var body: some View {
     Flow(spacing: 8) {
-      TagSelect(
-        tags: tags,
-        onChange: { newTags in
-          self.tags.removeAll()
-          self.tags.append(contentsOf: newTags)
-        }
-      )
+      TagSelect(tags: $tags)
       ForEach(tags, id: \.id) { tag in
         Menu {
           Button("Delete: \(tag.name)") {

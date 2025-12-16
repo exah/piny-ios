@@ -13,8 +13,8 @@ import SwiftData
 class Pin: Identifiable, Equatable {
   @Attribute(.unique)
   var id: UUID
-  var title: String?
-  var desc: String?
+  var title: String = ""
+  var desc: String = ""
   var privacy: PinPrivacy
   var state: PinState
   @Relationship(deleteRule: .cascade)
@@ -26,8 +26,8 @@ class Pin: Identifiable, Equatable {
 
   init(
     id: UUID,
-    title: String? = nil,
-    desc: String? = nil,
+    title: String = "",
+    desc: String = "",
     privacy: PinPrivacy,
     state: PinState,
     link: PinLink,
@@ -93,8 +93,8 @@ enum PinPrivacy: String, Codable {
 
 struct PinDTO: Hashable, Codable, Identifiable, Equatable {
   var id: UUID
-  var title: String?
-  var description: String?
+  var title: String = ""
+  var description: String = ""
   var state: PinState
   var privacy: PinPrivacy
   var link: PinLinkDTO
@@ -103,10 +103,10 @@ struct PinDTO: Hashable, Codable, Identifiable, Equatable {
   var updatedAt: Date
 
   struct Payload: Codable {
-    var title: String?
-    var description: String?
-    var state: PinState?
-    var privacy: PinPrivacy?
-    var tags: [String]?
+    var url: URL
+    var title: String
+    var description: String
+    var privacy: PinPrivacy
+    var tags: [String]
   }
 }

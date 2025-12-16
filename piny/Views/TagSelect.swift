@@ -11,7 +11,9 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
-  @State
+  var tagsActor = TagsActor(modelContainer: .shared)
+
+  @Binding
   var tags: [PinTag]
 
   @State
@@ -20,11 +22,8 @@ struct TagSelect: View {
   @State
   private var isPresented: Bool = false
 
-  var tagsActor = TagsActor(modelContainer: .shared)
-
   @Query(sort: \PinTag.name, order: .forward)
   var options: [PinTag]
-  var onChange: ([PinTag]) -> Void
 
   private var filteredOptions: [PinTag] {
     guard !search.isEmpty else {
@@ -124,17 +123,11 @@ struct TagSelect: View {
       .frame(minWidth: 250, maxHeight: 450)
       .presentationCompactAdaptation(.popover)
     }
-    .onChange(of: isPresented) {
-      if !isPresented {
-        self.onChange(tags)
-      }
-    }
   }
 }
 
 #Preview {
   TagSelect(
-    tags: [],
-    onChange: { _ in }
+    tags: .constant([])
   )
 }
