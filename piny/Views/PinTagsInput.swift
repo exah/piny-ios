@@ -12,7 +12,6 @@ import SwiftUI
 struct PinTagsInput: View {
   @Binding
   var tags: [PinTag]
-  var options: [PinTag]
 
   var body: some View {
     HStack(spacing: 8) {
@@ -30,7 +29,6 @@ struct PinTagsInput: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       TagSelect(
         tags: tags,
-        options: options,
         onChange: { newTags in
           self.tags.removeAll()
           self.tags.append(contentsOf: newTags)
@@ -46,5 +44,5 @@ struct PinTagsInput: View {
   let tags = PreviewContent.pins[0].tags
   let options = PreviewContent.tags
 
-  PinTagsInput(tags: .constant(tags), options: options)
+  PinTagsInput(tags: .constant(tags))
 }

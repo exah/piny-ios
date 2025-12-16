@@ -21,7 +21,6 @@ struct PinEditForm: View {
 
   @State
   var tags: [PinTag] = []
-  var options: [PinTag]
 
   @State
   var privacy: PinPrivacy = .private
@@ -104,10 +103,7 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            PinTagsInput(
-              tags: $tags,
-              options: options
-            )
+            PinTagsInput(tags: $tags)
           }
           VStack(alignment: .leading, spacing: 0) {
             Text("Private")
@@ -175,7 +171,6 @@ struct PinEditForm: View {
     title: "Teach Yourself Computer Science",
     description: "",
     tags: [sampleTags[0], sampleTags[1]],
-    options: sampleTags,
     privacy: .private
   )
   .environment(AsyncPins(PreviewContent.pins))

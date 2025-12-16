@@ -19,9 +19,6 @@ struct UserPinList: View {
   @Query(sort: \Pin.createdAt, order: .reverse)
   var pins: [Pin]
 
-  @Query(sort: \PinTag.name, order: .forward)
-  var tags: [PinTag]
-
   func load() {
     Task {
       do {
@@ -48,7 +45,6 @@ struct UserPinList: View {
   var body: some View {
     PinList(
       pins: pins,
-      tags: tags,
       onRefresh: load,
       onDelete: remove
     )

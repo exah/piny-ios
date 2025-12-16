@@ -11,9 +11,9 @@ import SwiftUI
 struct PinRow: View {
   @Environment(AsyncPins.self)
   var asyncPins
+
   @Bindable
   var pin: Pin
-  var tags: [PinTag]
 
   func update(tags: [PinTag]) {
     Task {
@@ -48,25 +48,16 @@ struct PinRow: View {
         Text("\(pin.link.url)")
           .lineLimit(1)
       }
-      PinTagsCloud(
-        tags: Binding(
-          get: { pin.orderedTags },
-          set: { newTags in
-            pin.tags = newTags
-            pin.tagOrder = newTags.map { $0.id }
-          }
-        ),
-        options: tags
-      )
-      .onChange(of: pin.tags) {
-        update(tags: pin.orderedTags)
-      }
+      PinTagsCloud(tags: $pin.tags)
+        .onChange(of: pin.tags) {
+          update(tags: pin.tags)
+        }
     }
     .padding(.vertical, 2)
   }
 }
 
 #Preview {
-  PinRow(pin: PreviewContent.pins[2], tags: PreviewContent.tags)
+  PinRow(pin: PreviewContent.pins[2])
     .environment(AsyncPins(PreviewContent.pins))
 }

@@ -21,8 +21,6 @@ struct PinActionRow: View {
   private var selected: Action = .none
 
   var pin: Pin
-  var tags: [PinTag]
-
   var onDelete: (() -> Void)? = nil
 
   private func toggle(_ action: Action) {
@@ -35,7 +33,7 @@ struct PinActionRow: View {
 
   var body: some View {
     Button(action: { toggle(.view) }) {
-      PinRow(pin: pin, tags: tags)
+      PinRow(pin: pin)
         .contextMenu {
           Button(action: { toggle(.edit) }) {
             Label("Edit", systemImage: "pencil")
@@ -74,7 +72,6 @@ struct PinActionRow: View {
             title: pin.title ?? "",
             description: pin.desc ?? "",
             tags: pin.tags,
-            options: tags,
             privacy: pin.privacy,
             onClose: { toggle(.none) }
           )
@@ -88,6 +85,5 @@ struct PinActionRow: View {
 #Preview {
   PinActionRow(
     pin: PreviewContent.pins[0],
-    tags: []
   )
 }

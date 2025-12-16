@@ -11,7 +11,6 @@ import SwiftUI
 
 struct PinList: View {
   var pins: [Pin]
-  var tags: [PinTag]
   var onEdit: ((_ pin: Pin) -> Void)? = nil
   var onRefresh: (() async -> Void)? = nil
   var onDelete: ((_ pins: [Pin]) -> Void)? = nil
@@ -21,7 +20,6 @@ struct PinList: View {
       ForEach(pins, id: \.persistentModelID) { pin in
         PinActionRow(
           pin: pin,
-          tags: tags,
           onDelete: {
             self.onDelete?([pin])
           }
@@ -41,6 +39,6 @@ struct PinList: View {
 
 struct PinList_Previews: PreviewProvider {
   static var previews: some View {
-    PinList(pins: PreviewContent.pins, tags: PreviewContent.tags)
+    PinList(pins: PreviewContent.pins)
   }
 }

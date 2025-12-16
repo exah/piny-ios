@@ -15,13 +15,49 @@ struct TagSelect: View {
   var tags: [PinTag]
 
   @State
-  var creating: Bool = false
+  var search = ""
 
   @State
   private var isPresented: Bool = false
 
+  var tagsActor = TagsActor(modelContainer: .shared)
+
+  @Query(sort: \PinTag.name, order: .forward)
   var options: [PinTag]
   var onChange: ([PinTag]) -> Void
+
+  private var filteredOptions: [PinTag] {
+    guard !search.isEmpty else {
+      return options
+    }
+
+    let searchLower = search.lowercased()
+    return options.filter { tag in
+      let tagName = tag.name.lowercased()
+      if tagName.contains(searchLower) {
+        return true
+      }
+
+      var searchIndex = searchLower.startIndex
+      for char in tagName {
+        if searchIndex < searchLower.endIndex && char == searchLower[searchIndex] {
+          searchIndex = searchLower.index(after: searchIndex)
+        }
+      }
+      return searchIndex == searchLower.endIndex
+    }
+  }
+
+  func handleCreateTask() {
+    Task {
+      guard let tag = try? await tagsActor.create(search) else {
+        return
+      }
+
+      tags.append(tag)
+      search = ""
+    }
+  }
 
   var body: some View {
     Button(action: {
@@ -34,64 +70,71 @@ struct TagSelect: View {
       hug: true
     )
     .popover(isPresented: $isPresented) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
-          Button(action: {
-            creating.toggle()
-            Piny.log("Creating \(creating)")
-          }) {
-            Label("New tag", systemImage: "plus")
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(.horizontal, 16)
-              .padding(.vertical, 12)
-          }
-          .buttonStyle(.plain)
-
-          Divider()
-
-          ForEach(options, id: \.id) { option in
-            Button(action: {
-              if let index = tags.firstIndex(of: option) {
-                tags.remove(at: index)
-              } else {
-                tags.append(option)
-              }
-            }) {
-              Label(
-                option.name,
-                systemImage: tags.contains(option)
-                  ? "checkmark.circle.fill"
-                  : "circle"
-              )
-              .padding(.horizontal, 16)
-              .padding(.vertical, 12)
-            }
-            .buttonStyle(.plain)
-          }
+      VStack(alignment: .leading, spacing: 0) {
+        VStack {
+          Input("Search..", type: .text, value: $search)
+            .autocapitalization(.none)
+            .autocorrectionDisabled()
         }
+        .padding(8)
+
+        Divider()
+
+        ScrollView {
+          VStack(alignment: .leading, spacing: 0) {
+            if filteredOptions.isEmpty && !search.isEmpty {
+              Button(action: handleCreateTask) {
+                Label("Create \"\(search)\"", systemImage: "plus.circle.fill")
+                  .padding(.horizontal, 16)
+                  .padding(.vertical, 12)
+              }
+              .buttonStyle(.plain)
+            } else {
+              ForEach(filteredOptions, id: \.id) { option in
+                Button(action: {
+                  if let index = tags.firstIndex(of: option) {
+                    tags.remove(at: index)
+                  } else {
+                    tags.append(option)
+                  }
+                }) {
+                  Label(
+                    option.name,
+                    systemImage: tags.contains(option)
+                      ? "checkmark.circle.fill"
+                      : "circle"
+                  )
+                  .padding(.horizontal, 16)
+                  .padding(.vertical, 12)
+                }
+                .buttonStyle(.plain)
+              }
+            }
+          }
+          .padding(8)
+        }
+        .frame(
+          minWidth: 0,
+          maxWidth: .infinity,
+          minHeight: 0,
+          maxHeight: .infinity,
+          alignment: .topLeading
+        )
       }
-      .frame(width: 250, height: 400)
+      .frame(minWidth: 250, maxHeight: 450)
       .presentationCompactAdaptation(.popover)
     }
     .onChange(of: isPresented) {
-      if !isPresented && !creating {
+      if !isPresented {
         self.onChange(tags)
       }
-    }
-    .alert("New tag", isPresented: $creating) {
-      CreateTagForm(
-        options: options,
-        onCreate: { newTag in
-          creating.toggle()
-          tags.append(newTag)
-
-          self.onChange(tags)
-        }
-      )
     }
   }
 }
 
 #Preview {
-  TagSelect(tags: [], options: [], onChange: { _ in })
+  TagSelect(
+    tags: [],
+    onChange: { _ in }
+  )
 }

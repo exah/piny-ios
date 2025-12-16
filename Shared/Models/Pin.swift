@@ -21,7 +21,6 @@ class Pin: Identifiable, Equatable {
   var link: PinLink
   @Relationship(inverse: \PinTag.pins)
   var tags: [PinTag] = []
-  var tagOrder: [UUID] = []
   var createdAt: Date
   var updatedAt: Date
 
@@ -43,7 +42,6 @@ class Pin: Identifiable, Equatable {
     self.state = state
     self.link = link
     self.tags = tags
-    self.tagOrder = tags.map { $0.id }
     self.createdAt = createdAt
     self.updatedAt = updatedAt
   }
@@ -56,9 +54,10 @@ class Pin: Identifiable, Equatable {
       privacy: pin.privacy,
       state: pin.state,
       link: PinLink(from: pin.link),
-      tags: pin.tags.map { tag in
-        tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
-      },
+      tags: pin.tags
+        .map { tag in
+          tags.first(where: { $0.name == tag.name }) ?? PinTag(from: tag)
+        },
       createdAt: pin.createdAt,
       updatedAt: pin.updatedAt
     )
@@ -70,17 +69,11 @@ class Pin: Identifiable, Equatable {
     self.privacy = pin.privacy
     self.state = pin.state
     self.link.url = pin.link.url
-    self.tags = pin.tags.map { tag in
-      tags.first(where: { $0.id == tag.id }) ?? PinTag(from: tag)
-    }
-    self.tagOrder = pin.tags.map { $0.id }
+    self.tags = pin.tags
+      .map { tag in
+        tags.first(where: { $0.name == tag.name }) ?? PinTag(from: tag)
+      }
     self.updatedAt = pin.updatedAt
-  }
-
-  // Returns tags in the order received from server
-  var orderedTags: [PinTag] {
-    let tagDict = Dictionary(uniqueKeysWithValues: tags.map { ($0.id, $0) })
-    return tagOrder.compactMap { tagDict[$0] }
   }
 
   static func == (lhs: Pin, rhs: Pin) -> Bool {

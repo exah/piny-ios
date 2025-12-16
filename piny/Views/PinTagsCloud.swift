@@ -12,13 +12,11 @@ import SwiftUI
 struct PinTagsCloud: View {
   @Binding
   var tags: [PinTag]
-  var options: [PinTag]
 
   var body: some View {
     Flow(spacing: 8) {
       TagSelect(
         tags: tags,
-        options: options,
         onChange: { tags in
           self.tags = tags
         }
@@ -40,5 +38,5 @@ struct PinTagsCloud: View {
   let tags = PreviewContent.pins[0].tags
   let options = PreviewContent.tags
 
-  PinTagsCloud(tags: .constant(tags), options: options)
+  PinTagsCloud(tags: .constant(tags))
 }

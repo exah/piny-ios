@@ -22,6 +22,7 @@ struct AsyncPinsResult {
 @Observable
 class AsyncPins: Async {
   let result = AsyncPinsResult()
+  let tagsActor = TagsActor(modelContainer: .shared)
 
   @MainActor
   init(_ initial: [Pin] = [], modelContext: ModelContext? = nil) {
@@ -36,10 +37,10 @@ class AsyncPins: Async {
       let result = try await PinsRequests.fetch()
 
       do {
-        try self.modelContext.transaction {
-          let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
-          let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
+        let tags = try await tagsActor.fetch()
 
+        try self.modelContext.transaction {
           // Remove pins that no longer exist on server
           let serverPinIds = Set(result.map { $0.id })
           pins.filter { !serverPinIds.contains($0.id) }
@@ -90,7 +91,7 @@ class AsyncPins: Async {
       let result = try await PinsRequests.get(pin)
 
       do {
-        let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        let tags = try await tagsActor.fetch()
         pin.update(from: result, tags: tags)
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
@@ -111,16 +112,22 @@ class AsyncPins: Async {
     tags: [String] = []
   ) async throws -> PinDTO {
     try await result.edit.capture {
-      let result = try await PinsRequests.edit(
-        pin,
-        title: title,
-        description: description,
-        privacy: privacy,
-        tags: tags,
-      )
+      let result: PinDTO
+      do {
+        result = try await PinsRequests.edit(
+          pin,
+          title: title,
+          description: description,
+          privacy: privacy,
+          tags: tags,
+        )
+      } catch {
+        Piny.log("Failed to edit pin: \(error)", .error)
+        throw error
+      }
 
       do {
-        let tags = try self.modelContext.fetch(FetchDescriptor<PinTag>())
+        let tags = try await tagsActor.fetch()
         pin.update(from: result, tags: tags)
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)

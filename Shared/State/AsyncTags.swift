@@ -18,6 +18,7 @@ struct AsyncTagsResult {
 @Observable
 class AsyncTags: Async {
   let result = AsyncTagsResult()
+  let tagsActor = TagsActor(modelContainer: .shared)
 
   @MainActor
   init(_ initial: [PinTag] = [], modelContext: ModelContext? = nil) {
@@ -34,16 +35,21 @@ class AsyncTags: Async {
         path: "/tags"
       )
 
-      let existing =
-        (try? self.modelContext.fetch(FetchDescriptor<PinTag>())) ?? []
+      let existing = try await tagsActor.fetch()
       let newTags =
         tagsDTO
-        .filter { tag in !existing.contains(where: { $0.id == tag.id }) }
+        .filter { tag in !existing.contains(where: { $0.name == tag.name }) }
         .map { PinTag(from: $0) }
 
-      newTags.forEach { self.modelContext.insert($0) }
+      await withThrowingTaskGroup(of: Void.self) { group in
+        for tag in newTags {
+          group.addTask {
+            try await self.tagsActor.create(tag.name)
+          }
+        }
+      }
 
-      return newTags
+      return try await tagsActor.fetch()
     }
   }
 }

@@ -24,7 +24,6 @@ struct TextFieldModifier: ViewModifier {
   let color: TextFieldColor
   let size: TextFieldSize
   let invalid: Bool
-  let radius: Double = 20
 
   @FocusState
   var focused: Bool
@@ -76,9 +75,9 @@ struct TextFieldModifier: ViewModifier {
     .frame(minHeight: height)
     .foregroundColor(colors.fg)
     .background(colors.bg)
-    .cornerRadius(radius)
+    .clipShape(.rect(corners: .concentric, isUniform: true))
     .overlay(
-      RoundedRectangle(cornerRadius: radius, style: .continuous)
+      ConcentricRectangle(corners: .concentric(minimum: 20), isUniform: true)
         .stroke(colors.stroke, lineWidth: size == .medium ? 2 : 1.5)
     )
     .focused($focused)

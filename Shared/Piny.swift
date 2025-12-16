@@ -33,3 +33,9 @@ struct Piny {
     case info, warn, error
   }
 }
+
+extension ModelContainer {
+  static var shared: ModelContainer {
+    Piny.storage.container
+  }
+}
