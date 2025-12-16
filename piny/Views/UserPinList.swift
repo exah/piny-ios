@@ -19,14 +19,17 @@ struct UserPinList: View {
   @Query(sort: \Pin.createdAt, order: .reverse)
   var pins: [Pin]
 
-  func load() {
+  func handleRefresh() async {
+    do {
+      try await asyncPins.fetch()
+    } catch {
+      Piny.log(error, .error)
+    }
+  }
+
+  func handleAppear() {
     Task {
-      do {
-        try await asyncPins.fetch()
-        try await asyncTags.fetch()
-      } catch {
-        Piny.log(error, .error)
-      }
+      await handleRefresh()
     }
   }
 
@@ -45,16 +48,16 @@ struct UserPinList: View {
   var body: some View {
     PinList(
       pins: pins,
-      onRefresh: load,
+      onRefresh: handleRefresh,
       onDelete: remove
     )
-    .onAppear(perform: load)
+    .onAppear(perform: handleAppear)
     .onReceive(
       NotificationCenter.default.publisher(
         for: UIApplication.willEnterForegroundNotification
       )
     ) { _ in
-      self.load()
+      handleAppear()
     }
   }
 }

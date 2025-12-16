@@ -17,8 +17,9 @@ struct PinTagsCloud: View {
     Flow(spacing: 8) {
       TagSelect(
         tags: tags,
-        onChange: { tags in
-          self.tags = tags
+        onChange: { newTags in
+          self.tags.removeAll()
+          self.tags.append(contentsOf: newTags)
         }
       )
       ForEach(tags, id: \.id) { tag in
