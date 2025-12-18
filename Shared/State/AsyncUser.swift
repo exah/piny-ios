@@ -122,13 +122,7 @@ class AsyncUser {
       Piny.log("Token: \(auth.token)")
       Piny.api.token = auth.token
 
-      do {
-        try await sessionActor.sync(session: Session(from: auth))
-      } catch {
-        Piny.log("Failed to update session: \(error)", .error)
-        throw error
-      }
-
+      await sessionActor.insert(Session(from: auth))
       return auth
     }
   }
