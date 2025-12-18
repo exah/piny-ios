@@ -107,5 +107,6 @@ struct LogIn: View {
 }
 
 #Preview {
-  LogIn().environment(AsyncUser())
+  LogIn()
+    .environment(AsyncUser())
 }

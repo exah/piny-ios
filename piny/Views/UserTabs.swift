@@ -43,8 +43,6 @@ struct UserTabs: View {
   }
 }
 
-struct Tabs_Previews: PreviewProvider {
-  static var previews: some View {
-    UserTabs()
-  }
+#Preview {
+  UserTabs()
 }

@@ -37,8 +37,6 @@ struct PinList: View {
   }
 }
 
-struct PinList_Previews: PreviewProvider {
-  static var previews: some View {
-    PinList(pins: PreviewContent.pins)
-  }
+#Preview {
+  PinList(pins: PreviewContent.pins)
 }
