@@ -12,8 +12,10 @@ import SwiftUI
 struct UserSettings: View {
   @Environment(AsyncUser.self)
   var asyncUser
+
   @Query
   var users: [User]
+
   @Query
   var sessions: [Session]
 
@@ -59,8 +61,6 @@ struct UserSettings: View {
   }
 }
 
-struct UserSettings_Previews: PreviewProvider {
-  static var previews: some View {
-    UserSettings()
-  }
+#Preview {
+  UserSettings()
 }

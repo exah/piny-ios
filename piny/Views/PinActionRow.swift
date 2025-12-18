@@ -83,7 +83,5 @@ struct PinActionRow: View {
 }
 
 #Preview {
-  PinActionRow(
-    pin: PreviewContent.pins[0],
-  )
+  PinActionRow(pin: PreviewContent.pins[0])
 }
