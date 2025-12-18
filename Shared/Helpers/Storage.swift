@@ -9,7 +9,6 @@
 import CoreData
 import SwiftData
 
-@MainActor
 final class Storage {
   let container: ModelContainer
 

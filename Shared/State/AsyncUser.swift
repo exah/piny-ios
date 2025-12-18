@@ -66,8 +66,12 @@ class AsyncUser {
 
   @discardableResult
   func login(name: String, pass: String) async throws -> Authorization {
+    guard let deviceId = await UIDevice.current.identifierForVendor else {
+      throw Piny.Error.runtimeError("No device id found")
+    }
+
     let device = await Device(
-      id: UIDevice.current.identifierForVendor!,
+      id: deviceId,
       description: """
           \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
         """
