@@ -133,17 +133,26 @@ class AsyncUser {
     }
   }
 
-  @discardableResult
-  func logout() async throws -> PinyMessageResponse {
+  func logout() async throws {
     try await result.logout.capture {
-      let result = try await Piny.api.post(
-        PinyMessageResponse.self,
-        path: "/logout",
-        json: Optional<Data>.none
-      )
+      do {
+        let result = try await Piny.api.post(
+          PinyMessageResponse.self,
+          path: "/logout",
+          json: Optional<Data>.none
+        )
 
-      deleteAllData()
-      return result
+        deleteAllData()
+        return result
+      } catch {
+        switch error {
+          case ResponseError.unauthorized:
+            deleteAllData()
+            fallthrough
+          default:
+            throw error
+        }
+      }
     }
   }
 
