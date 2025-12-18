@@ -2,9 +2,17 @@ import SwiftData
 import SwiftUI
 
 @ModelActor
-public actor TagsActor {
+actor TagsActor {
   func fetch() throws -> [PinTag] {
     try modelContext.fetch(FetchDescriptor<PinTag>())
+  }
+
+  func get(by name: String) throws -> PinTag {
+    guard let pin = try? find(by: name) else {
+      throw Piny.Error.runtimeError("PinTag not found by name: \(name)")
+    }
+
+    return pin
   }
 
   func find(by name: String) throws -> PinTag? {
@@ -36,5 +44,9 @@ public actor TagsActor {
 
   func insert(tags: [PinTag]) {
     tags.forEach { modelContext.insert($0) }
+  }
+
+  func reset() throws {
+    try modelContext.delete(model: PinTag.self, includeSubclasses: true)
   }
 }

@@ -1,8 +1,8 @@
 [
   {
     "id": "719a98f2-c551-4d3e-85b8-4eee2056be09",
-    "title": null,
-    "description": null,
+    "title": "",
+    "description": "",
     "state": "active",
     "privacy": "public",
     "link": {
@@ -24,8 +24,8 @@
   },
   {
     "id": "54e8590c-b78d-4747-91eb-94615bcea4d0",
-    "title": null,
-    "description": null,
+    "title": "",
+    "description": "",
     "state": "active",
     "privacy": "public",
     "link": {
@@ -56,7 +56,7 @@
   {
     "id": "3ce46dd7-2a84-46e9-90b4-9ea277623a4c",
     "title": "Example website",
-    "description": null,
+    "description": "",
     "state": "active",
     "privacy": "public",
     "link": {

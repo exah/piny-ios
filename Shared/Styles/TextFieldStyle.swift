@@ -75,9 +75,9 @@ struct TextFieldModifier: ViewModifier {
     .frame(minHeight: height)
     .foregroundColor(colors.fg)
     .background(colors.bg)
-    .clipShape(.rect(corners: .concentric, isUniform: true))
+    .cornerRadius(20)
     .overlay(
-      ConcentricRectangle(corners: .concentric(minimum: 20), isUniform: true)
+      RoundedRectangle(cornerRadius: 20)
         .stroke(colors.stroke, lineWidth: size == .medium ? 2 : 1.5)
     )
     .focused($focused)

@@ -26,8 +26,8 @@ class Pin: Identifiable, Equatable {
 
   init(
     id: UUID,
-    title: String = "",
-    desc: String = "",
+    title: String,
+    desc: String,
     privacy: PinPrivacy,
     state: PinState,
     link: PinLink,
@@ -93,8 +93,8 @@ enum PinPrivacy: String, Codable {
 
 struct PinDTO: Hashable, Codable, Identifiable, Equatable {
   var id: UUID
-  var title: String = ""
-  var description: String = ""
+  var title: String
+  var description: String
   var state: PinState
   var privacy: PinPrivacy
   var link: PinLinkDTO
