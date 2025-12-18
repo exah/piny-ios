@@ -45,8 +45,4 @@ actor TagsActor {
   func insert(tags: [PinTag]) {
     tags.forEach { modelContext.insert($0) }
   }
-
-  func reset() throws {
-    try modelContext.delete(model: PinTag.self, includeSubclasses: true)
-  }
 }

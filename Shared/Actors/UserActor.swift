@@ -26,8 +26,4 @@ actor UserActor {
   func delete(_ user: User) {
     modelContext.delete(user)
   }
-
-  func reset() throws {
-    try modelContext.delete(model: User.self, includeSubclasses: true)
-  }
 }

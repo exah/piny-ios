@@ -64,8 +64,4 @@ actor PinsActor {
       }
     }
   }
-
-  func reset() throws {
-    try modelContext.delete(model: Pin.self, includeSubclasses: true)
-  }
 }

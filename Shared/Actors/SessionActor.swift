@@ -43,8 +43,4 @@ actor SessionActor {
       modelContext.insert(user)
     }
   }
-
-  func reset() throws {
-    try modelContext.delete(model: Session.self, includeSubclasses: true)
-  }
 }
