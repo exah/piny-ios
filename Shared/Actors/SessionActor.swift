@@ -19,28 +19,16 @@ actor SessionActor {
     return session
   }
 
-  func insert(_ session: Session) {
+  func insert(_ session: Session) throws {
     modelContext.insert(session)
+    try modelContext.save()
   }
 
   func delete(_ session: Session) {
     modelContext.delete(session)
   }
 
-  func sync(session: Session) throws {
-    try modelContext.transaction {
-      try modelContext.delete(model: Session.self)
-      modelContext.insert(session)
-    }
-  }
-
-  func sync(session: Session, user: User) throws {
-    try modelContext.transaction {
-      try modelContext.delete(model: Session.self)
-      try modelContext.delete(model: User.self)
-
-      modelContext.insert(session)
-      modelContext.insert(user)
-    }
+  func clear() throws {
+    try modelContext.delete(model: Session.self)
   }
 }

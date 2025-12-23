@@ -31,12 +31,14 @@ actor PinsActor {
     )
   }
 
-  func insert(_ pin: Pin) {
+  func insert(_ pin: Pin) throws {
     modelContext.insert(pin)
+    try modelContext.save()
   }
 
-  func insert(pins: [Pin]) {
-    pins.forEach { insert($0) }
+  func insert(pins: [Pin]) throws {
+    pins.forEach { modelContext.insert($0) }
+    try modelContext.save()
   }
 
   func delete(_ pin: Pin) {
@@ -46,22 +48,25 @@ actor PinsActor {
   func sync(_ serverPins: [PinDTO]) async throws {
     let storagePins = try fetch()
     let storageTags = try await tagsActor.fetch()
+    let serverPinIds = Set(serverPins.map { $0.id })
 
-    try modelContext.transaction {
-      let serverPinIds = Set(serverPins.map { $0.id })
+    storagePins
+      .filter { !serverPinIds.contains($0.id) }
+      .forEach { modelContext.delete($0) }
 
-      storagePins
-        .filter { !serverPinIds.contains($0.id) }
-        .forEach { modelContext.delete($0) }
-
-      for item in serverPins {
-        if let pin = storagePins.first(where: { $0.id == item.id }) {
-          pin.update(from: item, tags: storageTags)
-        } else {
-          let pin = Pin(from: item, tags: storageTags)
-          self.modelContext.insert(pin)
-        }
+    for item in serverPins {
+      if let pin = storagePins.first(where: { $0.id == item.id }) {
+        pin.update(from: item, tags: storageTags)
+      } else {
+        let pin = Pin(from: item, tags: storageTags)
+        modelContext.insert(pin)
       }
     }
+
+    try modelContext.save()
+  }
+
+  func clear() throws {
+    try modelContext.delete(model: Pin.self)
   }
 }

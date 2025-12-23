@@ -26,7 +26,7 @@ struct UserPinList: View {
     do {
       try await asyncPins.fetch()
     } catch ResponseError.unauthorized {
-      asyncUser.deleteAllData()
+      try? await asyncUser.deleteAllData()
     } catch {
       Piny.log(error, .error)
     }

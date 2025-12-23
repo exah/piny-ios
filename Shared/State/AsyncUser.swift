@@ -22,20 +22,22 @@ class AsyncUser {
   let result = AsyncUserResult()
   let userActor = UserActor(modelContainer: .shared)
   let sessionActor = SessionActor(modelContainer: .shared)
+  let pinsActor = PinsActor(modelContainer: .shared)
+  let tagsActor = TagsActor(modelContainer: .shared)
 
   init(
     _ initialUser: User? = nil,
     initialSession: Session? = nil,
   ) {
     Task {
-      if let initialUser = initialUser { await userActor.insert(initialUser) }
-      if let initialSession = initialSession { await sessionActor.insert(initialSession) }
+      if let initialUser = initialUser { try await userActor.insert(initialUser) }
+      if let initialSession = initialSession { try await sessionActor.insert(initialSession) }
 
       do {
         Piny.api.token = await sessionActor.find()?.token
         try await refreshSession()
       } catch ResponseError.unauthorized {
-        deleteAllData()
+        try await deleteAllData()
       } catch {
         Piny.log("Session refresh failed: \(error)", .error)
       }
@@ -91,20 +93,13 @@ class AsyncUser {
       Piny.log("Token: \(auth.token)")
       Piny.api.token = auth.token
 
-      let user = try await self.fetchUser(name: name)
+      let user = try await fetchUser(name: name)
 
-      Piny.log("User: \(user)")
-      Piny.log("Session: \(auth)")
+      try await sessionActor.clear()
+      try await userActor.clear()
 
-      do {
-        try await sessionActor.sync(
-          session: Session(from: auth),
-          user: User(from: user)
-        )
-      } catch {
-        Piny.log("Failed to update user/session: \(error)", .error)
-        throw error
-      }
+      try await sessionActor.insert(Session(from: auth))
+      try await userActor.insert(User(from: user))
 
       return auth
     }
@@ -122,7 +117,7 @@ class AsyncUser {
       Piny.log("Token: \(auth.token)")
       Piny.api.token = auth.token
 
-      await sessionActor.insert(Session(from: auth))
+      try await sessionActor.insert(Session(from: auth))
       return auth
     }
   }
@@ -136,12 +131,12 @@ class AsyncUser {
           json: Optional<Data>.none
         )
 
-        deleteAllData()
+        try await deleteAllData()
         return result
       } catch {
         switch error {
           case ResponseError.unauthorized:
-            deleteAllData()
+            try await deleteAllData()
             fallthrough
           default:
             throw error
@@ -150,8 +145,12 @@ class AsyncUser {
     }
   }
 
-  func deleteAllData() {
+  func deleteAllData() async throws {
+    try await sessionActor.clear()
+    try await userActor.clear()
+    try await tagsActor.clear()
+    try await pinsActor.clear()
+
     Piny.api.token = nil
-    Piny.storage.container.deleteAllData()
   }
 }

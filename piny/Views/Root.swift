@@ -12,8 +12,7 @@ import SwiftUI
 struct Root: View {
   @Query
   var sessions: [Session]
-
-  var isLoggedIn: Bool { sessions.first?.token != nil }
+  var isLoggedIn: Bool { sessions.last?.token != nil }
 
   var body: some View {
     Group {

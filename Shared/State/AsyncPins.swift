@@ -27,7 +27,7 @@ class AsyncPins {
 
   init(_ initial: [Pin] = []) {
     Task {
-      await pinsActor.insert(pins: initial)
+      try await pinsActor.insert(pins: initial)
       result.fetch.status = .success(initial)
     }
   }
@@ -134,7 +134,7 @@ class AsyncPins {
       do {
         return try await PinsRequests.remove(pin)
       } catch {
-        await pinsActor.insert(pin)
+        try await pinsActor.insert(pin)
         throw error
       }
     }

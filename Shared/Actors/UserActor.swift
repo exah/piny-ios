@@ -19,11 +19,16 @@ actor UserActor {
     return user
   }
 
-  func insert(_ user: User) {
+  func insert(_ user: User) throws {
     modelContext.insert(user)
+    try modelContext.save()
   }
 
   func delete(_ user: User) {
     modelContext.delete(user)
+  }
+
+  func clear() throws {
+    try modelContext.delete(model: User.self)
   }
 }

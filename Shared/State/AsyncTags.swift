@@ -22,7 +22,7 @@ class AsyncTags {
 
   init(_ initial: [PinTag] = []) {
     Task {
-      await tagsActor.insert(tags: initial)
+      try await tagsActor.insert(tags: initial)
       result.fetch.status = .success(initial)
     }
   }
@@ -44,7 +44,7 @@ class AsyncTags {
       await withThrowingTaskGroup(of: Void.self) { group in
         for tag in newTags {
           group.addTask {
-            try await self.tagsActor.create(tag.name, id: tag.id)
+            try await self.tagsActor.insert(tag.name, id: tag.id)
           }
         }
       }
