@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct PinRow: View {
-  @Environment(AsyncPins.self)
-  var asyncPins
+  @Environment(PinsState.self)
+  var pinsState
 
   @Bindable
   var pin: Pin
 
   func updateTags() async {
     do {
-      try await asyncPins.edit(
+      try await pinsState.edit(
         pin,
         url: pin.link.url,
         title: pin.title,
@@ -71,5 +71,5 @@ struct PinRow: View {
 
 #Preview {
   PinRow(pin: PreviewContent.pins[2])
-    .environment(AsyncPins(PreviewContent.pins))
+    .environment(PinsState(PreviewContent.pins))
 }

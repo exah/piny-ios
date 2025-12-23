@@ -1,5 +1,5 @@
 //
-//  AsyncPins.swift
+//  PinsState.swift
 //  piny
 //
 //  Created by John Grishin on 26/07/2020.
@@ -11,7 +11,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct AsyncPinsResult {
+struct AsyncPins {
   let fetch = Async<[Pin]>()
   let get = Async<Pin>()
   let create = Async<PinyMessageResponse>()
@@ -20,8 +20,8 @@ struct AsyncPinsResult {
 }
 
 @Observable
-class AsyncPins {
-  let result = AsyncPinsResult()
+class PinsState {
+  let result = AsyncPins()
   let pinsActor = PinsActor(modelContainer: .shared)
   let tagsActor = TagsActor(modelContainer: .shared)
 

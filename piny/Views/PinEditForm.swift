@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct PinEditForm: View {
-  @Environment(AsyncPins.self)
-  var asyncPins
+  @Environment(PinsState.self)
+  var pinsState
   var pin: Pin
 
   @State
@@ -33,7 +33,7 @@ struct PinEditForm: View {
   func handleSave() {
     Task {
       do {
-        try await asyncPins.edit(
+        try await pinsState.edit(
           pin,
           url: pin.link.url,
           title: title,
@@ -51,7 +51,7 @@ struct PinEditForm: View {
   func handleDelete() {
     Task {
       do {
-        try await asyncPins.remove(pin)
+        try await pinsState.remove(pin)
         onClose?()
       } catch {
         Piny.log(error, .error)
@@ -141,7 +141,7 @@ struct PinEditForm: View {
         }
         ToolbarItem(placement: .confirmationAction) {
           Button("Save", systemImage: "checkmark", action: handleSave)
-            .disabled(asyncPins.result.edit.isLoading)
+            .disabled(pinsState.result.edit.isLoading)
         }
       }
       .alert("Are you sure you want to delete this pin?", isPresented: $showDeleteAlert) {
@@ -169,5 +169,5 @@ struct PinEditForm: View {
     tags: [sampleTags[0], sampleTags[1]],
     privacy: .private
   )
-  .environment(AsyncPins(PreviewContent.pins))
+  .environment(PinsState(PreviewContent.pins))
 }

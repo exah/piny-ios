@@ -10,8 +10,8 @@ import SwiftData
 import SwiftUI
 
 struct UserSettings: View {
-  @Environment(AsyncUser.self)
-  var asyncUser
+  @Environment(UserState.self)
+  var userState
 
   @Query
   var users: [User]
@@ -25,7 +25,7 @@ struct UserSettings: View {
   func logout() {
     Task {
       do {
-        try await asyncUser.logout()
+        try await userState.logout()
       } catch {
         Piny.log(error, .error)
       }

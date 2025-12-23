@@ -16,8 +16,8 @@ struct PinyApp: App {
       Root()
     }
     .modelContainer(Piny.storage.container)
-    .environment(AsyncUser())
-    .environment(AsyncPins())
-    .environment(AsyncTags())
+    .environment(UserState())
+    .environment(PinsState())
+    .environment(TagsState())
   }
 }

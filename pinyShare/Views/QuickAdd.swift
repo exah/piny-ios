@@ -19,10 +19,10 @@ enum QuickAddError: Error {
 }
 
 struct QuickAdd: View {
-  @Environment(AsyncUser.self)
-  var asyncUser
-  @Environment(AsyncPins.self)
-  var asyncPins
+  @Environment(UserState.self)
+  var userState
+  @Environment(PinsState.self)
+  var pinsState
 
   let page: ParsedPage
   let onComplete: () -> Void
@@ -31,7 +31,7 @@ struct QuickAdd: View {
   func handleAppear() {
     Task {
       do {
-        try await asyncPins.create(
+        try await pinsState.create(
           title: page.title,
           url: page.url,
           privacy: .public
@@ -51,16 +51,16 @@ struct QuickAdd: View {
       Group {
         Image(
           systemName:
-            asyncPins.result.create.isLoading
+            pinsState.result.create.isLoading
             ? "circle.dotted"
-            : asyncPins.result.create.isError
+            : pinsState.result.create.isError
               ? "xmark.circle.fill"
               : "globe"
         )
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(
-          asyncPins.result.create.isError
+          pinsState.result.create.isError
             ? .piny.red
             : .piny.foreground
         )
@@ -68,27 +68,27 @@ struct QuickAdd: View {
       }
       .frame(width: 24, height: 24)
       Text(
-        asyncPins.result.create.isLoading
+        pinsState.result.create.isLoading
           ? "Adding..."
-          : asyncPins.result.create.isError
+          : pinsState.result.create.isError
             ? "Failed to add"
             : "Added to Piny"
       )
       .variant(.h2)
       .foregroundColor(
-        asyncPins.result.create.isError
+        pinsState.result.create.isError
           ? .piny.red
           : .piny.foreground
       )
       Spacer()
-      if asyncPins.result.create.isSuccess {
+      if pinsState.result.create.isSuccess {
         Button(action: onComplete) {}
           .variant(.primary, size: .small, icon: Image(systemName: "checkmark"))
       }
     }
     .padding(12)
     .background(
-      asyncPins.result.create.isError
+      pinsState.result.create.isError
         ? Color.piny.red10
         : Color.piny.level48
     )
@@ -102,6 +102,6 @@ struct QuickAdd: View {
     page: ParsedPage(title: "Example", url: URL(string: "http://example.com")!),
     onComplete: {}
   )
-  .environment(AsyncUser())
-  .environment(AsyncPins())
+  .environment(UserState())
+  .environment(PinsState())
 }

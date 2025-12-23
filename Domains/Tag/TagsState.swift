@@ -11,13 +11,13 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct AsyncTagsResult {
+struct AsyncTags {
   let fetch = Async<[PinTag]>()
 }
 
 @Observable
-class AsyncTags {
-  let result = AsyncTagsResult()
+class TagsState {
+  let result = AsyncTags()
   let tagsActor = TagsActor(modelContainer: .shared)
 
   init(_ initial: [PinTag] = []) {

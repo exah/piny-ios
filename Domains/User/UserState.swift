@@ -9,7 +9,7 @@
 import SwiftData
 import SwiftUI
 
-struct AsyncUserResult {
+struct AsyncUser {
   let fetchUser = Async<UserDTO>()
   let signUp = Async<SessionDTO>()
   let login = Async<SessionDTO>()
@@ -18,8 +18,8 @@ struct AsyncUserResult {
 }
 
 @Observable
-class AsyncUser {
-  let result = AsyncUserResult()
+class UserState {
+  let result = AsyncUser()
   let userActor = UserActor(modelContainer: .shared)
   let sessionActor = SessionActor(modelContainer: .shared)
   let pinsActor = PinsActor(modelContainer: .shared)
