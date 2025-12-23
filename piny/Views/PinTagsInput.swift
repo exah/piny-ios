@@ -36,7 +36,6 @@ struct PinTagsInput: View {
 
 #Preview {
   let tags = PreviewContent.pins[0].tags
-  let options = PreviewContent.tags
 
   PinTagsInput(tags: .constant(tags))
 }

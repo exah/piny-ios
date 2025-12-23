@@ -31,7 +31,6 @@ struct PinTagsCloud: View {
 
 #Preview {
   let tags = PreviewContent.pins[0].tags
-  let options = PreviewContent.tags
 
   PinTagsCloud(tags: .constant(tags))
 }

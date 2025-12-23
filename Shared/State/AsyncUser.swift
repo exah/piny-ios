@@ -10,50 +10,40 @@ import SwiftData
 import SwiftUI
 
 struct AsyncUserResult {
-  let fetchUser = AsyncResult<UserDTO>()
-  let signUp = AsyncResult<Authorization>()
-  let login = AsyncResult<Authorization>()
-  let refreshSession = AsyncResult<Authorization>()
-  let logout = AsyncResult<PinyMessageResponse>()
+  let fetchUser = Async<UserDTO>()
+  let signUp = Async<Authorization>()
+  let login = Async<Authorization>()
+  let refreshSession = Async<Authorization>()
+  let logout = Async<PinyMessageResponse>()
 }
 
 @Observable
-class AsyncUser: Async {
+class AsyncUser {
   let result = AsyncUserResult()
+  let userActor = UserActor(modelContainer: .shared)
+  let sessionActor = SessionActor(modelContainer: .shared)
+  let pinsActor = PinsActor(modelContainer: .shared)
+  let tagsActor = TagsActor(modelContainer: .shared)
 
-  @MainActor
   init(
-    initialUser: User? = nil,
+    _ initialUser: User? = nil,
     initialSession: Session? = nil,
-    modelContext: ModelContext? = nil
   ) {
-    super.init(modelContext: modelContext)
-
-    if let initialUser = initialUser { self.modelContext.insert(initialUser) }
-    if let initialSession = initialSession {
-      self.modelContext.insert(initialSession)
-    }
-
-    guard
-      let session = (try? self.modelContext.fetch(FetchDescriptor<Session>()))?
-        .last
-    else {
-      Piny.api.token = nil
-      return
-    }
-
-    Piny.api.token = session.token
     Task {
+      if let initialUser = initialUser { try await userActor.insert(initialUser) }
+      if let initialSession = initialSession { try await sessionActor.insert(initialSession) }
+
       do {
+        Piny.api.token = await sessionActor.find()?.token
         try await refreshSession()
+      } catch ResponseError.unauthorized {
+        try await deleteAllData()
       } catch {
         Piny.log("Session refresh failed: \(error)", .error)
-        self.removeData()
       }
     }
   }
 
-  @MainActor
   private func fetchUser(name: String) async throws -> UserDTO {
     try await result.fetchUser.capture {
       try await Piny.api.get(
@@ -63,7 +53,6 @@ class AsyncUser: Async {
     }
   }
 
-  @MainActor
   @discardableResult
   func signUp(name: String, pass: String, email: String) async throws -> Authorization {
     try await result.signUp.capture {
@@ -77,11 +66,14 @@ class AsyncUser: Async {
     }
   }
 
-  @MainActor
   @discardableResult
   func login(name: String, pass: String) async throws -> Authorization {
-    let device = Device(
-      id: UIDevice.current.identifierForVendor!,
+    guard let deviceId = await UIDevice.current.identifierForVendor else {
+      throw Piny.Error.runtimeError("No device id found")
+    }
+
+    let device = await Device(
+      id: deviceId,
       description: """
           \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
         """
@@ -101,28 +93,18 @@ class AsyncUser: Async {
       Piny.log("Token: \(auth.token)")
       Piny.api.token = auth.token
 
-      let user = try await self.fetchUser(name: name)
+      let user = try await fetchUser(name: name)
 
-      Piny.log("User: \(user)")
-      Piny.log("Session: \(auth)")
+      try await sessionActor.clear()
+      try await userActor.clear()
 
-      do {
-        try self.modelContext.transaction {
-          try self.modelContext.delete(model: User.self)
-          try self.modelContext.delete(model: Session.self)
-          self.modelContext.insert(User(from: user))
-          self.modelContext.insert(Session(from: auth))
-        }
-      } catch {
-        Piny.log("Failed to update user/session: \(error)", .error)
-        throw error
-      }
+      try await sessionActor.insert(Session(from: auth))
+      try await userActor.insert(User(from: user))
 
       return auth
     }
   }
 
-  @MainActor
   @discardableResult
   func refreshSession() async throws -> Authorization {
     try await result.refreshSession.capture {
@@ -135,56 +117,40 @@ class AsyncUser: Async {
       Piny.log("Token: \(auth.token)")
       Piny.api.token = auth.token
 
-      do {
-        try self.modelContext.transaction {
-          try self.modelContext.delete(model: Session.self)
-          self.modelContext.insert(Session(from: auth))
-        }
-      } catch {
-        Piny.log("Failed to update session: \(error)", .error)
-        throw error
-      }
-
+      try await sessionActor.insert(Session(from: auth))
       return auth
     }
   }
 
-  @MainActor
-  @discardableResult
-  func logout() async throws -> PinyMessageResponse {
+  func logout() async throws {
     try await result.logout.capture {
-      let result = try await Piny.api.post(
-        PinyMessageResponse.self,
-        path: "/logout",
-        json: Optional<Data>.none
-      )
+      do {
+        let result = try await Piny.api.post(
+          PinyMessageResponse.self,
+          path: "/logout",
+          json: Optional<Data>.none
+        )
 
-      Piny.api.token = nil
-      self.removeData()
-      return result
+        try await deleteAllData()
+        return result
+      } catch {
+        switch error {
+          case ResponseError.unauthorized:
+            try await deleteAllData()
+            fallthrough
+          default:
+            throw error
+        }
+      }
     }
   }
 
-  func removeData() {
-    do {
-      try self.modelContext.transaction {
-        try self.modelContext.delete(model: User.self, includeSubclasses: true)
-        try self.modelContext.delete(
-          model: Session.self,
-          includeSubclasses: true
-        )
-        try self.modelContext.delete(model: Pin.self, includeSubclasses: true)
-        try self.modelContext.delete(
-          model: PinLink.self,
-          includeSubclasses: true
-        )
-        try self.modelContext.delete(
-          model: PinTag.self,
-          includeSubclasses: true
-        )
-      }
-    } catch {
-      Piny.log("Failed to remove data: \(error)", .error)
-    }
+  func deleteAllData() async throws {
+    try await sessionActor.clear()
+    try await userActor.clear()
+    try await tagsActor.clear()
+    try await pinsActor.clear()
+
+    Piny.api.token = nil
   }
 }

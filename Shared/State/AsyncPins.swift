@@ -12,61 +12,49 @@ import SwiftData
 import SwiftUI
 
 struct AsyncPinsResult {
-  let fetch = AsyncResult<[PinDTO]>()
-  let get = AsyncResult<PinDTO>()
-  let create = AsyncResult<PinyMessageResponse>()
-  let edit = AsyncResult<PinDTO>()
-  let remove = AsyncResult<PinyMessageResponse>()
+  let fetch = Async<[Pin]>()
+  let get = Async<Pin>()
+  let create = Async<PinyMessageResponse>()
+  let edit = Async<Pin>()
+  let remove = Async<PinyMessageResponse>()
 }
 
 @Observable
-class AsyncPins: Async {
+class AsyncPins {
   let result = AsyncPinsResult()
+  let pinsActor = PinsActor(modelContainer: .shared)
   let tagsActor = TagsActor(modelContainer: .shared)
 
-  @MainActor
-  init(_ initial: [Pin] = [], modelContext: ModelContext? = nil) {
-    super.init(modelContext: modelContext)
-    initial.forEach { self.modelContext.insert($0) }
-  }
-
-  @MainActor
-  @discardableResult
-  func fetch() async throws -> [PinDTO] {
-    try await result.fetch.capture {
-      let result = try await PinsRequests.fetch()
-
-      do {
-        let pins = try self.modelContext.fetch(FetchDescriptor<Pin>())
-        let tags = try await tagsActor.fetch()
-
-        try self.modelContext.transaction {
-          // Remove pins that no longer exist on server
-          let serverPinIds = Set(result.map { $0.id })
-          pins.filter { !serverPinIds.contains($0.id) }
-            .forEach {
-              self.modelContext.delete($0)
-            }
-
-          for item in result {
-            if let existing = pins.first(where: { $0.id == item.id }) {
-              existing.update(from: item, tags: tags)
-            } else {
-              let pin = Pin(from: item, tags: tags)
-              self.modelContext.insert(pin)
-            }
-          }
-        }
-      } catch {
-        Piny.log("Fetch transaction failed: \(error)", .error)
-        throw error
-      }
-
-      return result
+  init(_ initial: [Pin] = []) {
+    Task {
+      try await pinsActor.insert(pins: initial)
+      result.fetch.status = .success(initial)
     }
   }
 
-  @MainActor
+  @discardableResult
+  func fetch() async throws -> [Pin] {
+    try await result.fetch.capture {
+      let result: [PinDTO]
+
+      do {
+        result = try await PinsRequests.fetch()
+      } catch {
+        Piny.log("Pins load failed: \(error)", .error)
+        throw error
+      }
+
+      do {
+        try await pinsActor.sync(result)
+      } catch {
+        Piny.log("Pins sync failed: \(error)", .error)
+        throw error
+      }
+
+      return try await pinsActor.fetch()
+    }
+  }
+
   @discardableResult
   func create(
     title: String? = nil,
@@ -84,9 +72,8 @@ class AsyncPins: Async {
     }
   }
 
-  @MainActor
   @discardableResult
-  func get(_ pin: Pin) async throws -> PinDTO {
+  func get(_ pin: Pin) async throws -> Pin {
     try await result.get.capture {
       let result = try await PinsRequests.get(pin)
 
@@ -98,11 +85,10 @@ class AsyncPins: Async {
         throw error
       }
 
-      return result
+      return try await pinsActor.get(by: result.id)
     }
   }
 
-  @MainActor
   @discardableResult
   func edit(
     _ pin: Pin,
@@ -111,7 +97,7 @@ class AsyncPins: Async {
     description: String,
     privacy: PinPrivacy,
     tags: [String]
-  ) async throws -> PinDTO {
+  ) async throws -> Pin {
     try await result.edit.capture {
       let result: PinDTO
       do {
@@ -136,20 +122,19 @@ class AsyncPins: Async {
         throw error
       }
 
-      return result
+      return try await pinsActor.get(by: result.id)
     }
   }
 
-  @MainActor
   @discardableResult
   func remove(_ pin: Pin) async throws -> PinyMessageResponse {
     try await result.remove.capture {
-      self.modelContext.delete(pin)
+      await pinsActor.delete(pin)
 
       do {
         return try await PinsRequests.remove(pin)
       } catch {
-        self.modelContext.insert(pin)
+        try await pinsActor.insert(pin)
         throw error
       }
     }

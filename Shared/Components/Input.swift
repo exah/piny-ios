@@ -51,62 +51,60 @@ struct Input: View {
   }
 }
 
-struct Input_Previews: PreviewProvider {
-  static var previews: some View {
-    VStack(spacing: 24) {
-      HStack(spacing: 12) {
-        Input("Placeholder", value: .constant(""))
-        Input("Placeholder", value: .constant("Value"))
-        Input("Placeholder", type: .password, value: .constant("Value"))
-      }
-      .padding(.horizontal, 16)
-
-      HStack(spacing: 12) {
-        Input("Placeholder", value: .constant(""), variant: .dark)
-        Input("Placeholder", value: .constant("Value"), variant: .dark)
-        Input(
-          "Placeholder",
-          type: .password,
-          value: .constant("Value"),
-          variant: .dark
-        )
-      }
-      .padding(10)
-      .background(.black)
-      .cornerRadius(20)
-
-      HStack(spacing: 12) {
-        Input("Placeholder", value: .constant(""), size: .small)
-        Input("Placeholder", value: .constant("Value"), size: .small)
-        Input(
-          "Placeholder",
-          type: .password,
-          value: .constant("Value"),
-          size: .small
-        )
-      }
-      .padding(.horizontal, 16)
-
-      HStack(spacing: 10) {
-        Input("Placeholder", value: .constant(""), variant: .dark, size: .small)
-        Input(
-          "Placeholder",
-          value: .constant("Value"),
-          variant: .dark,
-          size: .small
-        )
-        Input(
-          "Placeholder",
-          type: .password,
-          value: .constant("Value"),
-          variant: .dark,
-          size: .small
-        )
-      }
-      .padding(10)
-      .background(.black)
-      .cornerRadius(20)
+#Preview {
+  VStack(spacing: 24) {
+    HStack(spacing: 12) {
+      Input("Placeholder", value: .constant(""))
+      Input("Placeholder", value: .constant("Value"))
+      Input("Placeholder", type: .password, value: .constant("Value"))
     }
-    .padding(8)
+    .padding(.horizontal, 16)
+
+    HStack(spacing: 12) {
+      Input("Placeholder", value: .constant(""), variant: .dark)
+      Input("Placeholder", value: .constant("Value"), variant: .dark)
+      Input(
+        "Placeholder",
+        type: .password,
+        value: .constant("Value"),
+        variant: .dark
+      )
+    }
+    .padding(10)
+    .background(.black)
+    .cornerRadius(20)
+
+    HStack(spacing: 12) {
+      Input("Placeholder", value: .constant(""), size: .small)
+      Input("Placeholder", value: .constant("Value"), size: .small)
+      Input(
+        "Placeholder",
+        type: .password,
+        value: .constant("Value"),
+        size: .small
+      )
+    }
+    .padding(.horizontal, 16)
+
+    HStack(spacing: 10) {
+      Input("Placeholder", value: .constant(""), variant: .dark, size: .small)
+      Input(
+        "Placeholder",
+        value: .constant("Value"),
+        variant: .dark,
+        size: .small
+      )
+      Input(
+        "Placeholder",
+        type: .password,
+        value: .constant("Value"),
+        variant: .dark,
+        size: .small
+      )
+    }
+    .padding(10)
+    .background(.black)
+    .cornerRadius(20)
   }
+  .padding(8)
 }

@@ -49,7 +49,7 @@ struct TagSelect: View {
 
   func handleCreateTask() {
     Task {
-      guard let tag = try? await tagsActor.create(search) else {
+      guard let tag = try? await tagsActor.insert(search) else {
         return
       }
 

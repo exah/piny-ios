@@ -17,7 +17,7 @@ enum AsyncStatus<T> {
 }
 
 @Observable
-class AsyncResult<Data> {
+class Async<Data> {
   var status: AsyncStatus<Data> = .idle
 
   var isLoading: Bool {
@@ -48,7 +48,6 @@ class AsyncResult<Data> {
     }
   }
 
-  @MainActor
   @discardableResult
   func capture(body: () async throws -> Data) async throws -> Data {
     status = .loading
@@ -64,15 +63,5 @@ class AsyncResult<Data> {
     } onCancel: {
       status = .idle
     }
-  }
-}
-
-class Async {
-  let modelContext: ModelContext
-
-  @MainActor
-  init(modelContext: ModelContext? = nil) {
-    let ctx = modelContext ?? Piny.storage.container.mainContext
-    self.modelContext = ctx
   }
 }

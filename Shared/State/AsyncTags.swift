@@ -12,7 +12,7 @@ import SwiftData
 import SwiftUI
 
 struct AsyncTagsResult {
-  let fetch = AsyncResult<[PinTag]>()
+  let fetch = Async<[PinTag]>()
 }
 
 @Observable
@@ -20,15 +20,13 @@ class AsyncTags {
   let result = AsyncTagsResult()
   let tagsActor = TagsActor(modelContainer: .shared)
 
-  @MainActor
   init(_ initial: [PinTag] = []) {
     Task {
-      await tagsActor.insert(tags: initial)
+      try await tagsActor.insert(tags: initial)
       result.fetch.status = .success(initial)
     }
   }
 
-  @MainActor
   @discardableResult
   func fetch() async throws -> [PinTag] {
     try await result.fetch.capture {
@@ -46,7 +44,7 @@ class AsyncTags {
       await withThrowingTaskGroup(of: Void.self) { group in
         for tag in newTags {
           group.addTask {
-            try await self.tagsActor.create(tag.name, id: tag.id)
+            try await self.tagsActor.insert(tag.name, id: tag.id)
           }
         }
       }

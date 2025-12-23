@@ -39,9 +39,13 @@ class ShareViewController: UIViewController {
   }
 
   func render(page: ParsedPage) {
-    let rootView = QuickAdd(page: page, onComplete: complete)
-      .environment(AsyncUser(modelContext: Piny.storage.container.mainContext))
-      .environment(AsyncPins(modelContext: Piny.storage.container.mainContext))
+    let rootView = QuickAdd(
+      page: page,
+      onComplete: complete
+    )
+    .modelContainer(Piny.storage.container)
+    .environment(AsyncUser())
+    .environment(AsyncPins())
 
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }

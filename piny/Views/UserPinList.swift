@@ -16,12 +16,17 @@ struct UserPinList: View {
   @Environment(AsyncTags.self)
   var asyncTags
 
+  @Environment(AsyncUser.self)
+  var asyncUser
+
   @Query(sort: \Pin.createdAt, order: .reverse)
   var pins: [Pin]
 
   func handleRefresh() async {
     do {
       try await asyncPins.fetch()
+    } catch ResponseError.unauthorized {
+      try? await asyncUser.deleteAllData()
     } catch {
       Piny.log(error, .error)
     }
@@ -66,4 +71,5 @@ struct UserPinList: View {
   UserPinList()
     .environment(AsyncPins(PreviewContent.pins))
     .environment(AsyncTags(PreviewContent.tags))
+    .environment(AsyncUser(PreviewContent.user))
 }
