@@ -30,7 +30,6 @@ struct API {
 
   private let session = URLSession(configuration: .default)
 
-  @MainActor
   func fetch<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
     method: String,
@@ -84,7 +83,6 @@ struct API {
     }
   }
 
-  @MainActor
   func get<Output: Decodable>(
     _ type: Output.Type,
     path: String
@@ -97,7 +95,6 @@ struct API {
     )
   }
 
-  @MainActor
   @discardableResult
   func post<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
@@ -112,7 +109,6 @@ struct API {
     )
   }
 
-  @MainActor
   @discardableResult
   func patch<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
@@ -127,7 +123,6 @@ struct API {
     )
   }
 
-  @MainActor
   @discardableResult
   func delete<Output: Decodable>(
     _ type: Output.Type,
