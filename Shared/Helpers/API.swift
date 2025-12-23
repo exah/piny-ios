@@ -25,8 +25,8 @@ extension URLResponse {
 }
 
 struct API {
-  var baseURL: String
-  var token: String? = nil
+  let baseURL: String
+  let sessionActor = SessionActor(modelContainer: .shared)
 
   private let session = URLSession(configuration: .default)
 
@@ -58,7 +58,7 @@ struct API {
       }
     }
 
-    if let token = token {
+    if let token = try? await sessionActor.get().token {
       request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
 

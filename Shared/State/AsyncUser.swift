@@ -34,7 +34,6 @@ class AsyncUser {
       if let initialSession = initialSession { try await sessionActor.insert(initialSession) }
 
       do {
-        Piny.api.token = await sessionActor.find()?.token
         try await refreshSession()
       } catch ResponseError.unauthorized {
         try await deleteAllData()
@@ -91,8 +90,6 @@ class AsyncUser {
       )
 
       Piny.log("Token: \(auth.token)")
-      Piny.api.token = auth.token
-
       let user = try await fetchUser(name: name)
 
       try await sessionActor.clear()
@@ -115,9 +112,8 @@ class AsyncUser {
       )
 
       Piny.log("Token: \(auth.token)")
-      Piny.api.token = auth.token
-
       try await sessionActor.insert(Session(from: auth))
+
       return auth
     }
   }
@@ -150,7 +146,5 @@ class AsyncUser {
     try await userActor.clear()
     try await tagsActor.clear()
     try await pinsActor.clear()
-
-    Piny.api.token = nil
   }
 }
