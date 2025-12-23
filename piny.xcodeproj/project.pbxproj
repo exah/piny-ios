@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 73;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -57,16 +57,6 @@
 			);
 			target = 09AC544B2E54D2DE009902FA /* pinyShare */;
 		};
-		09B25A752EEB5B87001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Preview Content/Preview Assets.xcassets",
-				"Preview Content/preview-pins.json",
-				"Preview Content/preview-user.json",
-				Tokens/Colors.xcassets,
-			);
-			target = 09AC544B2E54D2DE009902FA /* pinyShare */;
-		};
 		09B25AA52EEB5BCD001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -83,23 +73,11 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		09B25A762EEB5B87001C1F3A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 09AC54482E54D2DE009902FA /* Sources */;
-			membershipExceptions = (
-				"Preview Content/Preview Assets.xcassets",
-				"Preview Content/preview-pins.json",
-				"Preview Content/preview-user.json",
-				Tokens/Colors.xcassets,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		09AC544D2E54D2DE009902FA /* pinyShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (09AC55142E577E2C009902FA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 09AC55162E577F1B009902FA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = pinyShare; sourceTree = "<group>"; };
-		09B25A322EEB5B87001C1F3A /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (09B25A752EEB5B87001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 09B25A762EEB5B87001C1F3A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		09B25A902EEB5BCD001C1F3A /* piny */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (09B25AA52EEB5BCD001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 09B25AA62EEB5BCD001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = piny; sourceTree = "<group>"; };
+		09BA6E502EFB5C7500D3A7BD /* Domains */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domains; sourceTree = SOURCE_ROOT; };
+		09BA6E672EFB5C7500D3A7BD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = SOURCE_ROOT; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,9 +109,10 @@
 		099156C224BB99690041938C = {
 			isa = PBXGroup;
 			children = (
+				09BA6E502EFB5C7500D3A7BD /* Domains */,
 				09752FA624C22A6C003E1B24 /* README.md */,
 				09EA49E324E9B2BB00B20619 /* screenshot.png */,
-				09B25A322EEB5B87001C1F3A /* Shared */,
+				09BA6E672EFB5C7500D3A7BD /* Shared */,
 				09B25A902EEB5BCD001C1F3A /* piny */,
 				09AC544D2E54D2DE009902FA /* pinyShare */,
 				099156CC24BB99690041938C /* Products */,
@@ -168,8 +147,9 @@
 				09AC54552E54D2DE009902FA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				09B25A322EEB5B87001C1F3A /* Shared */,
 				09B25A902EEB5BCD001C1F3A /* piny */,
+				09BA6E502EFB5C7500D3A7BD /* Domains */,
+				09BA6E672EFB5C7500D3A7BD /* Shared */,
 			);
 			name = piny;
 			packageProductDependencies = (
@@ -192,7 +172,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				09AC544D2E54D2DE009902FA /* pinyShare */,
-				09B25A322EEB5B87001C1F3A /* Shared */,
+				09BA6E502EFB5C7500D3A7BD /* Domains */,
+				09BA6E672EFB5C7500D3A7BD /* Shared */,
 			);
 			name = pinyShare;
 			packageProductDependencies = (
@@ -221,6 +202,7 @@
 				};
 			};
 			buildConfigurationList = 099156C624BB99690041938C /* Build configuration list for PBXProject "piny" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -230,7 +212,6 @@
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
 			);
-			preferredProjectObjectVersion = 50;
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -416,7 +397,6 @@
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -443,7 +423,6 @@
 				CODE_SIGN_ENTITLEMENTS = piny/piny.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = piny/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;

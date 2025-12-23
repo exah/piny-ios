@@ -11,9 +11,9 @@ import SwiftUI
 
 struct AsyncUserResult {
   let fetchUser = Async<UserDTO>()
-  let signUp = Async<Authorization>()
-  let login = Async<Authorization>()
-  let refreshSession = Async<Authorization>()
+  let signUp = Async<SessionDTO>()
+  let login = Async<SessionDTO>()
+  let refreshSession = Async<SessionDTO>()
   let logout = Async<PinyMessageResponse>()
 }
 
@@ -53,7 +53,7 @@ class AsyncUser {
   }
 
   @discardableResult
-  func signUp(name: String, pass: String, email: String) async throws -> Authorization {
+  func signUp(name: String, pass: String, email: String) async throws -> SessionDTO {
     try await result.signUp.capture {
       try await Piny.api.post(
         PinyMessageResponse.self,
@@ -66,23 +66,23 @@ class AsyncUser {
   }
 
   @discardableResult
-  func login(name: String, pass: String) async throws -> Authorization {
+  func login(name: String, pass: String) async throws -> SessionDTO {
     guard let deviceId = await UIDevice.current.identifierForVendor else {
       throw Piny.Error.runtimeError("No device id found")
     }
 
-    let device = await Device(
+    let device = await SessionDevice(
       id: deviceId,
       description: """
-          \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
+        \(UIDevice.current.model) (\(UIDevice.current.systemName) \(UIDevice.current.systemVersion))
         """
     )
 
     return try await result.login.capture {
       let auth = try await Piny.api.post(
-        Authorization.self,
+        SessionDTO.self,
         path: "/login",
-        json: Authorization.Payload(
+        json: SessionDTO.Payload(
           user: name,
           pass: pass,
           device: device
@@ -104,10 +104,10 @@ class AsyncUser {
   }
 
   @discardableResult
-  func refreshSession() async throws -> Authorization {
+  func refreshSession() async throws -> SessionDTO {
     try await result.refreshSession.capture {
       let auth = try await Piny.api.post(
-        Authorization.self,
+        SessionDTO.self,
         path: "/refresh-session",
         json: Optional<Data>.none
       )

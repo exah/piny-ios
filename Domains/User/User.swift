@@ -41,3 +41,9 @@ struct UserDTO: Identifiable, Codable {
   var name: String
   var email: String
 }
+
+
+extension PreviewContent {
+  static let userDTO: UserDTO = load("preview-user.json")
+  static let user: User = User(from: userDTO)
+}

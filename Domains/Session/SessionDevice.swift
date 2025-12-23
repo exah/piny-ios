@@ -1,5 +1,5 @@
 //
-//  Device.swift
+//  SessionDevice.swift
 //  piny
 //
 //  Created by John Grishin on 08/10/2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Device: Codable {
+struct SessionDevice: Codable {
   var id: UUID
   let description: String
 }

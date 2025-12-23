@@ -42,3 +42,8 @@ struct PinTagDTO: Hashable, Equatable, Codable, Identifiable {
   var id: UUID
   var name: String
 }
+
+extension PreviewContent {
+  static let tagsDTO: [PinTagDTO] = load("preview-tags.json")
+  static let tags: [PinTag] = tagsDTO.map { PinTag(from: $0) }
+}

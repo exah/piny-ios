@@ -110,3 +110,8 @@ struct PinDTO: Hashable, Codable, Identifiable, Equatable {
     var tags: [String]
   }
 }
+
+extension PreviewContent {
+  static let pinsDTO: [PinDTO] = load("preview-pins.json")
+  static let pins: [Pin] = pinsDTO.map { Pin(from: $0, tags: tags) }
+}

@@ -22,10 +22,10 @@ class Session: Identifiable, Equatable {
     self.expiresAt = expiresAt
   }
 
-  convenience init(from auth: Authorization) {
+  convenience init(from session: SessionDTO) {
     self.init(
-      token: auth.token,
-      expiresAt: auth.expiresAt
+      token: session.token,
+      expiresAt: session.expiresAt
     )
   }
 
@@ -34,13 +34,13 @@ class Session: Identifiable, Equatable {
   }
 }
 
-struct Authorization: Codable {
+struct SessionDTO: Codable {
   let token: String
   let expiresAt: Date
 
   struct Payload: Codable {
     let user: String
     let pass: String
-    let device: Device
+    let device: SessionDevice
   }
 }
