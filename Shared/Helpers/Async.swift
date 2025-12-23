@@ -51,17 +51,18 @@ class Async<Data> {
   @discardableResult
   func capture(body: () async throws -> Data) async throws -> Data {
     status = .loading
-    return try await withTaskCancellationHandler {
-      do {
-        let data = try await body()
-        status = .success(data)
-        return data
-      } catch {
+    do {
+      let data = try await body()
+      status = .success(data)
+      return data
+    } catch {
+      if error is CancellationError || Task.isCancelled {
+        status = .idle
+      } else {
         status = .error(error)
-        throw error
       }
-    } onCancel: {
-      status = .idle
+
+      throw error
     }
   }
 }
