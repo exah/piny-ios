@@ -90,12 +90,13 @@ class AsyncUser {
       )
 
       Piny.log("Token: \(auth.token)")
-      let user = try await fetchUser(name: name)
 
       try await sessionActor.clear()
-      try await userActor.clear()
-
       try await sessionActor.insert(Session(from: auth))
+
+      let user = try await fetchUser(name: name)
+
+      try await userActor.clear()
       try await userActor.insert(User(from: user))
 
       return auth

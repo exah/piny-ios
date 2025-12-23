@@ -69,5 +69,6 @@ actor PinsActor {
 
   func clear() throws {
     try modelContext.delete(model: Pin.self)
+    try modelContext.save()
   }
 }

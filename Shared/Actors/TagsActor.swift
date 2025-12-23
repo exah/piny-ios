@@ -47,5 +47,6 @@ actor TagsActor {
 
   func clear() throws {
     try modelContext.delete(model: PinTag.self)
+    try modelContext.save()
   }
 }

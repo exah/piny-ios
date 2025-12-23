@@ -31,5 +31,6 @@ actor UserActor {
 
   func clear() throws {
     try modelContext.delete(model: User.self)
+    try modelContext.save()
   }
 }
