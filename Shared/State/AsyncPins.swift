@@ -129,7 +129,7 @@ class AsyncPins {
   @discardableResult
   func remove(_ pin: Pin) async throws -> PinyMessageResponse {
     try await result.remove.capture {
-      await pinsActor.delete(pin)
+      try await pinsActor.delete(pin)
 
       do {
         return try await PinsRequests.remove(pin)

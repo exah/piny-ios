@@ -24,8 +24,9 @@ actor SessionActor {
     try modelContext.save()
   }
 
-  func delete(_ session: Session) {
+  func delete(_ session: Session) throws {
     modelContext.delete(session)
+    try modelContext.save()
   }
 
   func clear() throws {

@@ -24,8 +24,9 @@ actor UserActor {
     try modelContext.save()
   }
 
-  func delete(_ user: User) {
+  func delete(_ user: User) throws {
     modelContext.delete(user)
+    try modelContext.save()
   }
 
   func clear() throws {

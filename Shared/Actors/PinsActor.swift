@@ -41,8 +41,9 @@ actor PinsActor {
     try modelContext.save()
   }
 
-  func delete(_ pin: Pin) {
+  func delete(_ pin: Pin) throws {
     modelContext.delete(pin)
+    try modelContext.save()
   }
 
   func sync(_ serverPins: [PinDTO]) async throws {

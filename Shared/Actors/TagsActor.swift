@@ -29,8 +29,7 @@ actor TagsActor {
     )
   }
 
-  @discardableResult
-  func insert(_ name: String, id: UUID = UUID()) throws -> PinTag {
+  func insert(_ name: String, id: UUID = UUID()) throws {
     let tag: PinTag
     if let existing = try? find(by: name) {
       tag = existing
@@ -39,8 +38,6 @@ actor TagsActor {
       modelContext.insert(tag)
       try modelContext.save()
     }
-
-    return tag
   }
 
   func insert(tags: [PinTag]) throws {
