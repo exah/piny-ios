@@ -76,26 +76,6 @@ class PinModel: Identifiable, Equatable {
   }
 }
 
-struct PinDTO: Hashable, Codable, Identifiable, Equatable {
-  var id: UUID
-  var title: String
-  var description: String
-  var privacy: PinPrivacy
-  var link: LinkDTO
-  var tags: [PinTagDTO]
-  var createdAt: Date
-  var updatedAt: Date
-
-  struct Payload: Codable {
-    var url: URL
-    var title: String
-    var description: String
-    var privacy: PinPrivacy
-    var tags: [String]
-  }
-}
-
 extension PreviewContent {
-  static let pinsDTO: [PinDTO] = load("preview-pins.json")
   static let pins: [PinModel] = pinsDTO.map { PinModel(from: $0, tags: tags) }
 }

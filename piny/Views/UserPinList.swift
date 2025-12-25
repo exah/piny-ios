@@ -16,8 +16,8 @@ struct UserPinList: View {
   @Environment(TagState.self)
   var tagState
 
-  @Environment(UserState.self)
-  var userState
+  @Environment(SessionState.self)
+  var sessionState
 
   @Query(sort: \PinModel.createdAt, order: .reverse)
   var pins: [PinModel]
@@ -26,7 +26,7 @@ struct UserPinList: View {
     do {
       try await pinState.fetch()
     } catch ResponseError.unauthorized {
-      try? await userState.deleteAllData()
+      try? await sessionState.logout()
     } catch {
       Piny.log(error, .error)
     }
@@ -71,5 +71,5 @@ struct UserPinList: View {
   UserPinList()
     .environment(PinState(PreviewContent.pins))
     .environment(TagState(PreviewContent.tags))
-    .environment(UserState(PreviewContent.user))
+    .environment(SessionState(PreviewContent.user))
 }

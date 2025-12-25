@@ -36,14 +36,6 @@ class UserModel: Identifiable, Equatable {
   }
 }
 
-struct UserDTO: Identifiable, Codable {
-  var id: UUID
-  var name: String
-  var email: String
-}
-
-
 extension PreviewContent {
-  static let userDTO: UserDTO = load("preview-user.json")
   static let user: UserModel = UserModel(from: userDTO)
 }

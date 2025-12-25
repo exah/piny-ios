@@ -37,8 +37,3 @@ class LinkModel: Identifiable, Equatable, Hashable {
     hasher.combine(id)
   }
 }
-
-struct LinkDTO: Hashable, Codable, Identifiable {
-  var id: UUID
-  var url: URL
-}

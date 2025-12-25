@@ -6,10 +6,7 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import Combine
 import Foundation
-import SwiftData
-import SwiftUI
 
 struct PinRequests {
   static func fetch() async throws -> [PinDTO] {
@@ -22,6 +19,13 @@ struct PinRequests {
     return result
   }
 
+  struct CreatePayload: Codable {
+    var url: URL
+    var title: String?
+    var description: String?
+    var privacy: PinPrivacy
+  }
+
   static func create(
     title: String? = nil,
     description: String? = nil,
@@ -31,12 +35,12 @@ struct PinRequests {
     try await Piny.api.post(
       PinyMessageResponse.self,
       path: "/bookmarks",
-      json: [
-        "url": url.absoluteString,
-        "privacy": privacy.rawValue,
-        "title": title,
-        "description": description,
-      ]
+      json: CreatePayload(
+        url: url,
+        title: title,
+        description: description,
+        privacy: privacy,
+      )
     )
   }
 
@@ -45,6 +49,14 @@ struct PinRequests {
       PinDTO.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())"
     )
+  }
+
+  struct EditPayload: Codable {
+    var url: URL
+    var title: String
+    var description: String
+    var privacy: PinPrivacy
+    var tags: [String]
   }
 
   static func edit(
@@ -58,7 +70,7 @@ struct PinRequests {
     try await Piny.api.patch(
       PinyMessageResponse.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())",
-      json: PinDTO.Payload(
+      json: EditPayload(
         url: url,
         title: title,
         description: description,

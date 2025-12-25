@@ -30,12 +30,9 @@ class TagState {
   @discardableResult
   func fetch() async throws -> [TagModel] {
     try await result.fetch.capture {
-      let tagsDTO = try await Piny.api.get(
-        [PinTagDTO].self,
-        path: "/tags"
-      )
-
+      let tagsDTO = try await TagRequests.fetch()
       let existing = try await tagActor.fetch()
+
       let newTags =
         tagsDTO
         .filter { tag in !existing.contains(where: { $0.name == tag.name }) }

@@ -44,7 +44,7 @@ class ShareViewController: UIViewController {
       onComplete: complete
     )
     .modelContainer(Piny.storage.container)
-    .environment(UserState())
+    .environment(SessionState())
     .environment(PinState())
     .environment(TagState())
 

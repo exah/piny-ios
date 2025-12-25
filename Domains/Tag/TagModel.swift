@@ -22,7 +22,7 @@ class TagModel: Identifiable, Equatable, Hashable {
     self.name = name
   }
 
-  convenience init(from tag: PinTagDTO) {
+  convenience init(from tag: TagDTO) {
     self.init(
       id: tag.id,
       name: tag.name
@@ -38,12 +38,6 @@ class TagModel: Identifiable, Equatable, Hashable {
   }
 }
 
-struct PinTagDTO: Hashable, Equatable, Codable, Identifiable {
-  var id: UUID
-  var name: String
-}
-
 extension PreviewContent {
-  static let tagsDTO: [PinTagDTO] = load("preview-tags.json")
   static let tags: [TagModel] = tagsDTO.map { TagModel(from: $0) }
 }

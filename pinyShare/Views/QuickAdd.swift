@@ -19,9 +19,9 @@ enum QuickAddError: Error {
 }
 
 struct QuickAdd: View {
-  @Environment(UserState.self)
-  var userState
-  
+  @Environment(SessionState.self)
+  var sessionState
+
   @Environment(PinState.self)
   var pinState
 
@@ -103,6 +103,6 @@ struct QuickAdd: View {
     page: ParsedPage(title: "Example", url: URL(string: "http://example.com")!),
     onComplete: {}
   )
-  .environment(UserState())
+  .environment(SessionState())
   .environment(PinState())
 }

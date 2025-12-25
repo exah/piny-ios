@@ -33,14 +33,3 @@ class SessionModel: Identifiable, Equatable {
     return lhs.id == rhs.id
   }
 }
-
-struct SessionDTO: Codable {
-  let token: String
-  let expiresAt: Date
-
-  struct Payload: Codable {
-    let user: String
-    let pass: String
-    let device: SessionDevice
-  }
-}

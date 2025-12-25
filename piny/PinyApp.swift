@@ -16,7 +16,7 @@ struct PinyApp: App {
       Root()
     }
     .modelContainer(Piny.storage.container)
-    .environment(UserState())
+    .environment(SessionState())
     .environment(PinState())
     .environment(TagState())
   }

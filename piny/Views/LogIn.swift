@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct LogIn: View {
-  @Environment(UserState.self)
-  var userState
+  @Environment(SessionState.self)
+  var sessionState
 
   @State
   private var name: String = ""
@@ -27,7 +27,7 @@ struct LogIn: View {
   func handleLogin() {
     Task {
       do {
-        try await userState.login(name: name, pass: pass)
+        try await sessionState.login(name: name, pass: pass)
       } catch ResponseError.notFound {
         shouldSignUp = true
       } catch {
@@ -39,7 +39,7 @@ struct LogIn: View {
   func handleSignUp() {
     Task {
       do {
-        try await userState.signUp(name: name, pass: pass, email: email)
+        try await sessionState.signUp(name: name, pass: pass, email: email)
       } catch {
         Piny.log(error, .error)
       }
@@ -76,7 +76,7 @@ struct LogIn: View {
             }
             Button(action: handleLogin) {
               Group {
-                if userState.result.login.isLoading {
+                if sessionState.result.login.isLoading {
                   Image(systemName: "circle.dotted")
                 } else {
                   Text("Login")
@@ -85,7 +85,7 @@ struct LogIn: View {
               .frame(maxWidth: .infinity)
             }
             .variant(.primary)
-            .disabled(userState.result.login.isLoading)
+            .disabled(sessionState.result.login.isLoading)
             .alert(
               "Enter your email to create an account",
               isPresented: $shouldSignUp
@@ -108,5 +108,5 @@ struct LogIn: View {
 
 #Preview {
   LogIn()
-    .environment(UserState())
+    .environment(SessionState())
 }
