@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Session: Identifiable, Equatable {
+class SessionModel: Identifiable, Equatable {
   @Attribute(.unique)
   var id: UUID = UUID()
   @Attribute(.unique)
@@ -29,7 +29,7 @@ class Session: Identifiable, Equatable {
     )
   }
 
-  static func == (lhs: Session, rhs: Session) -> Bool {
+  static func == (lhs: SessionModel, rhs: SessionModel) -> Bool {
     return lhs.id == rhs.id
   }
 }

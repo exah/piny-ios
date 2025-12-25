@@ -20,7 +20,7 @@ struct PinActionRow: View {
   @State
   private var selected: Action = .none
 
-  var pin: Pin
+  var pin: PinModel
   var onDelete: (() -> Void)? = nil
 
   private func toggle(_ action: Action) {

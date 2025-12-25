@@ -1,5 +1,5 @@
 //
-//  PinTag.swift
+//  TagModel.swift
 //  piny
 //
 //  Created by John Grishin on 21/07/2020.
@@ -10,12 +10,12 @@ import Foundation
 import SwiftData
 
 @Model
-class PinTag: Identifiable, Equatable, Hashable {
+class TagModel: Identifiable, Equatable, Hashable {
   @Attribute(.unique)
   var id: UUID
   @Attribute(.unique)
   var name: String
-  var pins: [Pin]? = []
+  var pins: [PinModel]? = []
 
   init(id: UUID, name: String) {
     self.id = id
@@ -29,7 +29,7 @@ class PinTag: Identifiable, Equatable, Hashable {
     )
   }
 
-  static func == (lhs: PinTag, rhs: PinTag) -> Bool {
+  static func == (lhs: TagModel, rhs: TagModel) -> Bool {
     return lhs.id == rhs.id
   }
 
@@ -45,5 +45,5 @@ struct PinTagDTO: Hashable, Equatable, Codable, Identifiable {
 
 extension PreviewContent {
   static let tagsDTO: [PinTagDTO] = load("preview-tags.json")
-  static let tags: [PinTag] = tagsDTO.map { PinTag(from: $0) }
+  static let tags: [TagModel] = tagsDTO.map { TagModel(from: $0) }
 }

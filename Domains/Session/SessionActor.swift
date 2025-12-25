@@ -3,15 +3,15 @@ import SwiftUI
 
 @ModelActor
 actor SessionActor {
-  func fetch() throws -> [Session] {
-    try modelContext.fetch(FetchDescriptor<Session>())
+  func fetch() throws -> [SessionModel] {
+    try modelContext.fetch(FetchDescriptor<SessionModel>())
   }
 
-  func find() -> Session? {
+  func find() -> SessionModel? {
     try? fetch().last
   }
 
-  func get() throws -> Session {
+  func get() throws -> SessionModel {
     guard let session = find() else {
       throw Piny.Error.runtimeError("Session not found")
     }
@@ -19,18 +19,18 @@ actor SessionActor {
     return session
   }
 
-  func insert(_ session: Session) throws {
+  func insert(_ session: SessionModel) throws {
     modelContext.insert(session)
     try modelContext.save()
   }
 
-  func delete(_ session: Session) throws {
+  func delete(_ session: SessionModel) throws {
     modelContext.delete(session)
     try modelContext.save()
   }
 
   func clear() throws {
-    try modelContext.delete(model: Session.self)
+    try modelContext.delete(model: SessionModel.self)
     try modelContext.save()
   }
 }

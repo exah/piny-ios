@@ -1,5 +1,5 @@
 //
-//  PinsState.swift
+//  PinState.swift
 //  piny
 //
 //  Created by John Grishin on 26/07/2020.
@@ -11,47 +11,47 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct AsyncPins {
-  let fetch = Async<[Pin]>()
-  let get = Async<Pin>()
+struct AsyncPinResult {
+  let fetch = Async<[PinModel]>()
+  let get = Async<PinModel>()
   let create = Async<PinyMessageResponse>()
-  let edit = Async<Pin>()
+  let edit = Async<PinModel>()
   let remove = Async<PinyMessageResponse>()
 }
 
 @Observable
-class PinsState {
-  let result = AsyncPins()
-  let pinsActor = PinsActor(modelContainer: .shared)
-  let tagsActor = TagsActor(modelContainer: .shared)
+class PinState {
+  let result = AsyncPinResult()
+  let pinActor = PinActor(modelContainer: .shared)
+  let tagActor = TagActor(modelContainer: .shared)
 
-  init(_ initial: [Pin] = []) {
+  init(_ initial: [PinModel] = []) {
     Task {
-      try await pinsActor.insert(pins: initial)
+      try await pinActor.insert(pins: initial)
       result.fetch.status = .success(initial)
     }
   }
 
   @discardableResult
-  func fetch() async throws -> [Pin] {
+  func fetch() async throws -> [PinModel] {
     try await result.fetch.capture {
       let result: [PinDTO]
 
       do {
-        result = try await PinsRequests.fetch()
+        result = try await PinRequests.fetch()
       } catch {
         Piny.log("Pins load failed: \(error)", .error)
         throw error
       }
 
       do {
-        try await pinsActor.sync(result)
+        try await pinActor.sync(result)
       } catch {
         Piny.log("Pins sync failed: \(error)", .error)
         throw error
       }
 
-      return try await pinsActor.fetch()
+      return try await pinActor.fetch()
     }
   }
 
@@ -63,7 +63,7 @@ class PinsState {
     privacy: PinPrivacy
   ) async throws -> PinyMessageResponse {
     try await result.create.capture {
-      try await PinsRequests.create(
+      try await PinRequests.create(
         title: title,
         description: description,
         url: url,
@@ -73,35 +73,35 @@ class PinsState {
   }
 
   @discardableResult
-  func get(_ pin: Pin) async throws -> Pin {
+  func get(_ pin: PinModel) async throws -> PinModel {
     try await result.get.capture {
-      let result = try await PinsRequests.get(pin)
+      let result = try await PinRequests.get(pin)
 
       do {
-        let tags = try await tagsActor.fetch()
+        let tags = try await tagActor.fetch()
         pin.update(from: result, tags: tags)
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
         throw error
       }
 
-      return try await pinsActor.get(by: result.id)
+      return try await pinActor.get(by: result.id)
     }
   }
 
   @discardableResult
   func edit(
-    _ pin: Pin,
+    _ pin: PinModel,
     url: URL,
     title: String,
     description: String,
     privacy: PinPrivacy,
     tags: [String]
-  ) async throws -> Pin {
+  ) async throws -> PinModel {
     try await result.edit.capture {
       let result: PinDTO
       do {
-        result = try await PinsRequests.edit(
+        result = try await PinRequests.edit(
           pin,
           url: url,
           title: title,
@@ -115,26 +115,26 @@ class PinsState {
       }
 
       do {
-        let tags = try await tagsActor.fetch()
+        let tags = try await tagActor.fetch()
         pin.update(from: result, tags: tags)
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
         throw error
       }
 
-      return try await pinsActor.get(by: result.id)
+      return try await pinActor.get(by: result.id)
     }
   }
 
   @discardableResult
-  func remove(_ pin: Pin) async throws -> PinyMessageResponse {
+  func remove(_ pin: PinModel) async throws -> PinyMessageResponse {
     try await result.remove.capture {
-      try await pinsActor.delete(pin)
+      try await pinActor.delete(pin)
 
       do {
-        return try await PinsRequests.remove(pin)
+        return try await PinRequests.remove(pin)
       } catch {
-        try await pinsActor.insert(pin)
+        try await pinActor.insert(pin)
         throw error
       }
     }

@@ -10,10 +10,10 @@ import SwiftData
 import SwiftUI
 
 struct PinList: View {
-  var pins: [Pin]
-  var onEdit: ((_ pin: Pin) -> Void)? = nil
+  var pins: [PinModel]
+  var onEdit: ((_ pin: PinModel) -> Void)? = nil
   var onRefresh: (() async -> Void)? = nil
-  var onDelete: ((_ pins: [Pin]) -> Void)? = nil
+  var onDelete: ((_ pins: [PinModel]) -> Void)? = nil
 
   var body: some View {
     List {

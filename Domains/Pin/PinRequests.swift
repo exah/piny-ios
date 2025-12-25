@@ -11,7 +11,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct PinsRequests {
+struct PinRequests {
   static func fetch() async throws -> [PinDTO] {
     let result = try await Piny.api.get(
       [PinDTO].self,
@@ -40,7 +40,7 @@ struct PinsRequests {
     )
   }
 
-  static func get(_ pin: Pin) async throws -> PinDTO {
+  static func get(_ pin: PinModel) async throws -> PinDTO {
     try await Piny.api.get(
       PinDTO.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())"
@@ -48,7 +48,7 @@ struct PinsRequests {
   }
 
   static func edit(
-    _ pin: Pin,
+    _ pin: PinModel,
     url: URL,
     title: String,
     description: String,
@@ -70,7 +70,7 @@ struct PinsRequests {
     return try await get(pin)
   }
 
-  static func remove(_ pin: Pin) async throws -> PinyMessageResponse {
+  static func remove(_ pin: PinModel) async throws -> PinyMessageResponse {
     try await Piny.api.delete(
       PinyMessageResponse.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())"

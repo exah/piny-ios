@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PinTagsCloud: View {
   @Binding
-  var tags: [PinTag]
+  var tags: [TagModel]
 
   var body: some View {
     Flow(spacing: 8) {

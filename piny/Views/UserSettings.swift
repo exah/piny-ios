@@ -14,13 +14,13 @@ struct UserSettings: View {
   var userState
 
   @Query
-  var users: [User]
+  var users: [UserModel]
 
   @Query
-  var sessions: [Session]
+  var sessions: [SessionModel]
 
-  var user: User? { users.first }
-  var session: Session? { sessions.first }
+  var user: UserModel? { users.last }
+  var session: SessionModel? { sessions.last }
 
   func logout() {
     Task {

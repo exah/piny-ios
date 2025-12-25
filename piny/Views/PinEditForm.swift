@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct PinEditForm: View {
-  @Environment(PinsState.self)
-  var pinsState
-  var pin: Pin
+  @Environment(PinState.self)
+  var pinState
+  var pin: PinModel
 
   @State
   var title: String = ""
@@ -20,7 +20,7 @@ struct PinEditForm: View {
   var description: String = ""
 
   @State
-  var tags: [PinTag] = []
+  var tags: [TagModel] = []
 
   @State
   var privacy: PinPrivacy = .private
@@ -33,7 +33,7 @@ struct PinEditForm: View {
   func handleSave() {
     Task {
       do {
-        try await pinsState.edit(
+        try await pinState.edit(
           pin,
           url: pin.link.url,
           title: title,
@@ -51,7 +51,7 @@ struct PinEditForm: View {
   func handleDelete() {
     Task {
       do {
-        try await pinsState.remove(pin)
+        try await pinState.remove(pin)
         onClose?()
       } catch {
         Piny.log(error, .error)
@@ -141,7 +141,7 @@ struct PinEditForm: View {
         }
         ToolbarItem(placement: .confirmationAction) {
           Button("Save", systemImage: "checkmark", action: handleSave)
-            .disabled(pinsState.result.edit.isLoading)
+            .disabled(pinState.result.edit.isLoading)
         }
       }
       .alert("Are you sure you want to delete this pin?", isPresented: $showDeleteAlert) {
@@ -155,10 +155,10 @@ struct PinEditForm: View {
 // Preview
 #Preview {
   let sampleTags = [
-    PinTag(id: UUID(), name: "design"),
-    PinTag(id: UUID(), name: "dev"),
-    PinTag(id: UUID(), name: "education"),
-    PinTag(id: UUID(), name: "programming"),
+    TagModel(id: UUID(), name: "design"),
+    TagModel(id: UUID(), name: "dev"),
+    TagModel(id: UUID(), name: "education"),
+    TagModel(id: UUID(), name: "programming"),
   ]
   let pin = PreviewContent.pins[0]
 
@@ -169,5 +169,5 @@ struct PinEditForm: View {
     tags: [sampleTags[0], sampleTags[1]],
     privacy: .private
   )
-  .environment(PinsState(PreviewContent.pins))
+  .environment(PinState(PreviewContent.pins))
 }

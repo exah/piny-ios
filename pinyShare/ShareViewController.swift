@@ -45,8 +45,8 @@ class ShareViewController: UIViewController {
     )
     .modelContainer(Piny.storage.container)
     .environment(UserState())
-    .environment(PinsState())
-    .environment(TagsState())
+    .environment(PinState())
+    .environment(TagState())
 
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }

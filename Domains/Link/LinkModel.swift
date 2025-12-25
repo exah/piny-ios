@@ -10,9 +10,10 @@ import Foundation
 import SwiftData
 
 @Model
-class PinLink: Identifiable, Equatable, Hashable {
+class LinkModel: Identifiable, Equatable, Hashable {
   @Attribute(.unique)
   var id: UUID
+  
   @Attribute(.unique)
   var url: URL
 
@@ -21,14 +22,14 @@ class PinLink: Identifiable, Equatable, Hashable {
     self.url = url
   }
 
-  convenience init(from link: PinLinkDTO) {
+  convenience init(from link: LinkDTO) {
     self.init(
       id: link.id,
       url: link.url
     )
   }
 
-  static func == (lhs: PinLink, rhs: PinLink) -> Bool {
+  static func == (lhs: LinkModel, rhs: LinkModel) -> Bool {
     return lhs.id == rhs.id
   }
 
@@ -37,7 +38,7 @@ class PinLink: Identifiable, Equatable, Hashable {
   }
 }
 
-struct PinLinkDTO: Hashable, Codable, Identifiable {
+struct LinkDTO: Hashable, Codable, Identifiable {
   var id: UUID
   var url: URL
 }

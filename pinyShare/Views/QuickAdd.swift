@@ -21,8 +21,9 @@ enum QuickAddError: Error {
 struct QuickAdd: View {
   @Environment(UserState.self)
   var userState
-  @Environment(PinsState.self)
-  var pinsState
+  
+  @Environment(PinState.self)
+  var pinState
 
   let page: ParsedPage
   let onComplete: () -> Void
@@ -31,7 +32,7 @@ struct QuickAdd: View {
   func handleAppear() {
     Task {
       do {
-        try await pinsState.create(
+        try await pinState.create(
           title: page.title,
           url: page.url,
           privacy: .public
@@ -51,16 +52,16 @@ struct QuickAdd: View {
       Group {
         Image(
           systemName:
-            pinsState.result.create.isLoading
+            pinState.result.create.isLoading
             ? "circle.dotted"
-            : pinsState.result.create.isError
+            : pinState.result.create.isError
               ? "xmark.circle.fill"
               : "globe"
         )
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(
-          pinsState.result.create.isError
+          pinState.result.create.isError
             ? .piny.red
             : .piny.foreground
         )
@@ -68,27 +69,27 @@ struct QuickAdd: View {
       }
       .frame(width: 24, height: 24)
       Text(
-        pinsState.result.create.isLoading
+        pinState.result.create.isLoading
           ? "Adding..."
-          : pinsState.result.create.isError
+          : pinState.result.create.isError
             ? "Failed to add"
             : "Added to Piny"
       )
       .variant(.h2)
       .foregroundColor(
-        pinsState.result.create.isError
+        pinState.result.create.isError
           ? .piny.red
           : .piny.foreground
       )
       Spacer()
-      if pinsState.result.create.isSuccess {
+      if pinState.result.create.isSuccess {
         Button(action: onComplete) {}
           .variant(.primary, size: .small, icon: Image(systemName: "checkmark"))
       }
     }
     .padding(12)
     .background(
-      pinsState.result.create.isError
+      pinState.result.create.isError
         ? Color.piny.red10
         : Color.piny.level48
     )
@@ -103,5 +104,5 @@ struct QuickAdd: View {
     onComplete: {}
   )
   .environment(UserState())
-  .environment(PinsState())
+  .environment(PinState())
 }

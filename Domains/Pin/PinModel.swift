@@ -1,5 +1,5 @@
 //
-//  Pin.swift
+//  PinModel.swift
 //  piny
 //
 //  Created by John Grishin on 15/07/2020.
@@ -10,17 +10,16 @@ import Foundation
 import SwiftData
 
 @Model
-class Pin: Identifiable, Equatable {
+class PinModel: Identifiable, Equatable {
   @Attribute(.unique)
   var id: UUID
   var title: String = ""
   var desc: String = ""
   var privacy: PinPrivacy
-  var state: PinState
   @Relationship(deleteRule: .cascade)
-  var link: PinLink
-  @Relationship(inverse: \PinTag.pins)
-  var tags: [PinTag] = []
+  var link: LinkModel
+  @Relationship(inverse: \TagModel.pins)
+  var tags: [TagModel] = []
   var createdAt: Date
   var updatedAt: Date
 
@@ -29,9 +28,8 @@ class Pin: Identifiable, Equatable {
     title: String,
     desc: String,
     privacy: PinPrivacy,
-    state: PinState,
-    link: PinLink,
-    tags: [PinTag],
+    link: LinkModel,
+    tags: [TagModel],
     createdAt: Date,
     updatedAt: Date
   ) {
@@ -39,65 +37,51 @@ class Pin: Identifiable, Equatable {
     self.title = title
     self.desc = desc
     self.privacy = privacy
-    self.state = state
     self.link = link
     self.tags = tags
     self.createdAt = createdAt
     self.updatedAt = updatedAt
   }
 
-  convenience init(from pin: PinDTO, tags: [PinTag]) {
+  convenience init(from pin: PinDTO, tags: [TagModel]) {
     self.init(
       id: pin.id,
       title: pin.title,
       desc: pin.description,
       privacy: pin.privacy,
-      state: pin.state,
-      link: PinLink(from: pin.link),
+      link: LinkModel(from: pin.link),
       tags: pin.tags
         .map { tag in
-          tags.first(where: { $0.name == tag.name }) ?? PinTag(from: tag)
+          tags.first(where: { $0.name == tag.name }) ?? TagModel(from: tag)
         },
       createdAt: pin.createdAt,
       updatedAt: pin.updatedAt
     )
   }
 
-  func update(from pin: PinDTO, tags: [PinTag]) {
+  func update(from pin: PinDTO, tags: [TagModel]) {
     self.title = pin.title
     self.desc = pin.description
     self.privacy = pin.privacy
-    self.state = pin.state
     self.link.url = pin.link.url
     self.tags = pin.tags
       .map { tag in
-        tags.first(where: { $0.name == tag.name }) ?? PinTag(from: tag)
+        tags.first(where: { $0.name == tag.name }) ?? TagModel(from: tag)
       }
     self.updatedAt = pin.updatedAt
   }
 
-  static func == (lhs: Pin, rhs: Pin) -> Bool {
+  static func == (lhs: PinModel, rhs: PinModel) -> Bool {
     return lhs.id == rhs.id
   }
-}
-
-enum PinState: String, Codable {
-  case active = "active"
-  case removed = "removed"
-}
-
-enum PinPrivacy: String, Codable {
-  case `public` = "public"
-  case `private` = "private"
 }
 
 struct PinDTO: Hashable, Codable, Identifiable, Equatable {
   var id: UUID
   var title: String
   var description: String
-  var state: PinState
   var privacy: PinPrivacy
-  var link: PinLinkDTO
+  var link: LinkDTO
   var tags: [PinTagDTO]
   var createdAt: Date
   var updatedAt: Date
@@ -113,5 +97,5 @@ struct PinDTO: Hashable, Codable, Identifiable, Equatable {
 
 extension PreviewContent {
   static let pinsDTO: [PinDTO] = load("preview-pins.json")
-  static let pins: [Pin] = pinsDTO.map { Pin(from: $0, tags: tags) }
+  static let pins: [PinModel] = pinsDTO.map { PinModel(from: $0, tags: tags) }
 }

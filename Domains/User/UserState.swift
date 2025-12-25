@@ -9,7 +9,7 @@
 import SwiftData
 import SwiftUI
 
-struct AsyncUser {
+struct AsyncUserResult {
   let fetchUser = Async<UserDTO>()
   let signUp = Async<SessionDTO>()
   let login = Async<SessionDTO>()
@@ -19,15 +19,15 @@ struct AsyncUser {
 
 @Observable
 class UserState {
-  let result = AsyncUser()
+  let result = AsyncUserResult()
   let userActor = UserActor(modelContainer: .shared)
   let sessionActor = SessionActor(modelContainer: .shared)
-  let pinsActor = PinsActor(modelContainer: .shared)
-  let tagsActor = TagsActor(modelContainer: .shared)
+  let pinActor = PinActor(modelContainer: .shared)
+  let tagActor = TagActor(modelContainer: .shared)
 
   init(
-    _ initialUser: User? = nil,
-    initialSession: Session? = nil,
+    _ initialUser: UserModel? = nil,
+    initialSession: SessionModel? = nil,
   ) {
     Task {
       if let initialUser = initialUser { try await userActor.insert(initialUser) }
@@ -92,12 +92,12 @@ class UserState {
       Piny.log("Token: \(auth.token)")
 
       try await sessionActor.clear()
-      try await sessionActor.insert(Session(from: auth))
+      try await sessionActor.insert(SessionModel(from: auth))
 
       let user = try await fetchUser(name: name)
 
       try await userActor.clear()
-      try await userActor.insert(User(from: user))
+      try await userActor.insert(UserModel(from: user))
 
       return auth
     }
@@ -113,7 +113,7 @@ class UserState {
       )
 
       Piny.log("Token: \(auth.token)")
-      try await sessionActor.insert(Session(from: auth))
+      try await sessionActor.insert(SessionModel(from: auth))
 
       return auth
     }
@@ -145,7 +145,7 @@ class UserState {
   func deleteAllData() async throws {
     try await sessionActor.clear()
     try await userActor.clear()
-    try await tagsActor.clear()
-    try await pinsActor.clear()
+    try await tagActor.clear()
+    try await pinActor.clear()
   }
 }

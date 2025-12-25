@@ -12,11 +12,11 @@ import SwiftData
 struct Piny {
   static var api = API(baseURL: "https://dev.piny.link")
   static let schema = Schema([
-    Pin.self,
-    PinLink.self,
-    PinTag.self,
-    User.self,
-    Session.self,
+    PinModel.self,
+    LinkModel.self,
+    TagModel.self,
+    UserModel.self,
+    SessionModel.self,
   ])
 
   static var storage = Storage("piny", schema: schema)

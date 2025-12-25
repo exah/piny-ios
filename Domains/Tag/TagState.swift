@@ -1,5 +1,5 @@
 //
-//  TagsState.swift
+//  TagState.swift
 //  piny
 //
 //  Created by J. Grishin on 23/08/2025.
@@ -11,45 +11,45 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct AsyncTags {
-  let fetch = Async<[PinTag]>()
+struct AsyncTagResult {
+  let fetch = Async<[TagModel]>()
 }
 
 @Observable
-class TagsState {
-  let result = AsyncTags()
-  let tagsActor = TagsActor(modelContainer: .shared)
+class TagState {
+  let result = AsyncTagResult()
+  let tagActor = TagActor(modelContainer: .shared)
 
-  init(_ initial: [PinTag] = []) {
+  init(_ initial: [TagModel] = []) {
     Task {
-      try await tagsActor.insert(tags: initial)
+      try await tagActor.insert(tags: initial)
       result.fetch.status = .success(initial)
     }
   }
 
   @discardableResult
-  func fetch() async throws -> [PinTag] {
+  func fetch() async throws -> [TagModel] {
     try await result.fetch.capture {
       let tagsDTO = try await Piny.api.get(
         [PinTagDTO].self,
         path: "/tags"
       )
 
-      let existing = try await tagsActor.fetch()
+      let existing = try await tagActor.fetch()
       let newTags =
         tagsDTO
         .filter { tag in !existing.contains(where: { $0.name == tag.name }) }
-        .map { PinTag(from: $0) }
+        .map { TagModel(from: $0) }
 
       await withThrowingTaskGroup(of: Void.self) { group in
         for tag in newTags {
           group.addTask {
-            try await self.tagsActor.insert(tag.name, id: tag.id)
+            try await self.tagActor.insert(tag.name, id: tag.id)
           }
         }
       }
 
-      return try await tagsActor.fetch()
+      return try await tagActor.fetch()
     }
   }
 }

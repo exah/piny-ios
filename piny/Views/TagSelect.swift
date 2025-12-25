@@ -11,10 +11,10 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
-  var tagsActor = TagsActor(modelContainer: .shared)
+  var tagActor = TagActor(modelContainer: .shared)
 
   @Binding
-  var tags: [PinTag]
+  var tags: [TagModel]
 
   @State
   var search = ""
@@ -22,10 +22,10 @@ struct TagSelect: View {
   @State
   private var isPresented: Bool = false
 
-  @Query(sort: \PinTag.name, order: .forward)
-  var options: [PinTag]
+  @Query(sort: \TagModel.name, order: .forward)
+  var options: [TagModel]
 
-  private var filteredOptions: [PinTag] {
+  private var filteredOptions: [TagModel] {
     guard !search.isEmpty else {
       return options
     }
@@ -49,7 +49,7 @@ struct TagSelect: View {
 
   func handleCreateTask() {
     Task {
-      guard let tag = try? await tagsActor.insert(search) else {
+      guard let tag = try? await tagActor.insert(search) else {
         return
       }
 

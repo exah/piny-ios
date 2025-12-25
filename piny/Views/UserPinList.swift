@@ -10,21 +10,21 @@ import SwiftData
 import SwiftUI
 
 struct UserPinList: View {
-  @Environment(PinsState.self)
-  var pinsState
+  @Environment(PinState.self)
+  var pinState
 
-  @Environment(TagsState.self)
-  var tagsState
+  @Environment(TagState.self)
+  var tagState
 
   @Environment(UserState.self)
   var userState
 
-  @Query(sort: \Pin.createdAt, order: .reverse)
-  var pins: [Pin]
+  @Query(sort: \PinModel.createdAt, order: .reverse)
+  var pins: [PinModel]
 
   func handleRefresh() async {
     do {
-      try await pinsState.fetch()
+      try await pinState.fetch()
     } catch ResponseError.unauthorized {
       try? await userState.deleteAllData()
     } catch {
@@ -38,11 +38,11 @@ struct UserPinList: View {
     }
   }
 
-  func remove(_ pins: [Pin]) {
+  func remove(_ pins: [PinModel]) {
     for pin in pins {
       Task {
         do {
-          try await pinsState.remove(pin)
+          try await pinState.remove(pin)
         } catch {
           Piny.log(error, .error)
         }
@@ -69,7 +69,7 @@ struct UserPinList: View {
 
 #Preview {
   UserPinList()
-    .environment(PinsState(PreviewContent.pins))
-    .environment(TagsState(PreviewContent.tags))
+    .environment(PinState(PreviewContent.pins))
+    .environment(TagState(PreviewContent.tags))
     .environment(UserState(PreviewContent.user))
 }

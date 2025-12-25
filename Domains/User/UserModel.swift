@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-class User: Identifiable, Equatable {
+class UserModel: Identifiable, Equatable {
   @Attribute(.unique)
   var id: UUID
   var name: String
@@ -31,7 +31,7 @@ class User: Identifiable, Equatable {
     )
   }
 
-  static func == (lhs: User, rhs: User) -> Bool {
+  static func == (lhs: UserModel, rhs: UserModel) -> Bool {
     return lhs.id == rhs.id
   }
 }
@@ -45,5 +45,5 @@ struct UserDTO: Identifiable, Codable {
 
 extension PreviewContent {
   static let userDTO: UserDTO = load("preview-user.json")
-  static let user: User = User(from: userDTO)
+  static let user: UserModel = UserModel(from: userDTO)
 }

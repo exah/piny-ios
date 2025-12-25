@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PinTagsInput: View {
   @Binding
-  var tags: [PinTag]
+  var tags: [TagModel]
 
   var body: some View {
     HStack(spacing: 8) {

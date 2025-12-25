@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Tag: View {
-  var value: PinTag
+  var value: TagModel
 
   var body: some View {
     ZStack {
@@ -26,8 +26,8 @@ struct Tag: View {
 
 #Preview {
   HStack(spacing: 16) {
-    Tag(value: PinTag(id: UUID(), name: "one"))
-    Tag(value: PinTag(id: UUID(), name: "two"))
-    Tag(value: PinTag(id: UUID(), name: "long-text-tag"))
+    Tag(value: TagModel(id: UUID(), name: "one"))
+    Tag(value: TagModel(id: UUID(), name: "two"))
+    Tag(value: TagModel(id: UUID(), name: "long-text-tag"))
   }
 }
