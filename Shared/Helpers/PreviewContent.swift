@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PreviewContent {
+enum PreviewContent {
   static func load<T: Decodable>(_ filename: String) -> T {
     let data: Data
 

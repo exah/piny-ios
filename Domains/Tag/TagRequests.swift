@@ -6,7 +6,7 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-struct TagRequests {
+enum TagRequests {
   static func fetch() async throws -> [TagDTO] {
     let result = try await Piny.api.get(
       [TagDTO].self,

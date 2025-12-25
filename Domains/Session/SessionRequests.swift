@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SessionRequests {
+enum SessionRequests {
   struct SignupPayload: Codable {
     let user: String
     let pass: String

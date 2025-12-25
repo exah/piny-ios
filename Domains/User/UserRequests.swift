@@ -6,7 +6,7 @@
 //  Copyright © 2025 John Grishin. All rights reserved.
 //
 
-struct UserRequests {
+enum UserRequests {
   static func get(name: String) async throws -> UserDTO {
     try await Piny.api.get(
       UserDTO.self,

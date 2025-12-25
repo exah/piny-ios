@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PinRequests {
+enum PinRequests {
   static func fetch() async throws -> [PinDTO] {
     let result = try await Piny.api.get(
       [PinDTO].self,
