@@ -127,7 +127,7 @@ class PinState {
   }
 
   @discardableResult
-  func remove(_ pin: PinModel) async throws -> MessageDTO {
+  func delete(_ pin: PinModel) async throws -> MessageDTO {
     try await result.remove.capture {
       try await pinActor.delete(pin)
 
@@ -135,6 +135,7 @@ class PinState {
         return try await PinRequests.remove(pin)
       } catch {
         try await pinActor.insert(pin)
+        Piny.log("Failed to delete: \(error)", .error)
         throw error
       }
     }

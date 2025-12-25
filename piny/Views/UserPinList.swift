@@ -22,14 +22,20 @@ struct UserPinList: View {
   @Query(sort: \PinModel.createdAt, order: .reverse)
   var pins: [PinModel]
 
+  func handleUnauthorized() {
+    Task {
+      try await sessionState.logout()
+    }
+  }
+
   func handleRefresh() async {
     do {
       try await pinState.fetch()
     } catch ResponseError.unauthorized {
-      try? await sessionState.logout()
-    } catch {
-      Piny.log(error, .error)
-    }
+      Task {
+        try await sessionState.logout()
+      }
+    } catch {}
   }
 
   func handleAppear() {
@@ -38,13 +44,9 @@ struct UserPinList: View {
     }
   }
 
-  func remove(_ pin: PinModel) {
+  func handleDelete(_ pin: PinModel) {
     Task {
-      do {
-        try await pinState.remove(pin)
-      } catch {
-        Piny.log(error, .error)
-      }
+      try await pinState.delete(pin)
     }
   }
 
@@ -52,7 +54,7 @@ struct UserPinList: View {
     PinList(
       pins: pins,
       onRefresh: handleRefresh,
-      onDelete: remove
+      onDelete: handleDelete
     )
     .onAppear(perform: handleAppear)
     .onReceive(

@@ -41,9 +41,10 @@ struct PinEditForm: View {
           privacy: privacy,
           tags: tags.map { $0.name }
         )
+
         onClose()
       } catch {
-        Piny.log(error, .error)
+        Piny.log("Failed to save: \(error)", .error)
       }
     }
   }
@@ -51,7 +52,7 @@ struct PinEditForm: View {
   func handleDelete() {
     Task {
       do {
-        try await pinState.remove(pin)
+        try await pinState.delete(pin)
         onClose()
       } catch {
         Piny.log(error, .error)
