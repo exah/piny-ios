@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 extension URLResponse {
   fileprivate func getStatusCode() -> Int? {
     if let response = self as? HTTPURLResponse {
@@ -29,6 +27,7 @@ struct API {
   let sessionActor = SessionActor(modelContainer: .shared)
 
   private let session = URLSession(configuration: .default)
+  private struct Empty: Codable {}
 
   func fetch<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
@@ -42,7 +41,7 @@ struct API {
     request.httpMethod = method
     request.addValue(requestId.uuidString, forHTTPHeaderField: "X-Request-ID")
 
-    if !(json is EmptyDTO) {
+    if !(json is Empty) {
       do {
         let json = try JSON().encode(json)
         request.httpBody = json
@@ -91,7 +90,7 @@ struct API {
       type,
       method: "GET",
       path: path,
-      json: EmptyDTO()
+      json: Empty()
     )
   }
 
@@ -132,7 +131,7 @@ struct API {
       type,
       method: "DELETE",
       path: path,
-      json: EmptyDTO()
+      json: Empty()
     )
   }
 }
