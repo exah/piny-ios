@@ -13,7 +13,7 @@ struct AsyncSessionResult {
   let signUp = Async<SessionDTO>()
   let login = Async<SessionDTO>()
   let refresh = Async<SessionDTO>()
-  let logout = Async<PinyMessageResponse>()
+  let logout = Async<MessageDTO>()
 }
 
 @Observable
@@ -75,7 +75,7 @@ class SessionState {
   }
 
   @discardableResult
-  func logout() async throws -> PinyMessageResponse {
+  func logout() async throws -> MessageDTO {
     try await result.logout.capture {
       try await clear()
       return try await SessionRequests.logout()

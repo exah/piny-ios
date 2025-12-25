@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Empty: Codable {}
+
 
 extension URLResponse {
   fileprivate func getStatusCode() -> Int? {
@@ -42,7 +42,7 @@ struct API {
     request.httpMethod = method
     request.addValue(requestId.uuidString, forHTTPHeaderField: "X-Request-ID")
 
-    if !(json is Empty) {
+    if !(json is EmptyDTO) {
       do {
         let json = try JSON().encode(json)
         request.httpBody = json
@@ -73,7 +73,7 @@ struct API {
     }
 
     if !httpResponse.isOK() {
-      throw ResponseError.get(data: responseData, response: httpResponse)
+      throw ResponseError(from: responseData, response: httpResponse)
     }
 
     do {
@@ -91,7 +91,7 @@ struct API {
       type,
       method: "GET",
       path: path,
-      json: Empty()
+      json: EmptyDTO()
     )
   }
 
@@ -132,7 +132,7 @@ struct API {
       type,
       method: "DELETE",
       path: path,
-      json: Empty()
+      json: EmptyDTO()
     )
   }
 }

@@ -17,7 +17,7 @@ enum SessionRequests {
 
   static func signUp(name: String, pass: String, email: String) async throws -> SessionDTO {
     try await Piny.api.post(
-      PinyMessageResponse.self,
+      MessageDTO.self,
       path: "/signup",
       json: SignupPayload(user: name, pass: pass, email: email)
     )
@@ -62,9 +62,9 @@ enum SessionRequests {
     )
   }
 
-  static func logout() async throws -> PinyMessageResponse {
+  static func logout() async throws -> MessageDTO {
     try await Piny.api.post(
-      PinyMessageResponse.self,
+      MessageDTO.self,
       path: "/logout",
       json: Optional<Data>.none
     )

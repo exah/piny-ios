@@ -31,9 +31,9 @@ enum PinRequests {
     description: String? = nil,
     url: URL,
     privacy: PinPrivacy
-  ) async throws -> PinyMessageResponse {
+  ) async throws -> MessageDTO {
     try await Piny.api.post(
-      PinyMessageResponse.self,
+      MessageDTO.self,
       path: "/bookmarks",
       json: CreatePayload(
         url: url,
@@ -68,7 +68,7 @@ enum PinRequests {
     tags: [String]
   ) async throws -> PinDTO {
     try await Piny.api.patch(
-      PinyMessageResponse.self,
+      MessageDTO.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())",
       json: EditPayload(
         url: url,
@@ -82,9 +82,9 @@ enum PinRequests {
     return try await get(pin)
   }
 
-  static func remove(_ pin: PinModel) async throws -> PinyMessageResponse {
+  static func remove(_ pin: PinModel) async throws -> MessageDTO {
     try await Piny.api.delete(
-      PinyMessageResponse.self,
+      MessageDTO.self,
       path: "/bookmarks/\(pin.id.uuidString.lowercased())"
     )
   }

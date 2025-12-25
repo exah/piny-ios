@@ -8,71 +8,6 @@
 
 import Foundation
 
-enum ErrorCode: Int, Codable {
-  case none = 0
-
-  case badRequest = 400
-  case unauthorized = 401
-  case forbidden = 403
-  case notFound = 404
-  case notAcceptable = 406
-  case conflict = 409
-  case internalServerError = 500
-
-  case parsingError = 1000
-  case sessionAlreadyRefreshed = 1001
-
-  var message: String {
-    switch self {
-      case .badRequest:
-        return "👎 Bad request"
-      case .unauthorized:
-        return "🙅‍♂️ Unauthorized"
-      case .forbidden:
-        return "✋ Denied"
-      case .notFound:
-        return "🤷‍♂️ Not found"
-      case .notAcceptable:
-        return "👀 What is it?"
-      case .conflict:
-        return "🙅‍♂️ Already exists"
-      case .internalServerError:
-        return "😭 Something went wrong"
-      case .parsingError:
-        return "🤦‍♂️ Parsing error"
-      case .sessionAlreadyRefreshed:
-        return "🙅‍♂️ Already refreshed"
-      case .none:
-        return "❓ Unknown"
-    }
-  }
-}
-
-struct ValidationIssue: Codable {
-  let message: String
-  let path: [ValidationIssuePathItem]?
-}
-
-struct ValidationIssuePathItem: Codable {
-  let key: String
-}
-
-struct ValidationMeta: Codable {
-  let issues: [ValidationIssue]
-}
-
-struct ResponseErrorDTO<Meta: Codable>: Codable {
-  let id: String
-  let code: ErrorCode
-  let message: String
-  let meta: Meta?
-  let requestId: String?
-}
-
-struct PinyMessageResponse: Codable {
-  let message: String
-}
-
 enum ResponseError: Error {
   case badRequest(String? = nil, meta: Any? = nil)
   case unauthorized(String? = nil, meta: Any? = nil)
@@ -81,7 +16,7 @@ enum ResponseError: Error {
   case notAcceptable(String? = nil, meta: Any? = nil)
   case conflict(String? = nil, meta: Any? = nil)
   case internalServerError(String? = nil, meta: Any? = nil)
-  case parsingError(String? = nil, meta: ValidationMeta? = nil)
+  case parsingError(String? = nil, meta: ValidationMetaDTO? = nil)
   case sessionAlreadyRefreshed(String? = nil, meta: Any? = nil)
   case networkError(Error)
   case decodingError(Error)
@@ -146,69 +81,53 @@ enum ResponseError: Error {
     }
   }
 
-  static func get(
-    data: Data?,
-    response: HTTPURLResponse?
-  ) -> ResponseError {
-    guard let httpResponse = response else {
-      return .unknown("Invalid response")
-    }
-
-    guard
-      let data = data,
-      let error = try? JSONDecoder()
-        .decode(
-          ResponseErrorDTO<Empty>.self,
-          from: data
-        )
-    else {
-      switch httpResponse.statusCode {
-        case 400:
-          return .badRequest()
-        case 401:
-          return .unauthorized()
-        case 403:
-          return .forbidden()
-        case 404:
-          return .notFound()
-        case 406:
-          return .notAcceptable()
-        case 409:
-          return .conflict()
-        case 500:
-          return .internalServerError()
-        default:
-          return .unknown("HTTP \(httpResponse.statusCode)")
+  init(
+    from data: Data,
+    response: HTTPURLResponse
+  ) {
+    if let error = try? JSONDecoder().decode(ResponseErrorDTO<EmptyDTO>.self, from: data) {
+      switch error.code {
+        case .parsingError:
+          let data = try? JSONDecoder().decode(ResponseErrorDTO<ValidationMetaDTO>.self, from: data)
+          self = .parsingError(error.message, meta: data?.meta)
+        case .badRequest:
+          self = .badRequest(error.message, meta: nil)
+        case .unauthorized:
+          self = .unauthorized(error.message, meta: nil)
+        case .forbidden:
+          self = .forbidden(error.message, meta: nil)
+        case .notFound:
+          self = .notFound(error.message, meta: nil)
+        case .notAcceptable:
+          self = .notAcceptable(error.message, meta: nil)
+        case .conflict:
+          self = .conflict(error.message, meta: nil)
+        case .internalServerError:
+          self = .internalServerError(error.message, meta: nil)
+        case .sessionAlreadyRefreshed:
+          self = .sessionAlreadyRefreshed(error.message, meta: nil)
+        case .none:
+          self = .unknown(error.message)
       }
-    }
-
-    switch error.code {
-      case .parsingError:
-        let data = try? JSONDecoder()
-          .decode(
-            ResponseErrorDTO<ValidationMeta>.self,
-            from: data
-          )
-
-        return .parsingError(error.message, meta: data?.meta)
-      case .badRequest:
-        return .badRequest(error.message, meta: nil)
-      case .unauthorized:
-        return .unauthorized(error.message, meta: nil)
-      case .forbidden:
-        return .forbidden(error.message, meta: nil)
-      case .notFound:
-        return .notFound(error.message, meta: nil)
-      case .notAcceptable:
-        return .notAcceptable(error.message, meta: nil)
-      case .conflict:
-        return .conflict(error.message, meta: nil)
-      case .internalServerError:
-        return .internalServerError(error.message, meta: nil)
-      case .sessionAlreadyRefreshed:
-        return .sessionAlreadyRefreshed(error.message, meta: nil)
-      case .none:
-        return .unknown(error.message)
+    } else {
+      switch response.statusCode {
+        case 400:
+          self = .badRequest()
+        case 401:
+          self = .unauthorized()
+        case 403:
+          self = .forbidden()
+        case 404:
+          self = .notFound()
+        case 406:
+          self = .notAcceptable()
+        case 409:
+          self = .conflict()
+        case 500:
+          self = .internalServerError()
+        default:
+          self = .unknown("HTTP \(response.statusCode)")
+      }
     }
   }
 }

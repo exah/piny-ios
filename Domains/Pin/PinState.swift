@@ -14,9 +14,9 @@ import SwiftUI
 struct AsyncPinResult {
   let fetch = Async<[PinModel]>()
   let get = Async<PinModel>()
-  let create = Async<PinyMessageResponse>()
+  let create = Async<MessageDTO>()
   let edit = Async<PinModel>()
-  let remove = Async<PinyMessageResponse>()
+  let remove = Async<MessageDTO>()
 }
 
 @Observable
@@ -61,7 +61,7 @@ class PinState {
     description: String? = nil,
     url: URL,
     privacy: PinPrivacy
-  ) async throws -> PinyMessageResponse {
+  ) async throws -> MessageDTO {
     try await result.create.capture {
       try await PinRequests.create(
         title: title,
@@ -127,7 +127,7 @@ class PinState {
   }
 
   @discardableResult
-  func remove(_ pin: PinModel) async throws -> PinyMessageResponse {
+  func remove(_ pin: PinModel) async throws -> MessageDTO {
     try await result.remove.capture {
       try await pinActor.delete(pin)
 
