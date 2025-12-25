@@ -24,12 +24,12 @@ extension URLResponse {
 
 struct API {
   let baseURL: String
-  let sessionActor = SessionActor(modelContainer: .shared)
 
+  private let sessionActor = SessionActor(modelContainer: .shared)
   private let session = URLSession(configuration: .default)
   private struct Empty: Codable {}
 
-  func fetch<Output: Decodable, Input: Encodable>(
+  private func fetch<Output: Decodable, Input: Encodable>(
     _ type: Output.Type,
     method: String,
     path: String,

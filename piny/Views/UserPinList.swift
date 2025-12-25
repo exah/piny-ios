@@ -38,14 +38,12 @@ struct UserPinList: View {
     }
   }
 
-  func remove(_ pins: [PinModel]) {
-    for pin in pins {
-      Task {
-        do {
-          try await pinState.remove(pin)
-        } catch {
-          Piny.log(error, .error)
-        }
+  func remove(_ pin: PinModel) {
+    Task {
+      do {
+        try await pinState.remove(pin)
+      } catch {
+        Piny.log(error, .error)
       }
     }
   }

@@ -28,7 +28,7 @@ struct PinEditForm: View {
   @State
   var showDeleteAlert: Bool = false
 
-  var onClose: (() -> Void)? = nil
+  var onClose: () -> Void
 
   func handleSave() {
     Task {
@@ -41,7 +41,7 @@ struct PinEditForm: View {
           privacy: privacy,
           tags: tags.map { $0.name }
         )
-        onClose?()
+        onClose()
       } catch {
         Piny.log(error, .error)
       }
@@ -52,7 +52,7 @@ struct PinEditForm: View {
     Task {
       do {
         try await pinState.remove(pin)
-        onClose?()
+        onClose()
       } catch {
         Piny.log(error, .error)
       }
@@ -135,9 +135,7 @@ struct PinEditForm: View {
             .textStyle(.h3)
         }
         ToolbarItem(placement: .cancellationAction) {
-          Button("Cancel", systemImage: "xmark") {
-            onClose?()
-          }
+          Button("Cancel", systemImage: "xmark", action: onClose)
         }
         ToolbarItem(placement: .confirmationAction) {
           Button("Save", systemImage: "checkmark", action: handleSave)
@@ -167,7 +165,8 @@ struct PinEditForm: View {
     title: "Teach Yourself Computer Science",
     description: "",
     tags: [sampleTags[0], sampleTags[1]],
-    privacy: .private
+    privacy: .private,
+    onClose: {}
   )
   .environment(PinState(PreviewContent.pins))
 }
