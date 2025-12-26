@@ -7,10 +7,12 @@
 //
 
 import Foundation
+import Sentry
 import SwiftData
 
-struct Piny {
-  static let api = API(baseURL: Bundle.main.object(forInfoDictionaryKey: "API_URL") as! String)
+enum Piny {
+  static let api = API(baseURL: config.apiURL)
+  static let config = Config()
   static var storage = Storage(
     "piny",
     schema: Schema([
@@ -32,6 +34,30 @@ struct Piny {
 
   enum LogLevel: String {
     case info, warn, error
+  }
+
+  struct Config {
+    let apiURL: String
+    let sentryDSN: String?
+
+    init() {
+      let apiURL = Bundle.main.object(forInfoDictionaryKey: "API_URL") as! String
+      let sentryDSN = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN_URL") as? String
+
+      self.apiURL = apiURL
+      self.sentryDSN = sentryDSN == "https://" ? nil : sentryDSN
+    }
+  }
+
+  static func Sentry() {
+    guard let dsn = config.sentryDSN else {
+      Piny.log("Sentry not setup for the environment")
+      return
+    }
+
+    SentrySDK.start { options in
+      options.dsn = dsn
+    }
   }
 }
 

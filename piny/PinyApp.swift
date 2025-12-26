@@ -13,14 +13,7 @@ import SwiftUI
 @main
 struct PinyApp: App {
   init() {
-    guard let dsn = Bundle.main.object(forInfoDictionaryKey: "SENTRY_DSN_URL") as? String else {
-      Piny.log("Sentry not initiated")
-      return
-    }
-
-    SentrySDK.start { options in
-      options.dsn = dsn
-    }
+    Piny.Sentry()
   }
 
   var body: some Scene {

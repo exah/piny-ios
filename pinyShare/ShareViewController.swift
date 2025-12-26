@@ -7,6 +7,7 @@
 //
 
 import MobileCoreServices
+import Sentry
 import SwiftData
 import SwiftUI
 import UIKit
@@ -19,6 +20,7 @@ class ShareViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    Piny.Sentry()
     clearView(view)
     modalPresentationStyle = .overCurrentContext
 
