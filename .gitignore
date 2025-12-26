@@ -102,3 +102,6 @@ buildServer.json
 # Agents
 AGENTS.md
 CLAUDE.md
+
+.sentryclirc
+Secrets.xcconfig

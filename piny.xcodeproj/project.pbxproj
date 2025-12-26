@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		09AC54562E54D2DE009902FA /* pinyShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 09AC544C2E54D2DE009902FA /* pinyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		09BA70B02EFD9D4700D3A7BD /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 09BA70AF2EFD9D4700D3A7BD /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		09B25A902EEB5BCD001C1F3A /* piny */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (09B25AA52EEB5BCD001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 09B25AA62EEB5BCD001C1F3A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = piny; sourceTree = "<group>"; };
 		09BA6E502EFB5C7500D3A7BD /* Domains */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domains; sourceTree = SOURCE_ROOT; };
 		09BA6E672EFB5C7500D3A7BD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = SOURCE_ROOT; };
+		09BA70F32EFD9FCC00D3A7BD /* Configuration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Configuration; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09BA70B02EFD9D4700D3A7BD /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +112,7 @@
 		099156C224BB99690041938C = {
 			isa = PBXGroup;
 			children = (
+				09BA70F32EFD9FCC00D3A7BD /* Configuration */,
 				09BA6E502EFB5C7500D3A7BD /* Domains */,
 				09752FA624C22A6C003E1B24 /* README.md */,
 				09EA49E324E9B2BB00B20619 /* screenshot.png */,
@@ -150,9 +154,11 @@
 				09B25A902EEB5BCD001C1F3A /* piny */,
 				09BA6E502EFB5C7500D3A7BD /* Domains */,
 				09BA6E672EFB5C7500D3A7BD /* Shared */,
+				09BA70F32EFD9FCC00D3A7BD /* Configuration */,
 			);
 			name = piny;
 			packageProductDependencies = (
+				09BA70AF2EFD9D4700D3A7BD /* Sentry */,
 			);
 			productName = piny;
 			productReference = 099156CB24BB99690041938C /* piny.app */;
@@ -174,6 +180,7 @@
 				09AC544D2E54D2DE009902FA /* pinyShare */,
 				09BA6E502EFB5C7500D3A7BD /* Domains */,
 				09BA6E672EFB5C7500D3A7BD /* Shared */,
+				09BA70F32EFD9FCC00D3A7BD /* Configuration */,
 			);
 			name = pinyShare;
 			packageProductDependencies = (
@@ -211,6 +218,7 @@
 			);
 			mainGroup = 099156C224BB99690041938C;
 			packageReferences = (
+				09BA70AE2EFD9D4700D3A7BD /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 099156CC24BB99690041938C /* Products */;
 			projectDirPath = "";
@@ -267,6 +275,8 @@
 /* Begin XCBuildConfiguration section */
 		099156F624BB996B0041938C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -332,6 +342,8 @@
 		};
 		099156F724BB996B0041938C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -391,6 +403,8 @@
 		};
 		099156F924BB996B0041938C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -417,6 +431,8 @@
 		};
 		099156FA24BB996B0041938C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -443,6 +459,8 @@
 		};
 		09AC54592E54D2DE009902FA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -482,6 +500,8 @@
 		};
 		09AC545A2E54D2DE009902FA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 09BA70F32EFD9FCC00D3A7BD /* Configuration */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -549,6 +569,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		09BA70AE2EFD9D4700D3A7BD /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		09BA70AF2EFD9D4700D3A7BD /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09BA70AE2EFD9D4700D3A7BD /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 099156C324BB99690041938C /* Project object */;
 }

@@ -1,0 +1,12 @@
+//
+//  Release.xcconfig
+//  piny
+//
+//  Created by J. Grishin on 25/12/2025.
+//  Copyright © 2025 John Grishin. All rights reserved.
+//
+
+#include "Base.xcconfig"
+#include? "Secrets.xcconfig"
+
+SENTRY_DSN = ab7598504ba7460cc311db5040e2c690@o4510498586034176.ingest.de.sentry.io/4510596414177360

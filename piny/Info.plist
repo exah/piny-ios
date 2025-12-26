@@ -55,5 +55,9 @@
     <key>UIColorName</key>
     <string>LaunchBackground</string>
   </dict>
+	<key>SENTRY_DSN_URL</key>
+	<string>https://$(SENTRY_DSN)</string>
+	<key>API_URL</key>
+	<string>https://$(API_BASE)</string>
 </dict>
 </plist>

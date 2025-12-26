@@ -10,16 +10,17 @@ import Foundation
 import SwiftData
 
 struct Piny {
-  static var api = API(baseURL: "https://dev.piny.link")
-  static let schema = Schema([
-    PinModel.self,
-    LinkModel.self,
-    TagModel.self,
-    UserModel.self,
-    SessionModel.self,
-  ])
-
-  static var storage = Storage("piny", schema: schema)
+  static let api = API(baseURL: Bundle.main.object(forInfoDictionaryKey: "API_URL") as! String)
+  static var storage = Storage(
+    "piny",
+    schema: Schema([
+      PinModel.self,
+      LinkModel.self,
+      TagModel.self,
+      UserModel.self,
+      SessionModel.self,
+    ])
+  )
 
   static func log<T>(_ input: T, _ level: LogLevel = LogLevel.info) {
     print("🌲 [\(level)] \(Date()): \(input)")
