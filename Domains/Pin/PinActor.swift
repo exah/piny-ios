@@ -1,9 +1,10 @@
+import Foundation
 import SwiftData
-import SwiftUI
 
 @ModelActor
 actor PinActor {
-  let tagActor = TagActor(modelContainer: .shared)
+  lazy var tagActor = TagActor(modelContainer: modelContainer)
+  lazy var linkActor = LinkActor(modelContainer: modelContainer)
 
   func fetch() throws -> [PinModel] {
     try modelContext.fetch(FetchDescriptor<PinModel>())
@@ -49,18 +50,32 @@ actor PinActor {
   func sync(_ serverPins: [PinDTO]) async throws {
     let storagePins = try fetch()
     let storageTags = try await tagActor.fetch()
+    let storageLinks = try await linkActor.fetch()
     let serverPinIds = Set(serverPins.map { $0.id })
+
+    let storagePinsById = PinModel.group(storagePins)
+    let storageLinksByURL = LinkModel.group(storageLinks)
+    let storageTagsByName = TagModel.group(storageTags)
 
     storagePins
       .filter { !serverPinIds.contains($0.id) }
       .forEach { modelContext.delete($0) }
 
     for item in serverPins {
-      if let pin = storagePins.first(where: { $0.id == item.id }) {
-        pin.update(from: item, tags: storageTags)
+      if let pin = storagePinsById[item.id] {
+        pin.update(
+          from: item,
+          link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
+          tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
+        )
       } else {
-        let pin = PinModel(from: item, tags: storageTags)
-        modelContext.insert(pin)
+        modelContext.insert(
+          PinModel(
+            from: item,
+            link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
+            tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
+          )
+        )
       }
     }
 

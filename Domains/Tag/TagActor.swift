@@ -1,5 +1,5 @@
+import Foundation
 import SwiftData
-import SwiftUI
 
 @ModelActor
 actor TagActor {
@@ -31,20 +31,28 @@ actor TagActor {
 
   @discardableResult
   func insert(_ name: String, id: UUID = UUID()) throws -> TagModel {
-    let tag: TagModel
     if let existing = try? find(by: name) {
-      tag = existing
-    } else {
-      tag = TagModel(id: id, name: name)
-      modelContext.insert(tag)
-      try modelContext.save()
+      return existing
     }
+
+    let tag = TagModel(id: id, name: name)
+    modelContext.insert(tag)
+    try modelContext.save()
 
     return tag
   }
 
   func insert(tags: [TagModel]) throws {
-    tags.forEach { modelContext.insert($0) }
+    let existing = Set(try find(by: tags.map { $0.name }).map { $0.name })
+
+    for tag in tags {
+      if existing.contains(tag.name) {
+        continue
+      }
+
+      modelContext.insert(tag)
+    }
+
     try modelContext.save()
   }
 

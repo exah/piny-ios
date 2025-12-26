@@ -8,10 +8,21 @@
 
 import SwiftUI
 
+private class Errors: ObservableObject {
+  @Published
+  var url: String? = nil
+}
+
 struct PinEditForm: View {
   @Environment(PinState.self)
   var pinState
   var pin: PinModel
+
+  @StateObject
+  private var errors = Errors()
+
+  @State
+  var url: String = ""
 
   @State
   var title: String = ""
@@ -30,16 +41,46 @@ struct PinEditForm: View {
 
   var onClose: () -> Void
 
+  func validate() -> (
+    url: URL,
+    title: String,
+    description: String,
+    privacy: PinPrivacy,
+    tags: [String]
+  )? {
+    guard
+      let url = URL(string: url.trimmingCharacters(in: .whitespaces)),
+      UIApplication.shared.canOpenURL(url)
+    else {
+      errors.url = "Invalid format"
+      return nil
+    }
+
+    errors.url = nil
+
+    return (
+      url: url,
+      title: title,
+      description: description,
+      privacy: privacy,
+      tags: tags.map { $0.name }
+    )
+  }
+
   func handleSave() {
     Task {
       do {
+        guard let validated = validate() else {
+          return
+        }
+
         try await pinState.edit(
           pin,
-          url: pin.link.url,
-          title: title,
-          description: description,
-          privacy: privacy,
-          tags: tags.map { $0.name }
+          url: validated.url,
+          title: validated.title,
+          description: validated.description,
+          privacy: validated.privacy,
+          tags: validated.tags
         )
 
         onClose()
@@ -70,9 +111,12 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            Text(pin.link.url.absoluteString)
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .textFieldVariant(.primary)
+            TextField("", text: $url)
+              .variant(
+                .primary,
+                invalid: errors.url != nil,
+                message: errors.url
+              )
           }
           VStack(alignment: .leading, spacing: 0) {
             Text("Title")
@@ -163,6 +207,7 @@ struct PinEditForm: View {
 
   PinEditForm(
     pin: pin,
+    url: pin.link.url.absoluteString,
     title: "Teach Yourself Computer Science",
     description: "",
     tags: [sampleTags[0], sampleTags[1]],

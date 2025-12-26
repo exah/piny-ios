@@ -24,6 +24,7 @@ class PinState {
   let result = AsyncPinResult()
   let pinActor = PinActor(modelContainer: .shared)
   let tagActor = TagActor(modelContainer: .shared)
+  let linkActor = LinkActor(modelContainer: .shared)
 
   init(_ initial: [PinModel] = []) {
     Task {
@@ -75,17 +76,23 @@ class PinState {
   @discardableResult
   func get(_ pin: PinModel) async throws -> PinModel {
     try await result.get.capture {
-      let result = try await PinRequests.get(pin)
+      let data = try await PinRequests.get(pin)
 
       do {
-        let tags = try await tagActor.fetch()
-        pin.update(from: result, tags: tags)
+        let tags = TagModel.group(try await tagActor.fetch())
+        let links = LinkModel.group(try await linkActor.fetch())
+
+        pin.update(
+          from: data,
+          link: LinkModel.resolve(with: data.link, links: links),
+          tags: TagModel.resolve(with: data.tags, tags: tags)
+        )
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
         throw error
       }
 
-      return try await pinActor.get(by: result.id)
+      return try await pinActor.get(by: data.id)
     }
   }
 
@@ -99,9 +106,9 @@ class PinState {
     tags: [String]
   ) async throws -> PinModel {
     try await result.edit.capture {
-      let result: PinDTO
+      let data: PinDTO
       do {
-        result = try await PinRequests.edit(
+        data = try await PinRequests.edit(
           pin,
           url: url,
           title: title,
@@ -115,14 +122,20 @@ class PinState {
       }
 
       do {
-        let tags = try await tagActor.fetch()
-        pin.update(from: result, tags: tags)
+        let tags = TagModel.group(try await tagActor.fetch())
+        let links = LinkModel.group(try await linkActor.fetch())
+
+        pin.update(
+          from: data,
+          link: LinkModel.resolve(with: data.link, links: links),
+          tags: TagModel.resolve(with: data.tags, tags: tags)
+        )
       } catch {
         Piny.log("Failed to fetch tags for update: \(error)", .error)
         throw error
       }
 
-      return try await pinActor.get(by: result.id)
+      return try await pinActor.get(by: data.id)
     }
   }
 

@@ -43,32 +43,39 @@ class PinModel: Identifiable, Equatable {
     self.updatedAt = updatedAt
   }
 
-  convenience init(from pin: PinDTO, tags: [TagModel]) {
+  convenience init(
+    from pin: PinDTO,
+    link: LinkModel,
+    tags: [TagModel]
+  ) {
     self.init(
       id: pin.id,
       title: pin.title,
       desc: pin.description,
       privacy: pin.privacy,
-      link: LinkModel(from: pin.link),
-      tags: pin.tags
-        .map { tag in
-          tags.first(where: { $0.name == tag.name }) ?? TagModel(from: tag)
-        },
+      link: link,
+      tags: tags,
       createdAt: pin.createdAt,
       updatedAt: pin.updatedAt
     )
   }
 
-  func update(from pin: PinDTO, tags: [TagModel]) {
+  func update(
+    from pin: PinDTO,
+    link: LinkModel,
+    tags: [TagModel]
+  ) {
     self.title = pin.title
     self.desc = pin.description
     self.privacy = pin.privacy
-    self.link.url = pin.link.url
-    self.tags = pin.tags
-      .map { tag in
-        tags.first(where: { $0.name == tag.name }) ?? TagModel(from: tag)
-      }
+    self.link = link
+    self.tags = tags
     self.updatedAt = pin.updatedAt
+  }
+
+  typealias Group = [UUID: PinModel]
+  static func group(_ pins: [PinModel]) -> Group {
+    Dictionary(uniqueKeysWithValues: pins.map { ($0.id, $0) })
   }
 
   static func == (lhs: PinModel, rhs: PinModel) -> Bool {
@@ -77,5 +84,11 @@ class PinModel: Identifiable, Equatable {
 }
 
 extension PreviewContent {
-  static let pins: [PinModel] = pinsDTO.map { PinModel(from: $0, tags: tags) }
+  static let pins: [PinModel] = pinsDTO.map {
+    PinModel(
+      from: $0,
+      link: LinkModel(from: $0.link),
+      tags: TagModel.resolve(with: $0.tags, tags: groupedTags)
+    )
+  }
 }

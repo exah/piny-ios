@@ -29,15 +29,29 @@ class TagModel: Identifiable, Equatable, Hashable {
     )
   }
 
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
+
   static func == (lhs: TagModel, rhs: TagModel) -> Bool {
     return lhs.id == rhs.id
   }
 
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+  typealias Group = [String: TagModel]
+  static func group(_ tags: [TagModel]) -> Group {
+    Dictionary(uniqueKeysWithValues: tags.map { ($0.name, $0) })
+  }
+
+  static func resolve(with dto: TagDTO, tags: Group) -> TagModel {
+    tags[dto.name] ?? TagModel(from: dto)
+  }
+
+  static func resolve(with dto: [TagDTO], tags: Group) -> [TagModel] {
+    dto.map { resolve(with: $0, tags: tags) }
   }
 }
 
 extension PreviewContent {
   static let tags: [TagModel] = tagsDTO.map { TagModel(from: $0) }
+  static let groupedTags = TagModel.group(tags)
 }
