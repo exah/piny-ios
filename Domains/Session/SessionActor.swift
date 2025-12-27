@@ -3,12 +3,31 @@ import SwiftUI
 
 @ModelActor
 actor SessionActor {
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<SessionModel>
+    typealias Sort = SortDescriptor<SessionModel>
+
+    static func sort(_ order: SortOrder = .reverse) -> Sort {
+      SortDescriptor(\.expiresAt, order: order)
+    }
+
+    static func all() -> Fetch {
+      FetchDescriptor()
+    }
+
+    static func last() -> Fetch {
+      var descriptor: Fetch = FetchDescriptor(sortBy: [sort()])
+      descriptor.fetchLimit = 1
+      return descriptor
+    }
+  }
+
   func fetch() throws -> [SessionModel] {
-    try modelContext.fetch(FetchDescriptor<SessionModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func find() -> SessionModel? {
-    try? fetch().last
+    try? modelContext.fetch(Descriptors.last()).first
   }
 
   func get() throws -> SessionModel {

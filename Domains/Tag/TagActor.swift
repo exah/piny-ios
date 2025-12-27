@@ -3,8 +3,32 @@ import SwiftData
 
 @ModelActor
 actor TagActor {
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<TagModel>
+    typealias Sort = SortDescriptor<TagModel>
+
+    static func sort(_ order: SortOrder = .forward) -> Sort {
+      SortDescriptor(\.name, order: order)
+    }
+
+    static func all() -> Fetch {
+      FetchDescriptor(
+        sortBy: [sort()]
+      )
+    }
+
+    static func find(by names: [String]) throws -> Fetch {
+      FetchDescriptor(
+        predicate: #Predicate { tag in
+          names.contains(tag.name)
+        },
+        sortBy: [sort()]
+      )
+    }
+  }
+
   func fetch() throws -> [TagModel] {
-    try modelContext.fetch(FetchDescriptor<TagModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func get(by name: String) throws -> TagModel {
@@ -20,13 +44,7 @@ actor TagActor {
   }
 
   func find(by names: [String]) throws -> [TagModel] {
-    try modelContext.fetch(
-      FetchDescriptor<TagModel>(
-        predicate: #Predicate { tag in
-          names.contains(tag.name)
-        }
-      )
-    )
+    try modelContext.fetch(Descriptors.find(by: names))
   }
 
   @discardableResult

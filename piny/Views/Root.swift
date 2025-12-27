@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct Root: View {
-  @Query
+  @Query(SessionActor.Descriptors.last())
   var sessions: [SessionModel]
   var isLoggedIn: Bool { sessions.last?.token != nil }
 

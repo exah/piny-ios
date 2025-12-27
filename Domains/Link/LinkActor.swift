@@ -6,13 +6,13 @@ actor LinkActor {
   lazy var pinActor = PinActor(modelContainer: modelContainer)
 
   enum Descriptors {
-    typealias Model = FetchDescriptor<LinkModel>
+    typealias Fetch = FetchDescriptor<LinkModel>
 
-    static func fetch() -> Model {
+    static func all() -> Fetch {
       FetchDescriptor()
     }
 
-    static func find(by url: URL) -> Model {
+    static func find(by url: URL) -> Fetch {
       FetchDescriptor(
         predicate: #Predicate { link in
           link.url == url
@@ -22,7 +22,7 @@ actor LinkActor {
   }
 
   func fetch() throws -> [LinkModel] {
-    try modelContext.fetch(Descriptors.fetch())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func find(by url: URL) -> LinkModel? {

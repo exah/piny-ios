@@ -6,8 +6,30 @@ actor PinActor {
   lazy var tagActor = TagActor(modelContainer: modelContainer)
   lazy var linkActor = LinkActor(modelContainer: modelContainer)
 
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<PinModel>
+    typealias Sort = SortDescriptor<PinModel>
+
+    static func sort(_ order: SortOrder = .reverse) -> Sort {
+      SortDescriptor(\.createdAt, order: order)
+    }
+
+    static func all() -> Fetch {
+      FetchDescriptor(
+        sortBy: [sort()]
+      )
+    }
+
+    static func find(by ids: [UUID]) throws -> Fetch {
+      FetchDescriptor(
+        predicate: #Predicate { ids.contains($0.id) },
+        sortBy: [sort()]
+      )
+    }
+  }
+
   func fetch() throws -> [PinModel] {
-    try modelContext.fetch(FetchDescriptor<PinModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func get(by id: UUID) throws -> PinModel {
@@ -23,13 +45,7 @@ actor PinActor {
   }
 
   func find(by ids: [UUID]) throws -> [PinModel] {
-    try modelContext.fetch(
-      FetchDescriptor<PinModel>(
-        predicate: #Predicate { pin in
-          ids.contains(pin.id)
-        }
-      )
-    )
+    try modelContext.fetch(Descriptors.find(by: ids))
   }
 
   func insert(_ pin: PinModel) throws {

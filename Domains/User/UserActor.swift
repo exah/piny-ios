@@ -3,8 +3,16 @@ import SwiftUI
 
 @ModelActor
 actor UserActor {
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<UserModel>
+
+    static func all() -> Fetch {
+      FetchDescriptor()
+    }
+  }
+
   func fetch() throws -> [UserModel] {
-    try modelContext.fetch(FetchDescriptor<UserModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func find() -> UserModel? {

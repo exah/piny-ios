@@ -22,7 +22,7 @@ struct TagSelect: View {
   @State
   private var isPresented: Bool = false
 
-  @Query(sort: \TagModel.name, order: .forward)
+  @Query(TagActor.Descriptors.all())
   var options: [TagModel]
 
   private var filteredOptions: [TagModel] {

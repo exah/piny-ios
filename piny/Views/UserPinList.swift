@@ -19,7 +19,7 @@ struct UserPinList: View {
   @Environment(SessionState.self)
   var sessionState
 
-  @Query(sort: \PinModel.createdAt, order: .reverse)
+  @Query(PinActor.Descriptors.all())
   var pins: [PinModel]
 
   func handleUnauthorized() {
