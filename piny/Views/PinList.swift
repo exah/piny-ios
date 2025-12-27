@@ -62,6 +62,9 @@ struct PinList: View {
         }
       }
     }
+    .refreshable {
+      await onRefresh()
+    }
     .sheet(
       isPresented: Binding(
         get: { selected != .none },
@@ -77,6 +80,7 @@ struct PinList: View {
         case .edit(let pin):
           PinEditForm(
             pin: pin,
+            url: pin.link.url.absoluteString,
             title: pin.title,
             description: pin.desc,
             tags: pin.tags,
@@ -86,9 +90,6 @@ struct PinList: View {
         case .none:
           EmptyView()
       }
-    }
-    .refreshable {
-      await onRefresh()
     }
   }
 }

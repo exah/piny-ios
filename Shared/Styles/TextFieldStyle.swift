@@ -24,6 +24,7 @@ struct TextFieldModifier: ViewModifier {
   let color: TextFieldColor
   let size: TextFieldSize
   let invalid: Bool
+  let message: String?
 
   @FocusState
   var focused: Bool
@@ -66,9 +67,17 @@ struct TextFieldModifier: ViewModifier {
   @ViewBuilder
   func base(_ content: Content) -> some View {
     HStack(alignment: .center) {
-      content
-        .padding(.horizontal, 4)
-        .frame(minHeight: 24)
+      HStack(alignment: .center, spacing: 8) {
+        content
+        if let message = message {
+          Spacer()
+          Text(message)
+            .variant(.secondary)
+            .foregroundColor(invalid ? .piny.red : .piny.foreground)
+        }
+      }
+      .padding(.horizontal, 4)
+      .frame(minHeight: 24)
     }
     .padding(.horizontal, padding.x)
     .padding(.vertical, padding.y)
@@ -101,9 +110,10 @@ extension View {
   func textFieldVariant(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
-    invalid: Bool = false
+    invalid: Bool = false,
+    message: String? = nil
   ) -> some View {
-    modifier(TextFieldModifier(color: color, size: size, invalid: invalid))
+    modifier(TextFieldModifier(color: color, size: size, invalid: invalid, message: message))
   }
 }
 
@@ -117,8 +127,9 @@ extension View where Self: TextFieldVariant {
   func variant(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
-    invalid: Bool = false
+    invalid: Bool = false,
+    message: String? = nil
   ) -> some View {
-    textFieldVariant(color, size: size, invalid: invalid)
+    textFieldVariant(color, size: size, invalid: invalid, message: message)
   }
 }

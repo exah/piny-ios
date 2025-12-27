@@ -13,7 +13,7 @@ import SwiftData
 class LinkModel: Identifiable, Equatable, Hashable {
   @Attribute(.unique)
   var id: UUID
-  
+
   @Attribute(.unique)
   var url: URL
 
@@ -29,11 +29,20 @@ class LinkModel: Identifiable, Equatable, Hashable {
     )
   }
 
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
+
   static func == (lhs: LinkModel, rhs: LinkModel) -> Bool {
     return lhs.id == rhs.id
   }
 
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+  typealias Group = [URL: LinkModel]
+  static func group(_ links: [LinkModel]) -> Group {
+    Dictionary(uniqueKeysWithValues: links.map { ($0.url, $0) })
+  }
+
+  static func resolve(with dto: LinkDTO, links: Group) -> LinkModel {
+    links[dto.url] ?? LinkModel(from: dto)
   }
 }
