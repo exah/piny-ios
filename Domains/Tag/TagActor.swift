@@ -63,30 +63,31 @@ actor TagActor {
   func insert(tags: [TagModel]) throws {
     let existing = Set(try find(by: tags.map { $0.name }).map { $0.name })
 
-    for tag in tags {
-      if existing.contains(tag.name) {
-        continue
+    try modelContext.transaction {
+      for tag in tags {
+        if existing.contains(tag.name) {
+          continue
+        }
+
+        modelContext.insert(tag)
       }
-
-      modelContext.insert(tag)
     }
-
-    try modelContext.save()
   }
 
   func deleteOrphaned() throws {
     let tags = try fetch()
-    let orphaned = tags.filter { $0.pins?.isEmpty ?? true }
+    let orphaned = Set(tags.filter { $0.pins?.isEmpty ?? true }.map { $0.name })
 
     if orphaned.isEmpty {
       return
     }
 
-    orphaned.forEach {
-      modelContext.delete($0)
+    try modelContext.transaction {
+      try modelContext.delete(
+        model: TagModel.self,
+        where: #Predicate { orphaned.contains($0.name) }
+      )
     }
-
-    try modelContext.save()
   }
 
   func clear() throws {

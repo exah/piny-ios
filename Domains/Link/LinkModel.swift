@@ -30,11 +30,11 @@ class LinkModel: Identifiable, Equatable, Hashable {
   }
 
   func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+    hasher.combine(url)
   }
 
   static func == (lhs: LinkModel, rhs: LinkModel) -> Bool {
-    return lhs.id == rhs.id
+    lhs.url == rhs.url
   }
 
   typealias Group = [URL: LinkModel]

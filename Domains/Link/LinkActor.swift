@@ -45,19 +45,20 @@ actor LinkActor {
   }
 
   func deleteOrphaned() async throws {
-    let links = try fetch()
+    let links = try fetch().map { $0.url }
     let pins = try await pinActor.fetch()
-    let existing = Set(pins.map { $0.link.id })
-    let orphaned = links.filter { !existing.contains($0.id) }
+    let existing = Set(pins.map { $0.link.url })
+    let orphaned = Set(links.filter { !existing.contains($0) })
 
     if orphaned.isEmpty {
       return
     }
 
-    orphaned.forEach {
-      modelContext.delete($0)
+    try modelContext.transaction {
+      try modelContext.delete(
+        model: LinkModel.self,
+        where: #Predicate { orphaned.contains($0.url) }
+      )
     }
-
-    try modelContext.save()
   }
 }

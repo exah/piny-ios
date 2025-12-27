@@ -30,11 +30,11 @@ class TagModel: Identifiable, Equatable, Hashable {
   }
 
   func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+    hasher.combine(name)
   }
 
   static func == (lhs: TagModel, rhs: TagModel) -> Bool {
-    return lhs.id == rhs.id
+    lhs.name == rhs.name
   }
 
   typealias Group = [String: TagModel]

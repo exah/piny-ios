@@ -73,29 +73,29 @@ actor PinActor {
     let storageLinksByURL = LinkModel.group(storageLinks)
     let storageTagsByName = TagModel.group(storageTags)
 
-    storagePins
-      .filter { !serverPinIds.contains($0.id) }
-      .forEach { modelContext.delete($0) }
+    try modelContext.transaction {
+      storagePins
+        .filter { !serverPinIds.contains($0.id) }
+        .forEach { modelContext.delete($0) }
 
-    for item in serverPins {
-      if let pin = storagePinsById[item.id] {
-        pin.update(
-          from: item,
-          link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
-          tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
-        )
-      } else {
-        modelContext.insert(
-          PinModel(
+      for item in serverPins {
+        if let pin = storagePinsById[item.id] {
+          pin.update(
             from: item,
             link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
             tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
           )
-        )
+        } else {
+          modelContext.insert(
+            PinModel(
+              from: item,
+              link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
+              tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
+            )
+          )
+        }
       }
     }
-
-    try modelContext.save()
 
     try await linkActor.deleteOrphaned()
     try await tagActor.deleteOrphaned()
