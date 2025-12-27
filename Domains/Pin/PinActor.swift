@@ -80,6 +80,9 @@ actor PinActor {
     }
 
     try modelContext.save()
+
+    try await linkActor.deleteOrphaned()
+    try await tagActor.deleteOrphaned()
   }
 
   func clear() throws {

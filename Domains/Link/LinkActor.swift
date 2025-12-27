@@ -3,6 +3,8 @@ import SwiftData
 
 @ModelActor
 actor LinkActor {
+  lazy var pinActor = PinActor(modelContainer: modelContainer)
+
   enum Descriptors {
     typealias Model = FetchDescriptor<LinkModel>
 
@@ -40,5 +42,22 @@ actor LinkActor {
     try modelContext.save()
 
     return link
+  }
+
+  func deleteOrphaned() async throws {
+    let links = try fetch()
+    let pins = try await pinActor.fetch()
+    let existing = Set(pins.map { $0.link.id })
+    let orphaned = links.filter { !existing.contains($0.id) }
+
+    if orphaned.isEmpty {
+      return
+    }
+
+    orphaned.forEach {
+      modelContext.delete($0)
+    }
+
+    try modelContext.save()
   }
 }

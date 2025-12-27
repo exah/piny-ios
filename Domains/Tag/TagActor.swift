@@ -56,6 +56,21 @@ actor TagActor {
     try modelContext.save()
   }
 
+  func deleteOrphaned() throws {
+    let tags = try fetch()
+    let orphaned = tags.filter { $0.pins?.isEmpty ?? true }
+
+    if orphaned.isEmpty {
+      return
+    }
+
+    orphaned.forEach {
+      modelContext.delete($0)
+    }
+
+    try modelContext.save()
+  }
+
   func clear() throws {
     try modelContext.delete(model: TagModel.self)
     try modelContext.save()
