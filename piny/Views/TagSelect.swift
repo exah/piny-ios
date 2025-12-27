@@ -11,6 +11,7 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
+  @State
   var tagActor = TagActor(modelContainer: .shared)
 
   @Binding
@@ -130,4 +131,5 @@ struct TagSelect: View {
   TagSelect(
     tags: .constant([])
   )
+  .environment(TagState(PreviewContent.tags))
 }
