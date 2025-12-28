@@ -15,7 +15,7 @@ class TagModel: Identifiable, Equatable, Hashable {
   var id: UUID
   @Attribute(.unique)
   var name: String
-  var pins: [PinModel]? = []
+  var pins: [PinModel] = []
 
   init(id: UUID, name: String) {
     self.id = id

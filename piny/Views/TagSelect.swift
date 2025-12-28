@@ -28,7 +28,7 @@ struct TagSelect: View {
 
   private var filteredOptions: [TagModel] {
     guard !search.isEmpty else {
-      return options
+      return options.sorted(using: TagActor.Descriptors.sort(.count))
     }
 
     let searchLower = search.lowercased()

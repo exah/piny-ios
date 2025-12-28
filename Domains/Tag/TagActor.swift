@@ -7,8 +7,16 @@ actor TagActor {
     typealias Fetch = FetchDescriptor<TagModel>
     typealias Sort = SortDescriptor<TagModel>
 
-    static func sort(_ order: SortOrder = .forward) -> Sort {
-      SortDescriptor(\.name, order: order)
+    enum SortType {
+      case count
+      case name
+    }
+
+    static func sort(_ sortType: SortType = .name) -> Sort {
+      switch sortType {
+        case .count: SortDescriptor(\.pins.count, order: .reverse)
+        case .name: SortDescriptor(\.name, order: .forward)
+      }
     }
 
     static func all() -> Fetch {
@@ -76,7 +84,7 @@ actor TagActor {
 
   func deleteOrphaned() throws {
     let tags = try fetch()
-    let orphaned = Set(tags.filter { $0.pins?.isEmpty ?? true }.map { $0.name })
+    let orphaned = Set(tags.filter { $0.pins.isEmpty }.map { $0.name })
 
     if orphaned.isEmpty {
       return
