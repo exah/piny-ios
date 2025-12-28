@@ -20,11 +20,13 @@ enum TextFieldSize {
   case small
 }
 
-struct TextFieldModifier: ViewModifier {
+struct TextFieldModifier<Leading: View, Trailing: View>: ViewModifier {
   let color: TextFieldColor
   let size: TextFieldSize
   let invalid: Bool
   let message: String?
+  let leading: Leading
+  let trailing: Trailing
 
   @FocusState
   var focused: Bool
@@ -68,6 +70,7 @@ struct TextFieldModifier: ViewModifier {
   func base(_ content: Content) -> some View {
     HStack(alignment: .center) {
       HStack(alignment: .center, spacing: 8) {
+        leading
         content
         if let message = message {
           Spacer()
@@ -75,6 +78,7 @@ struct TextFieldModifier: ViewModifier {
             .variant(.secondary)
             .foregroundColor(invalid ? .piny.red : .piny.foreground)
         }
+        trailing
       }
       .padding(.horizontal, 4)
       .frame(minHeight: 24)
@@ -119,13 +123,24 @@ struct TextFieldModifier: ViewModifier {
 }
 
 extension View {
-  func textFieldVariant(
+  func textFieldVariant<Leading: View, Trailing: View>(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
     invalid: Bool = false,
-    message: String? = nil
+    message: String? = nil,
+    @ViewBuilder leading: () -> Leading = { EmptyView() },
+    @ViewBuilder trailing: () -> Trailing = { EmptyView() }
   ) -> some View {
-    modifier(TextFieldModifier(color: color, size: size, invalid: invalid, message: message))
+    modifier(
+      TextFieldModifier(
+        color: color,
+        size: size,
+        invalid: invalid,
+        message: message,
+        leading: leading(),
+        trailing: trailing()
+      )
+    )
   }
 }
 
@@ -136,12 +151,21 @@ extension SecureField: TextFieldVariant {}
 extension TextEditor: TextFieldVariant {}
 
 extension View where Self: TextFieldVariant {
-  func variant(
+  func variant<Leading: View, Trailing: View>(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
     invalid: Bool = false,
-    message: String? = nil
+    message: String? = nil,
+    @ViewBuilder leading: @escaping () -> Leading = { EmptyView() },
+    @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() }
   ) -> some View {
-    textFieldVariant(color, size: size, invalid: invalid, message: message)
+    textFieldVariant(
+      color,
+      size: size,
+      invalid: invalid,
+      message: message,
+      leading: leading,
+      trailing: trailing
+    )
   }
 }

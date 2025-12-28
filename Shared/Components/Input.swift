@@ -12,11 +12,13 @@ enum InputType {
   case text, password
 }
 
-struct Input: View {
+struct Input<Leading: View, Trailing: View>: View {
   let placeholder: String
   let type: InputType
   let variant: TextFieldColor
   let size: TextFieldSize
+  let leading: () -> Leading
+  let trailing: () -> Trailing
 
   @Binding
   var value: String
@@ -26,23 +28,27 @@ struct Input: View {
     type: InputType = .text,
     value: Binding<String>,
     variant: TextFieldColor = .primary,
-    size: TextFieldSize = .medium
+    size: TextFieldSize = .medium,
+    @ViewBuilder leading: @escaping () -> Leading = { EmptyView() },
+    @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() }
   ) {
     self._value = value
     self.type = type
     self.placeholder = placeholder
     self.variant = variant
     self.size = size
+    self.leading = leading
+    self.trailing = trailing
   }
 
   var body: some View {
     switch type {
       case .text:
         TextField(text: $value) { label }
-          .variant(variant)
+          .variant(variant, size: size, leading: leading, trailing: trailing)
       case .password:
         SecureField(text: $value) { label }
-          .variant(variant)
+          .variant(variant, size: size, leading: leading, trailing: trailing)
     }
   }
 

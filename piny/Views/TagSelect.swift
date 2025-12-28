@@ -72,14 +72,17 @@ struct TagSelect: View {
     .popover(isPresented: $isPresented) {
       VStack(alignment: .leading, spacing: 0) {
         VStack {
-          Input("Search..", type: .text, value: $search)
-            .autocapitalization(.none)
-            .autocorrectionDisabled()
+          Input(
+            "Search..",
+            type: .text,
+            value: $search,
+            leading: { Image(systemName: "magnifyingglass") }
+          )
+          .autocapitalization(.none)
+          .autocorrectionDisabled()
         }
         .padding(8)
-
         Divider()
-
         ScrollView {
           VStack(alignment: .leading, spacing: 0) {
             if filteredOptions.isEmpty && !search.isEmpty {
@@ -93,31 +96,17 @@ struct TagSelect: View {
               .buttonStyle(.plain)
             } else {
               ForEach(filteredOptions, id: \.id) { option in
-                Button(action: {
-                  if let index = tags.firstIndex(of: option) {
-                    tags.remove(at: index)
-                  } else {
-                    tags.append(option)
-                  }
-                }) {
-                  HStack {
-                    Image(
-                      systemName: tags.contains(option)
-                        ? "tag.fill"
-                        : "tag"
-                    )
-                    Text(option.name)
-                    Spacer()
-                    if tags.contains(option) {
-                      Image(systemName: "checkmark.circle.fill")
+                TagOption(
+                  tag: option,
+                  selected: tags.contains(option),
+                  onToggle: {
+                    if let index = tags.firstIndex(of: option) {
+                      tags.remove(at: index)
+                    } else {
+                      tags.append(option)
                     }
                   }
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .padding(.horizontal, 16)
-                  .padding(.vertical, 12)
-                  .clipShape(.rect(corners: .concentric))
-                }
-                .buttonStyle(.plain)
+                )
               }
             }
           }
@@ -132,6 +121,12 @@ struct TagSelect: View {
           alignment: .topLeading
         )
       }
+      .contentShape(
+        ConcentricRectangle(
+          corners: .concentric(minimum: 20),
+          isUniform: true
+        )
+      )
       .frame(minWidth: 250, maxHeight: 450)
       .presentationCompactAdaptation(.popover)
     }
