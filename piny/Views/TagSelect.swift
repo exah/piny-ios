@@ -87,7 +87,7 @@ struct TagSelect: View {
           VStack(alignment: .leading, spacing: 0) {
             if filteredOptions.isEmpty && !search.isEmpty {
               Button(action: handleCreateTask) {
-                Label("New tag \"\(search)\"", systemImage: "plus")
+                Label("Add \"\(search)\"", systemImage: "plus")
                   .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.horizontal, 16)
                   .padding(.vertical, 12)
