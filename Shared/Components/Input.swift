@@ -72,7 +72,9 @@ struct Input: View {
     }
     .padding(10)
     .background(.black)
-    .cornerRadius(20)
+    .containerShape(
+      .rect(cornerRadius: 40)
+    )
 
     HStack(spacing: 12) {
       Input("Placeholder", value: .constant(""), size: .small)
@@ -104,7 +106,9 @@ struct Input: View {
     }
     .padding(10)
     .background(.black)
-    .cornerRadius(20)
+    .containerShape(
+      .rect(cornerRadius: 40)
+    )
   }
   .padding(8)
 }

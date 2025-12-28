@@ -83,11 +83,23 @@ struct TextFieldModifier: ViewModifier {
     .padding(.vertical, padding.y)
     .frame(minHeight: height)
     .foregroundColor(colors.fg)
-    .background(colors.bg)
-    .cornerRadius(20)
+    .background(
+      colors.bg,
+      in: .rect(
+        corners: .concentric(minimum: 20),
+        isUniform: true
+      )
+    )
     .overlay(
-      RoundedRectangle(cornerRadius: 20)
-        .stroke(colors.stroke, lineWidth: size == .medium ? 2 : 1.5)
+      ConcentricRectangle(
+        corners: .concentric(minimum: 20),
+        isUniform: true
+      )
+      .stroke(
+        colors.stroke,
+        lineWidth: size == .medium ? 2 : 1.5
+      )
+      .ignoresSafeArea()
     )
     .focused($focused)
     .textStyle(.primary)

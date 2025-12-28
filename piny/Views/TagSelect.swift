@@ -84,9 +84,11 @@ struct TagSelect: View {
           VStack(alignment: .leading, spacing: 0) {
             if filteredOptions.isEmpty && !search.isEmpty {
               Button(action: handleCreateTask) {
-                Label("Create \"\(search)\"", systemImage: "plus.circle.fill")
+                Label("New tag \"\(search)\"", systemImage: "plus")
+                  .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.horizontal, 16)
                   .padding(.vertical, 12)
+                  .clipShape(.rect(corners: .concentric))
               }
               .buttonStyle(.plain)
             } else {
@@ -98,19 +100,28 @@ struct TagSelect: View {
                     tags.append(option)
                   }
                 }) {
-                  Label(
-                    option.name,
-                    systemImage: tags.contains(option)
-                      ? "checkmark.circle.fill"
-                      : "circle"
-                  )
+                  HStack {
+                    Image(
+                      systemName: tags.contains(option)
+                        ? "tag.fill"
+                        : "tag"
+                    )
+                    Text(option.name)
+                    Spacer()
+                    if tags.contains(option) {
+                      Image(systemName: "checkmark.circle.fill")
+                    }
+                  }
+                  .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.horizontal, 16)
                   .padding(.vertical, 12)
+                  .clipShape(.rect(corners: .concentric))
                 }
                 .buttonStyle(.plain)
               }
             }
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(8)
         }
         .frame(
