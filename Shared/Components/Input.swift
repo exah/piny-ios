@@ -9,7 +9,15 @@
 import SwiftUI
 
 enum InputType {
-  case text, password
+  case text, password, editor
+}
+
+func getDefaultSize(_ type: InputType) -> TextFieldSize {
+  switch type {
+    case .text: .medium
+    case .password: .medium
+    case .editor: .textEditor
+  }
 }
 
 struct Input<Leading: View, Trailing: View>: View {
@@ -17,6 +25,9 @@ struct Input<Leading: View, Trailing: View>: View {
   let type: InputType
   let variant: TextFieldColor
   let size: TextFieldSize
+  let axis: Axis?
+  let invalid: Bool
+  let message: String?
   let leading: () -> Leading
   let trailing: () -> Trailing
 
@@ -25,31 +36,52 @@ struct Input<Leading: View, Trailing: View>: View {
 
   init(
     _ placeholder: String = "",
-    type: InputType = .text,
     value: Binding<String>,
+    type: InputType = .text,
     variant: TextFieldColor = .primary,
-    size: TextFieldSize = .medium,
+    size: TextFieldSize? = nil,
+    axis: Axis? = nil,
+    invalid: Bool = false,
+    message: String? = nil,
     @ViewBuilder leading: @escaping () -> Leading = { EmptyView() },
     @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() }
   ) {
     self._value = value
     self.type = type
+    self.axis = axis
     self.placeholder = placeholder
     self.variant = variant
-    self.size = size
+    self.size = size ?? getDefaultSize(type)
+    self.invalid = invalid
+    self.message = message
     self.leading = leading
     self.trailing = trailing
   }
 
   var body: some View {
-    switch type {
-      case .text:
-        TextField(text: $value) { label }
-          .variant(variant, size: size, leading: leading, trailing: trailing)
-      case .password:
-        SecureField(text: $value) { label }
-          .variant(variant, size: size, leading: leading, trailing: trailing)
+    Group {
+      switch type {
+        case .text:
+          if let axis = axis {
+            TextField(text: $value, axis: axis, label: { label })
+          } else {
+            TextField(text: $value, label: { label })
+          }
+        case .password:
+          SecureField(text: $value) { label }
+        case .editor:
+          TextEditor(text: $value)
+            .scrollContentBackground(.hidden)
+      }
     }
+    .textFieldVariant(
+      variant,
+      size: size,
+      invalid: invalid,
+      message: message,
+      leading: leading,
+      trailing: trailing
+    )
   }
 
   var label: some View {
@@ -62,7 +94,7 @@ struct Input<Leading: View, Trailing: View>: View {
     HStack(spacing: 12) {
       Input("Placeholder", value: .constant(""))
       Input("Placeholder", value: .constant("Value"))
-      Input("Placeholder", type: .password, value: .constant("Value"))
+      Input("Placeholder", value: .constant("Value"), type: .password)
     }
     .padding(.horizontal, 16)
 
@@ -71,8 +103,8 @@ struct Input<Leading: View, Trailing: View>: View {
       Input("Placeholder", value: .constant("Value"), variant: .dark)
       Input(
         "Placeholder",
-        type: .password,
         value: .constant("Value"),
+        type: .password,
         variant: .dark
       )
     }
@@ -87,8 +119,8 @@ struct Input<Leading: View, Trailing: View>: View {
       Input("Placeholder", value: .constant("Value"), size: .small)
       Input(
         "Placeholder",
-        type: .password,
         value: .constant("Value"),
+        type: .password,
         size: .small
       )
     }
@@ -104,8 +136,8 @@ struct Input<Leading: View, Trailing: View>: View {
       )
       Input(
         "Placeholder",
-        type: .password,
         value: .constant("Value"),
+        type: .password,
         variant: .dark,
         size: .small
       )

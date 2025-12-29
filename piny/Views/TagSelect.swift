@@ -74,8 +74,8 @@ struct TagSelect: View {
         VStack {
           Input(
             "Search..",
-            type: .text,
             value: $search,
+            type: .text,
             leading: { Image(systemName: "magnifyingglass") }
           )
           .autocapitalization(.none)

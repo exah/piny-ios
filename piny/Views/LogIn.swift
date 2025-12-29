@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+private enum Field: Int, Hashable {
+  case name, pass
+}
+
 struct LogIn: View {
   @Environment(SessionState.self)
   var sessionState
@@ -20,6 +24,9 @@ struct LogIn: View {
 
   @State
   private var email: String = ""
+
+  @FocusState
+  private var focused: Field?
 
   @State
   private var shouldSignUp: Bool = false
@@ -69,7 +76,15 @@ struct LogIn: View {
             VStack(spacing: 12) {
               Group {
                 Input("Username", value: $name)
-                Input("Password", type: .password, value: $pass)
+                  .focused($focused, equals: .name)
+                  .textContentType(.username)
+                  .submitLabel(.next)
+                  .onSubmit { focused = .pass }
+                Input("Password", value: $pass, type: .password)
+                  .focused($focused, equals: .pass)
+                  .textContentType(.password)
+                  .submitLabel(.done)
+                  .onSubmit { handleLogin() }
               }
               .autocapitalization(.none)
               .autocorrectionDisabled()

@@ -13,6 +13,10 @@ private class Errors: ObservableObject {
   var url: String? = nil
 }
 
+private enum Field: Int, Hashable {
+  case url, title, description
+}
+
 struct PinEditForm: View {
   @Environment(PinState.self)
   var pinState
@@ -20,6 +24,9 @@ struct PinEditForm: View {
 
   @StateObject
   private var errors = Errors()
+
+  @FocusState
+  private var focused: Field?
 
   @State
   var url: String = ""
@@ -111,12 +118,24 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            TextField("", text: $url)
-              .variant(
-                .primary,
-                invalid: errors.url != nil,
-                message: errors.url
-              )
+            Input(
+              value: Binding(
+                get: { url },
+                set: { value in
+                  if value.lastIndex(of: "\n") != nil {
+                    focused = nil
+                  } else {
+                    url = value
+                  }
+                }
+              ),
+              axis: .vertical,
+              invalid: errors.url != nil,
+              message: errors.url
+            )
+            .focused($focused, equals: .url)
+            .keyboardType(.URL)
+            .submitLabel(.done)
           }
           VStack(alignment: .leading, spacing: 0) {
             Text("Title")
@@ -124,8 +143,21 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            TextField("", text: $title)
-              .variant(.primary)
+            Input(
+              value: Binding(
+                get: { title },
+                set: { value in
+                  if value.lastIndex(of: "\n") != nil {
+                    focused = nil
+                  } else {
+                    title = value
+                  }
+                }
+              ),
+              axis: .vertical
+            )
+            .focused($focused, equals: .title)
+            .submitLabel(.done)
           }
           VStack(alignment: .leading, spacing: 0) {
             Text("Description")
@@ -133,11 +165,9 @@ struct PinEditForm: View {
               .foregroundColor(.piny.grey65)
               .padding(.vertical, 10)
 
-            TextEditor(text: $description)
-              .variant(.primary, size: .textEditor)
-              .scrollContentBackground(.hidden)
+            Input(value: $description, type: .editor)
+              .focused($focused, equals: .description)
           }
-
           VStack(alignment: .leading, spacing: 0) {
             Text("Tags")
               .textStyle(.secondary)
@@ -162,7 +192,6 @@ struct PinEditForm: View {
             .labelsHidden()
             .tint(.piny.blue)
           }
-
           Spacer()
             .padding(.bottom, 24)
           Button("Delete") {
@@ -173,6 +202,7 @@ struct PinEditForm: View {
         }
         .padding(24)
       }
+      .scrollDismissesKeyboard(.immediately)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -195,7 +225,6 @@ struct PinEditForm: View {
   }
 }
 
-// Preview
 #Preview {
   let sampleTags = [
     TagModel(id: UUID(), name: "design"),
