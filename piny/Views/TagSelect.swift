@@ -11,6 +11,7 @@ import SwiftData
 import SwiftUI
 
 struct TagSelect: View {
+  @State
   var tagActor = TagActor(modelContainer: .shared)
 
   @Binding
@@ -22,12 +23,12 @@ struct TagSelect: View {
   @State
   private var isPresented: Bool = false
 
-  @Query(sort: \TagModel.name, order: .forward)
+  @Query(TagActor.Descriptors.all())
   var options: [TagModel]
 
   private var filteredOptions: [TagModel] {
     guard !search.isEmpty else {
-      return options
+      return options.sorted(using: TagActor.Descriptors.sort(.count))
     }
 
     let searchLower = search.lowercased()
@@ -71,45 +72,45 @@ struct TagSelect: View {
     .popover(isPresented: $isPresented) {
       VStack(alignment: .leading, spacing: 0) {
         VStack {
-          Input("Search..", type: .text, value: $search)
-            .autocapitalization(.none)
-            .autocorrectionDisabled()
+          Input(
+            "Search..",
+            value: $search,
+            type: .text,
+            leading: { Image(systemName: "magnifyingglass") }
+          )
+          .autocapitalization(.none)
+          .autocorrectionDisabled()
         }
         .padding(8)
-
         Divider()
-
         ScrollView {
           VStack(alignment: .leading, spacing: 0) {
             if filteredOptions.isEmpty && !search.isEmpty {
               Button(action: handleCreateTask) {
-                Label("Create \"\(search)\"", systemImage: "plus.circle.fill")
+                Label("Add \"\(search)\"", systemImage: "plus")
+                  .frame(maxWidth: .infinity, alignment: .leading)
                   .padding(.horizontal, 16)
                   .padding(.vertical, 12)
+                  .clipShape(.rect(corners: .concentric))
               }
               .buttonStyle(.plain)
             } else {
               ForEach(filteredOptions, id: \.id) { option in
-                Button(action: {
-                  if let index = tags.firstIndex(of: option) {
-                    tags.remove(at: index)
-                  } else {
-                    tags.append(option)
+                TagOption(
+                  tag: option,
+                  selected: tags.contains(option),
+                  onToggle: {
+                    if let index = tags.firstIndex(of: option) {
+                      tags.remove(at: index)
+                    } else {
+                      tags.append(option)
+                    }
                   }
-                }) {
-                  Label(
-                    option.name,
-                    systemImage: tags.contains(option)
-                      ? "checkmark.circle.fill"
-                      : "circle"
-                  )
-                  .padding(.horizontal, 16)
-                  .padding(.vertical, 12)
-                }
-                .buttonStyle(.plain)
+                )
               }
             }
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(8)
         }
         .frame(
@@ -120,6 +121,12 @@ struct TagSelect: View {
           alignment: .topLeading
         )
       }
+      .contentShape(
+        ConcentricRectangle(
+          corners: .concentric(minimum: 20),
+          isUniform: true
+        )
+      )
       .frame(minWidth: 250, maxHeight: 450)
       .presentationCompactAdaptation(.popover)
     }
@@ -130,4 +137,5 @@ struct TagSelect: View {
   TagSelect(
     tags: .constant([])
   )
+  .environment(TagState(PreviewContent.tags))
 }

@@ -20,10 +20,13 @@ enum TextFieldSize {
   case small
 }
 
-struct TextFieldModifier: ViewModifier {
+struct TextFieldModifier<Leading: View, Trailing: View>: ViewModifier {
   let color: TextFieldColor
   let size: TextFieldSize
   let invalid: Bool
+  let message: String?
+  let leading: Leading
+  let trailing: Trailing
 
   @FocusState
   var focused: Bool
@@ -66,19 +69,41 @@ struct TextFieldModifier: ViewModifier {
   @ViewBuilder
   func base(_ content: Content) -> some View {
     HStack(alignment: .center) {
-      content
-        .padding(.horizontal, 4)
-        .frame(minHeight: 24)
+      HStack(alignment: .center, spacing: 8) {
+        leading
+        content
+        if let message = message {
+          Spacer()
+          Text(message)
+            .variant(.secondary)
+            .foregroundColor(invalid ? .piny.red : .piny.foreground)
+        }
+        trailing
+      }
+      .padding(.horizontal, 4)
+      .frame(minHeight: 24)
     }
     .padding(.horizontal, padding.x)
     .padding(.vertical, padding.y)
     .frame(minHeight: height)
     .foregroundColor(colors.fg)
-    .background(colors.bg)
-    .cornerRadius(20)
+    .background(
+      colors.bg,
+      in: .rect(
+        corners: .concentric(minimum: 20),
+        isUniform: true
+      )
+    )
     .overlay(
-      RoundedRectangle(cornerRadius: 20)
-        .stroke(colors.stroke, lineWidth: size == .medium ? 2 : 1.5)
+      ConcentricRectangle(
+        corners: .concentric(minimum: 20),
+        isUniform: true
+      )
+      .stroke(
+        colors.stroke,
+        lineWidth: size == .medium ? 2 : 1.5
+      )
+      .ignoresSafeArea()
     )
     .focused($focused)
     .textStyle(.primary)
@@ -98,12 +123,24 @@ struct TextFieldModifier: ViewModifier {
 }
 
 extension View {
-  func textFieldVariant(
+  func textFieldVariant<Leading: View, Trailing: View>(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
-    invalid: Bool = false
+    invalid: Bool = false,
+    message: String? = nil,
+    @ViewBuilder leading: () -> Leading = { EmptyView() },
+    @ViewBuilder trailing: () -> Trailing = { EmptyView() }
   ) -> some View {
-    modifier(TextFieldModifier(color: color, size: size, invalid: invalid))
+    modifier(
+      TextFieldModifier(
+        color: color,
+        size: size,
+        invalid: invalid,
+        message: message,
+        leading: leading(),
+        trailing: trailing()
+      )
+    )
   }
 }
 
@@ -114,11 +151,21 @@ extension SecureField: TextFieldVariant {}
 extension TextEditor: TextFieldVariant {}
 
 extension View where Self: TextFieldVariant {
-  func variant(
+  func variant<Leading: View, Trailing: View>(
     _ color: TextFieldColor,
     size: TextFieldSize = .medium,
-    invalid: Bool = false
+    invalid: Bool = false,
+    message: String? = nil,
+    @ViewBuilder leading: @escaping () -> Leading = { EmptyView() },
+    @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() }
   ) -> some View {
-    textFieldVariant(color, size: size, invalid: invalid)
+    textFieldVariant(
+      color,
+      size: size,
+      invalid: invalid,
+      message: message,
+      leading: leading,
+      trailing: trailing
+    )
   }
 }

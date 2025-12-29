@@ -1,12 +1,35 @@
+import Foundation
 import SwiftData
-import SwiftUI
 
 @ModelActor
 actor PinActor {
-  let tagActor = TagActor(modelContainer: .shared)
+  lazy var tagActor = TagActor(modelContainer: modelContainer)
+  lazy var linkActor = LinkActor(modelContainer: modelContainer)
+
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<PinModel>
+    typealias Sort = SortDescriptor<PinModel>
+
+    static func sort(_ order: SortOrder = .reverse) -> Sort {
+      SortDescriptor(\.createdAt, order: order)
+    }
+
+    static func all() -> Fetch {
+      FetchDescriptor(
+        sortBy: [sort()]
+      )
+    }
+
+    static func find(by ids: [UUID]) throws -> Fetch {
+      FetchDescriptor(
+        predicate: #Predicate { ids.contains($0.id) },
+        sortBy: [sort()]
+      )
+    }
+  }
 
   func fetch() throws -> [PinModel] {
-    try modelContext.fetch(FetchDescriptor<PinModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func get(by id: UUID) throws -> PinModel {
@@ -22,13 +45,7 @@ actor PinActor {
   }
 
   func find(by ids: [UUID]) throws -> [PinModel] {
-    try modelContext.fetch(
-      FetchDescriptor<PinModel>(
-        predicate: #Predicate { pin in
-          ids.contains(pin.id)
-        }
-      )
-    )
+    try modelContext.fetch(Descriptors.find(by: ids))
   }
 
   func insert(_ pin: PinModel) throws {
@@ -49,22 +66,39 @@ actor PinActor {
   func sync(_ serverPins: [PinDTO]) async throws {
     let storagePins = try fetch()
     let storageTags = try await tagActor.fetch()
+    let storageLinks = try await linkActor.fetch()
     let serverPinIds = Set(serverPins.map { $0.id })
 
-    storagePins
-      .filter { !serverPinIds.contains($0.id) }
-      .forEach { modelContext.delete($0) }
+    let storagePinsById = PinModel.group(storagePins)
+    let storageLinksByURL = LinkModel.group(storageLinks)
+    let storageTagsByName = TagModel.group(storageTags)
 
-    for item in serverPins {
-      if let pin = storagePins.first(where: { $0.id == item.id }) {
-        pin.update(from: item, tags: storageTags)
-      } else {
-        let pin = PinModel(from: item, tags: storageTags)
-        modelContext.insert(pin)
+    try modelContext.transaction {
+      storagePins
+        .filter { !serverPinIds.contains($0.id) }
+        .forEach { modelContext.delete($0) }
+
+      for item in serverPins {
+        if let pin = storagePinsById[item.id] {
+          pin.update(
+            from: item,
+            link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
+            tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
+          )
+        } else {
+          modelContext.insert(
+            PinModel(
+              from: item,
+              link: LinkModel.resolve(with: item.link, links: storageLinksByURL),
+              tags: TagModel.resolve(with: item.tags, tags: storageTagsByName)
+            )
+          )
+        }
       }
     }
 
-    try modelContext.save()
+    try await linkActor.deleteOrphaned()
+    try await tagActor.deleteOrphaned()
   }
 
   func clear() throws {

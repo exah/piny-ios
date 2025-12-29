@@ -38,4 +38,5 @@ struct PinTagsInput: View {
   let tags = PreviewContent.pins[0].tags
 
   PinTagsInput(tags: .constant(tags))
+    .environment(TagState(PreviewContent.tags))
 }

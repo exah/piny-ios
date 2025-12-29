@@ -1,10 +1,42 @@
+import Foundation
 import SwiftData
-import SwiftUI
 
 @ModelActor
 actor TagActor {
+  enum Descriptors {
+    typealias Fetch = FetchDescriptor<TagModel>
+    typealias Sort = SortDescriptor<TagModel>
+
+    enum SortType {
+      case count
+      case name
+    }
+
+    static func sort(_ sortType: SortType = .name) -> Sort {
+      switch sortType {
+        case .count: SortDescriptor(\.pins.count, order: .reverse)
+        case .name: SortDescriptor(\.name, order: .forward)
+      }
+    }
+
+    static func all() -> Fetch {
+      FetchDescriptor(
+        sortBy: [sort()]
+      )
+    }
+
+    static func find(by names: [String]) throws -> Fetch {
+      FetchDescriptor(
+        predicate: #Predicate { tag in
+          names.contains(tag.name)
+        },
+        sortBy: [sort()]
+      )
+    }
+  }
+
   func fetch() throws -> [TagModel] {
-    try modelContext.fetch(FetchDescriptor<TagModel>())
+    try modelContext.fetch(Descriptors.all())
   }
 
   func get(by name: String) throws -> TagModel {
@@ -20,32 +52,50 @@ actor TagActor {
   }
 
   func find(by names: [String]) throws -> [TagModel] {
-    try modelContext.fetch(
-      FetchDescriptor<TagModel>(
-        predicate: #Predicate { tag in
-          names.contains(tag.name)
-        }
-      )
-    )
+    try modelContext.fetch(Descriptors.find(by: names))
   }
 
   @discardableResult
   func insert(_ name: String, id: UUID = UUID()) throws -> TagModel {
-    let tag: TagModel
     if let existing = try? find(by: name) {
-      tag = existing
-    } else {
-      tag = TagModel(id: id, name: name)
-      modelContext.insert(tag)
-      try modelContext.save()
+      return existing
     }
+
+    let tag = TagModel(id: id, name: name)
+    modelContext.insert(tag)
+    try modelContext.save()
 
     return tag
   }
 
   func insert(tags: [TagModel]) throws {
-    tags.forEach { modelContext.insert($0) }
-    try modelContext.save()
+    let existing = Set(try find(by: tags.map { $0.name }).map { $0.name })
+
+    try modelContext.transaction {
+      for tag in tags {
+        if existing.contains(tag.name) {
+          continue
+        }
+
+        modelContext.insert(tag)
+      }
+    }
+  }
+
+  func deleteOrphaned() throws {
+    let tags = try fetch()
+    let orphaned = Set(tags.filter { $0.pins.isEmpty }.map { $0.name })
+
+    if orphaned.isEmpty {
+      return
+    }
+
+    try modelContext.transaction {
+      try modelContext.delete(
+        model: TagModel.self,
+        where: #Predicate { orphaned.contains($0.name) }
+      )
+    }
   }
 
   func clear() throws {

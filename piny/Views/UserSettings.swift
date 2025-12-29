@@ -13,14 +13,9 @@ struct UserSettings: View {
   @Environment(SessionState.self)
   var sessionState
 
-  @Query
+  @Query(UserActor.Descriptors.all())
   var users: [UserModel]
-
-  @Query
-  var sessions: [SessionModel]
-
   var user: UserModel? { users.last }
-  var session: SessionModel? { sessions.last }
 
   func logout() {
     Task {
@@ -44,11 +39,6 @@ struct UserSettings: View {
           Text("Email")
           Spacer()
           Text(user?.email ?? "—")
-        }
-        HStack {
-          Text("Token")
-          Spacer()
-          Text(session?.token ?? "—")
         }
       }
       Section {
