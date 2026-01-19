@@ -16,6 +16,10 @@
 				<integer>1</integer>
 				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 				<integer>1</integer>
+				<key>NSExtensionActivationSupportsAttachmentsWithMatchingTypeIdentifiers</key>
+				<array>
+					<string>public.url</string>
+				</array>
 			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>

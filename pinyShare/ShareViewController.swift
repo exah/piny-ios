@@ -6,7 +6,6 @@
 //  Copyright © 2020 John Grishin. All rights reserved.
 //
 
-import MobileCoreServices
 import Sentry
 import SwiftData
 import SwiftUI
