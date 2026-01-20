@@ -8,10 +8,16 @@
 
 import SafariServices
 import SwiftUI
+import WebKit
 
 final class WebViewController: UIViewController {
   private var url: URL?
-  private var controller: SFSafariViewController?
+
+  #if targetEnvironment(macCatalyst)
+    private var webView: WKWebView?
+  #elseif os(iOS)
+    private var controller: SFSafariViewController?
+  #endif
 
   init(url: URL) {
     self.url = url
@@ -30,35 +36,55 @@ final class WebViewController: UIViewController {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    controller?.view.frame = view.frame
+    #if targetEnvironment(macCatalyst)
+      webView?.frame = view.bounds
+    #elseif os(iOS)
+      controller?.view.frame = view.frame
+    #endif
   }
 
   func update(url nextUrl: URL) {
-    if url == nextUrl && controller != nil {
-      return
+    if url == nextUrl {
+      #if targetEnvironment(macCatalyst)
+        if webView != nil { return }
+      #elseif os(iOS)
+        if controller != nil { return }
+      #endif
     } else {
       destroy()
     }
 
-    let nextController = SFSafariViewController(url: nextUrl)
+    #if targetEnvironment(macCatalyst)
+      let configuration = WKWebViewConfiguration()
+      let nextWebView = WKWebView(frame: view.bounds, configuration: configuration)
+      nextWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      nextWebView.allowsBackForwardNavigationGestures = true
+      nextWebView.load(URLRequest(url: nextUrl))
+      view.addSubview(nextWebView)
+      webView = nextWebView
+    #elseif os(iOS)
+      let nextController = SFSafariViewController(url: nextUrl)
+      addChild(nextController)
+      view.addSubview(nextController.view)
+      nextController.didMove(toParent: self)
+      controller = nextController
+    #endif
 
-    addChild(nextController)
-    view.addSubview(nextController.view)
-    nextController.didMove(toParent: self)
-
-    controller = nextController
     url = nextUrl
   }
 
   func destroy() {
-    guard let prevController = controller else {
-      return
-    }
-
-    prevController.willMove(toParent: nil)
-    prevController.view.removeFromSuperview()
-    prevController.removeFromParent()
-
-    controller = nil
+    #if targetEnvironment(macCatalyst)
+      webView?.removeFromSuperview()
+      webView = nil
+    #elseif os(iOS)
+      guard let prevController = controller else {
+        return
+      }
+      prevController.willMove(toParent: nil)
+      prevController.view.removeFromSuperview()
+      prevController.removeFromParent()
+      controller = nil
+    #endif
   }
 }

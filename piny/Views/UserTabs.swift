@@ -17,17 +17,19 @@ struct UserTabs: View {
       Tab("All", image: "icons.16.all") {
         NavigationStack {
           UserPinList()
-            .navigationBarTitle("All")
             .toolbar {
               ToolbarItem(placement: .largeTitle) {
                 Image("assets.logo").padding(.bottom, 16)
               }
             }
         }
+        .navigationTitle("All")
       }
       Tab("Settings", image: "icons.16.settings") {
-        UserSettings()
-          .navigationBarTitle("Settings")
+        NavigationStack {
+          UserSettings()
+        }
+        .navigationTitle("Settings")
       }
       Tab(role: .search) {
         NavigationStack {
